@@ -10,19 +10,24 @@ namespace HootHoot_CMS.DAL
     {
         internal HootHootDbContext dbContext = new HootHootDbContext();
         internal DbSet<T> dbData = null;
+        private string [] filterFormat = null;
 
         public DataGateway()
         {
             this.dbData = dbContext.Set<T>();
         }
 
+        public void setFilterFormat()
+        {
+
+        }
 
 
         public IEnumerable<T> SelectAll()
         {
             return dbData.AsEnumerable<T>();
         }
-
+    
         public T SelectById(int? id)
         {
             return dbData.Find(id);

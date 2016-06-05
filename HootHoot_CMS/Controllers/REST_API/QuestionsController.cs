@@ -13,44 +13,44 @@ using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
-    public class StationsController : ApiController
+    public class QuestionsController : ApiController
     {
         private HootHootDbContext db = new HootHootDbContext();
 
-        // GET: api/Stations
-        public IQueryable<Stations> GetStations()
+        // GET: api/Questions
+        public IQueryable<Questions> GetQuestions()
         {
-            return db.Stations;
+            return db.Questions;
         }
 
-        // GET: api/Stations/5
-        [ResponseType(typeof(Stations))]
-        public IHttpActionResult GetStations(int id)
+        // GET: api/Questions/5
+        [ResponseType(typeof(Questions))]
+        public IHttpActionResult GetQuestions(int id)
         {
-            Stations stations = db.Stations.Find(id);
-            if (stations == null)
+            Questions questions = db.Questions.Find(id);
+            if (questions == null)
             {
                 return NotFound();
             }
 
-            return Ok(stations);
+            return Ok(questions);
         }
 
-        // PUT: api/Stations/5
+        // PUT: api/Questions/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutStations(int id, Stations stations)
+        public IHttpActionResult PutQuestions(int id, Questions questions)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != stations.station_ID)
+            if (id != questions.question_ID)
             {
                 return BadRequest();
             }
 
-            db.Entry(stations).State = EntityState.Modified;
+            db.Entry(questions).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StationsExists(id))
+                if (!QuestionsExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace HootHoot_CMS.Controllers.REST_API
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Stations
-        [ResponseType(typeof(Stations))]
-        public IHttpActionResult PostStations(Stations stations)
+        // POST: api/Questions
+        [ResponseType(typeof(Questions))]
+        public IHttpActionResult PostQuestions(Questions questions)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Stations.Add(stations);
+            db.Questions.Add(questions);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = stations.station_ID }, stations);
+            return CreatedAtRoute("DefaultApi", new { id = questions.question_ID }, questions);
         }
 
-        // DELETE: api/Stations/5
-        [ResponseType(typeof(Stations))]
-        public IHttpActionResult DeleteStations(int id)
+        // DELETE: api/Questions/5
+        [ResponseType(typeof(Questions))]
+        public IHttpActionResult DeleteQuestions(int id)
         {
-            Stations stations = db.Stations.Find(id);
-            if (stations == null)
+            Questions questions = db.Questions.Find(id);
+            if (questions == null)
             {
                 return NotFound();
             }
 
-            db.Stations.Remove(stations);
+            db.Questions.Remove(questions);
             db.SaveChanges();
 
-            return Ok(stations);
+            return Ok(questions);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +111,9 @@ namespace HootHoot_CMS.Controllers.REST_API
             base.Dispose(disposing);
         }
 
-        private bool StationsExists(int id)
+        private bool QuestionsExists(int id)
         {
-            return db.Stations.Count(e => e.station_ID == id) > 0;
+            return db.Questions.Count(e => e.question_ID == id) > 0;
         }
     }
 }
