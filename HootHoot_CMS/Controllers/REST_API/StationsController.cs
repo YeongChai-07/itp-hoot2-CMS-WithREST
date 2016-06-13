@@ -16,18 +16,21 @@ namespace HootHoot_CMS.Controllers.REST_API
     public class StationsController : ApiController
     {
         private HootHootDbContext db = new HootHootDbContext();
+        private StationDataGateway sdg = new StationDataGateway();
 
         // GET: api/Stations
-        public IQueryable<Stations> GetStations()
+        public IEnumerable<Stations> GetStations()
         {
-            return db.Stations;
+            //return db.Stations;
+            return sdg.SelectAll();
         }
 
         // GET: api/Stations/5
         [ResponseType(typeof(Stations))]
         public IHttpActionResult GetStations(int id)
         {
-            Stations stations = db.Stations.Find(id);
+            //Stations stations = db.Stations.Find(id);
+            Stations stations = sdg.SelectById(id);
             if (stations == null)
             {
                 return NotFound();
@@ -36,6 +39,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             return Ok(stations);
         }
 
+        // UPDATE Stations by station ID
         // PUT: api/Stations/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutStations(int id, Stations stations)
@@ -50,11 +54,13 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest();
             }
 
-            db.Entry(stations).State = EntityState.Modified;
+            //db.Entry(stations).State = EntityState.Modified;
+
 
             try
             {
-                db.SaveChanges();
+                //db.SaveChanges();
+                sdg.Update(stations);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,6 +77,8 @@ namespace HootHoot_CMS.Controllers.REST_API
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        // CREATE new Station
         // POST: api/Stations
         [ResponseType(typeof(Stations))]
         public IHttpActionResult PostStations(Stations stations)
@@ -80,24 +88,23 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest(ModelState);
             }
 
-            db.Stations.Add(stations);
-            db.SaveChanges();
+            sdg.Insert(stations);
 
             return CreatedAtRoute("DefaultApi", new { id = stations.station_ID }, stations);
         }
 
+        // DELETE Stations
         // DELETE: api/Stations/5
         [ResponseType(typeof(Stations))]
         public IHttpActionResult DeleteStations(int id)
         {
-            Stations stations = db.Stations.Find(id);
+            Stations stations = sdg.SelectById(id);
             if (stations == null)
             {
                 return NotFound();
             }
 
-            db.Stations.Remove(stations);
-            db.SaveChanges();
+            sdg.Delete(stations);
 
             return Ok(stations);
         }

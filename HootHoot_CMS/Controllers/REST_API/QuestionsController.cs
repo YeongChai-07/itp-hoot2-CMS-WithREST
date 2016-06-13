@@ -16,6 +16,7 @@ namespace HootHoot_CMS.Controllers.REST_API
     public class QuestionsController : ApiController
     {
         private HootHootDbContext db = new HootHootDbContext();
+        private QuestionsDataGateway qdg = new QuestionsDataGateway();
 
         // GET: api/Questions
         public IQueryable<Questions> GetQuestions()
@@ -24,7 +25,19 @@ namespace HootHoot_CMS.Controllers.REST_API
         }
 
         // GET: api/Questions/5
-        [ResponseType(typeof(Questions))]
+        public IEnumerable<Questions> GetQuestions(int station_ID)
+        {
+            /*List<Questions> stationQns = db.Questions
+                .Where(qns => qns.station_ID.Equals(station_ID)).Take(10)
+                .ToList();
+
+
+            return stationQns;*/
+            return qdg.SelectByStationID(station_ID);
+        }
+
+        // GET: api/Questions/5
+        /*[ResponseType(typeof(Questions))]
         public IHttpActionResult GetQuestions(int id)
         {
             Questions questions = db.Questions.Find(id);
@@ -34,7 +47,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             }
 
             return Ok(questions);
-        }
+        }*/
 
         // PUT: api/Questions/5
         [ResponseType(typeof(void))]

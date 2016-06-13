@@ -4,13 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-using System.ServiceModel.Web;
 using Newtonsoft.Json;
 
 namespace HootHoot_CMS.Models
 {
-    [JsonObject (IsReference =true)]
     public class Stations
     {
         public Stations()
