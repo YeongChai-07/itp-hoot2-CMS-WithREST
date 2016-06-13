@@ -182,9 +182,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\REST_API\FunFactsController.cs" />
     <Compile Include="Controllers\REST_API\QuestionsController.cs" />
     <Compile Include="Controllers\REST_API\StationsController.cs" />
     <Compile Include="DAL\DataGateway.cs" />
+    <Compile Include="DAL\FunFactsDataGateway.cs" />
     <Compile Include="DAL\HootHootDbContext.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
     <Compile Include="DAL\QuestionsDataGateway.cs" />

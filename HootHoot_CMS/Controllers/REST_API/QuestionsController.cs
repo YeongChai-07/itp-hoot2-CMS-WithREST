@@ -19,9 +19,10 @@ namespace HootHoot_CMS.Controllers.REST_API
         private QuestionsDataGateway qdg = new QuestionsDataGateway();
 
         // GET: api/Questions
-        public IQueryable<Questions> GetQuestions()
+        public IEnumerable<Questions> GetQuestions()
         {
-            return db.Questions;
+            //return db.Questions;
+            return qdg.SelectAll();
         }
 
         // GET: api/Questions/5

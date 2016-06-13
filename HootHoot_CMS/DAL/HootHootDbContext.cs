@@ -19,5 +19,7 @@ namespace HootHoot_CMS.DAL
         public System.Data.Entity.DbSet<HootHoot_CMS.Models.Stations> Stations { get; set; }
 
         public System.Data.Entity.DbSet<HootHoot_CMS.Models.Questions> Questions { get; set; }
+
+        public System.Data.Entity.DbSet<HootHoot_CMS.Models.FunFacts> FunFacts { get; set; }
     }
 }
