@@ -13,13 +13,13 @@ namespace HootHoot_CMS.Models
         public FunFacts() { }
 
         [Key]
-        public int funFact_ID { get; set; }
+        public int funfact_id{ get; set; }
         
-        public int station_ID { get; set; }
+        public int station_id { get; set; }
 
-        public string funFact_Desc { get; set; }
+        public string funfact { get; set; }
 
-        [ForeignKey ("station_ID")]
+        [ForeignKey ("station_id")]
         [JsonIgnore]
         public Stations station { get; set; }
     }

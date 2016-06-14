@@ -16,9 +16,9 @@ namespace HootHoot_CMS.Models
             funfacts = new List<FunFacts>();
         }
         [Key]
-        public int station_ID { get; set; }
-        public string station_Name { get; set; }
-        public string frameURL { get; set; }
+        public int station_id { get; set; }
+        public string station_name { get; set; }
+        //public string frameURL { get; set; }
 
         [JsonIgnore]
         public ICollection<Questions> questions { get; set; }
