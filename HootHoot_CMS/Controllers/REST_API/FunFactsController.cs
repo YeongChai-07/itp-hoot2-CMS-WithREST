@@ -59,7 +59,7 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest(ModelState);
             }
 
-            if (id != funFacts.funFact_ID)
+            if (id != funFacts.funfact_id)
             {
                 return BadRequest();
             }
@@ -97,7 +97,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             db.FunFacts.Add(funFacts);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = funFacts.funFact_ID }, funFacts);
+            return CreatedAtRoute("DefaultApi", new { id = funFacts.funfact_id }, funFacts);
         }
 
         // DELETE: api/FunFacts/5
@@ -127,7 +127,7 @@ namespace HootHoot_CMS.Controllers.REST_API
 
         private bool FunFactsExists(int id)
         {
-            return db.FunFacts.Count(e => e.funFact_ID == id) > 0;
+            return db.FunFacts.Count(e => e.funfact_id == id) > 0;
         }
     }
 }

@@ -8,10 +8,10 @@ namespace HootHoot_CMS.DAL
 {
     public class FunFactsDataGateway:DataGateway<FunFacts>
     {
-        public FunFacts SelectByStationID(int station_ID)
+        public FunFacts SelectByStationID(int stationID)
         {
             return this.dbData
-                .Where(fact => fact.station_ID.Equals(station_ID))
+                .Where(fact => fact.station_id.Equals(stationID))
                 .First();
         }
     }

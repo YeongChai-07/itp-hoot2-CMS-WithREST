@@ -49,7 +49,7 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest(ModelState);
             }
 
-            if (id != stations.station_ID)
+            if (id != stations.station_id)
             {
                 return BadRequest();
             }
@@ -90,7 +90,7 @@ namespace HootHoot_CMS.Controllers.REST_API
 
             sdg.Insert(stations);
 
-            return CreatedAtRoute("DefaultApi", new { id = stations.station_ID }, stations);
+            return CreatedAtRoute("DefaultApi", new { id = stations.station_id }, stations);
         }
 
         // DELETE Stations
@@ -120,7 +120,7 @@ namespace HootHoot_CMS.Controllers.REST_API
 
         private bool StationsExists(int id)
         {
-            return db.Stations.Count(e => e.station_ID == id) > 0;
+            return db.Stations.Count(e => e.station_id == id) > 0;
         }
     }
 }
