@@ -190,6 +190,7 @@
     <Compile Include="DAL\HootHootDbContext.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
     <Compile Include="DAL\QuestionsDataGateway.cs" />
+    <Compile Include="DAL\RandomItem_Generator.cs" />
     <Compile Include="DAL\StationDataGateway.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
