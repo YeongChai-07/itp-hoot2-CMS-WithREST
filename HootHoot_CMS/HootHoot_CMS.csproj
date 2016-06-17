@@ -185,6 +185,7 @@
     <Compile Include="Controllers\REST_API\FunFactsController.cs" />
     <Compile Include="Controllers\REST_API\QuestionsController.cs" />
     <Compile Include="Controllers\REST_API\StationsController.cs" />
+    <Compile Include="Controllers\View Controller\QuestionsController.cs" />
     <Compile Include="DAL\DataGateway.cs" />
     <Compile Include="DAL\FunFactsDataGateway.cs" />
     <Compile Include="DAL\HootHootDbContext.cs" />
@@ -261,6 +262,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Questions\Create.cshtml" />
+    <Content Include="Views\Questions\Delete.cshtml" />
+    <Content Include="Views\Questions\Details.cshtml" />
+    <Content Include="Views\Questions\Edit.cshtml" />
+    <Content Include="Views\Questions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
