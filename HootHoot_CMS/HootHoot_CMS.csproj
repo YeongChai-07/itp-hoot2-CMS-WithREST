@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201606171953364_18th June 0352 HRS - Add Data Annotation for Views .Designer.cs">
       <DependentUpon>201606171953364_18th June 0352 HRS - Add Data Annotation for Views .cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606172257447_18th JUN 0656 HRS - Add OptionType,QuestionType model Referenced to Questions model.cs" />
+    <Compile Include="Migrations\201606172257447_18th JUN 0656 HRS - Add OptionType,QuestionType model Referenced to Questions model.Designer.cs">
+      <DependentUpon>201606172257447_18th JUN 0656 HRS - Add OptionType,QuestionType model Referenced to Questions model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FunFacts.cs" />
@@ -219,8 +223,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Questions.cs" />
     <Compile Include="Models\Stations.cs" />
-	<Compile Include="Models\QuestionType.cs" />
-	<Compile Include="Models\OptionType.cs" />
+    <Compile Include="Models\QuestionType.cs" />
+    <Compile Include="Models\OptionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -310,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606171953364_18th June 0352 HRS - Add Data Annotation for Views .resx">
       <DependentUpon>201606171953364_18th June 0352 HRS - Add Data Annotation for Views .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606172257447_18th JUN 0656 HRS - Add OptionType,QuestionType model Referenced to Questions model.resx">
+      <DependentUpon>201606172257447_18th JUN 0656 HRS - Add OptionType,QuestionType model Referenced to Questions model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
