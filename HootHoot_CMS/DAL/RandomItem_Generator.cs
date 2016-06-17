@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 /*using System.Text;
 using System.Threading.Tasks;*/
+using System.Threading;
 
 namespace HootHoot_CMS.DAL
 {
@@ -10,45 +11,81 @@ namespace HootHoot_CMS.DAL
     {
         private Random randNum_Generator = null;
         private IList<T> inputList = null;
+        private int[] randIndex = null;
+        private int resultSize = -1;
 
-        public RandomItem_Generator(IList<T> input)
+        public RandomItem_Generator(IList<T> input, int resultSize)
         {
-            randNum_Generator = new Random();
-            inputList = input;
+            this.randNum_Generator = new Random();
+            this.inputList = input;
+            this.resultSize = resultSize;
         }
 
-        public IList<T> getRandomItem(int resultSize)
+        public IList<T> getRandomItem()
         {
-            int randNum = -1;
-            int[] usedNum = new int[resultSize];
 
             IList<T> ahYeah = new List<T>();
 
-            for(byte initCount=0;initCount < resultSize;initCount++)
+            for (byte count = 0; count < resultSize; count++)
             {
-                usedNum[initCount] = -1;
-            }
-
-
-            byte i = 0;
-
-            while(i < resultSize)
-            {
-                randNum = randNum_Generator.Next(inputList.Count);
-                if (!(usedNum.Contains(randNum)))
-                {
-                    usedNum[i] = randNum;
-                    ahYeah.Add(inputList[randNum]);
-                    i++;
-                }
-
+                ahYeah.Add(inputList[ randIndex[count] ]);
             }
 
             return ahYeah;
-            
+
 
         }
 
+        public void preparesRandomIndex()
+        {
+            randIndex = new int[resultSize];
+            int randNum = -1;
+            byte randFault = 0;
+
+            initializeArrayDefaults();
+
+            byte i = 0;
+
+
+            while (i < resultSize)
+            {
+                randNum = randNum_Generator.Next(inputList.Count);
+                if (!(randIndex.Contains(randNum)))
+                {
+                    randIndex[i] = randNum;
+                    i++;
+                    continue; // Proceed straight to the next iteration (ignore execution outside this branch)
+                }
+
+                randFault++;
+
+                if(randFault > 2)
+                {
+                    getNewSeed();
+                    randFault = 0;
+                }
+                
+
+            }
+
+
+
+        }
+
+        private void initializeArrayDefaults()
+        {
+            for (byte initCount = 0; initCount < resultSize; initCount++)
+            {
+                randIndex[initCount] = -1;
+            }
+        }
+
+        private void getNewSeed()
+        {
+            Thread.Sleep(500);
+            randNum_Generator = null;
+            randNum_Generator = new Random();
+        }
 
     }
 }

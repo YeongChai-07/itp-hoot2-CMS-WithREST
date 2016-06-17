@@ -11,9 +11,10 @@ namespace HootHoot_CMS.DAL
         public FunFacts SelectRandomFunFact ()
         {
             RandomItem_Generator<FunFacts> random = new RandomItem_Generator<FunFacts>
-                (this.SelectAll().ToList());
+                (this.SelectAll().ToList(), 1);
+            random.preparesRandomIndex();
 
-            return random.getRandomItem(1).First();
+            return random.getRandomItem().First();
         }
         public FunFacts SelectByStationID(int stationID)
         {
