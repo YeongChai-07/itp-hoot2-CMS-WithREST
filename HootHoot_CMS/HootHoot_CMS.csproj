@@ -203,6 +203,10 @@
     <Compile Include="Migrations\201606140620200_201606141429hrs_AmendTableColumnName.Designer.cs">
       <DependentUpon>201606140620200_201606141429hrs_AmendTableColumnName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606171732298_18th June 0131 hrs.cs" />
+    <Compile Include="Migrations\201606171732298_18th June 0131 hrs.Designer.cs">
+      <DependentUpon>201606171732298_18th June 0131 hrs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FunFacts.cs" />
@@ -288,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606140620200_201606141429hrs_AmendTableColumnName.resx">
       <DependentUpon>201606140620200_201606141429hrs_AmendTableColumnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606171732298_18th June 0131 hrs.resx">
+      <DependentUpon>201606171732298_18th June 0131 hrs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
