@@ -1,0 +1,98 @@
+﻿@model HootHoot_CMS.Models.Questions
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Questions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.station.station_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.station.station_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.correct_option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.correct_option)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.answering_duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.answering_duration)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.question_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

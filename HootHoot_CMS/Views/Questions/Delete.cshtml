@@ -1,0 +1,104 @@
+﻿@model HootHoot_CMS.Models.Questions
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Questions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.station.station_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.station.station_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.correct_option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.correct_option)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.answering_duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.answering_duration)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
