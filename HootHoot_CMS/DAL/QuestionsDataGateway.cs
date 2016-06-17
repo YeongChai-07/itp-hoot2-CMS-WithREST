@@ -11,9 +11,15 @@ namespace HootHoot_CMS.DAL
         const int MAX_QUESTION_ITEMS = 10;
         public IEnumerable<Questions> SelectByStationID(int stationID)
         {
-            return this.dbData
+            RandomItem_Generator<Questions> qnsGenerate = new RandomItem_Generator<Questions>
+                (this.dbData.Where(qns => qns.station_id.Equals(stationID)).ToList(), 4);
+
+            qnsGenerate.preparesRandomIndex();
+
+            /*return this.dbData
                 .Where(qns => qns.station_id.Equals(stationID)).Take(MAX_QUESTION_ITEMS)
-                .ToList();
+                .ToList();*/
+            return qnsGenerate.getRandomItem().AsEnumerable();
         }
     }
 }

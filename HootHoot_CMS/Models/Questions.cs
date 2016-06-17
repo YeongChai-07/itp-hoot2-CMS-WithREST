@@ -26,6 +26,8 @@ namespace HootHoot_CMS.Models
         public string option_4 { get; set; }
         public string correct_option { get; set; }
 
+        public int answering_duration { get; set; }
+
         [ForeignKey("station_id")]
         [JsonIgnore]
         public Stations station { get; set; }

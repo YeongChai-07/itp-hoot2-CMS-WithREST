@@ -25,6 +25,12 @@ namespace HootHoot_CMS.Controllers.REST_API
             return ffg.SelectAll();
         }
 
+        [ResponseType(typeof(FunFacts))]
+        public FunFacts GetFunFact()
+        {
+            return ffg.SelectRandomFunFact();
+        }
+
         // GET: api/FunFacts/5
         [ResponseType(typeof(FunFacts))]
         public FunFacts GetFunFacts(int station_ID)
