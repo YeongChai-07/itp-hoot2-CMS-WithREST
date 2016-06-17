@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;*/
 //using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
@@ -13,13 +14,22 @@ namespace HootHoot_CMS.Models
     [Bind(Exclude="question_id")]
     public class Questions
     {
-        public Questions() { }
+        public Questions() {
+            /*questionType_List = new List<SelectListItem>();
+            optionType_List = new List<SelectListItem>();
 
+            questionType_List.Add(new SelectListItem { Text = "Education", Value = "EDU", Selected = false });*/
+        }
+
+        /*[NotMapped]
+        public List<SelectListItem> questionType_List;
+        [NotMapped]
+        public List<SelectListItem> optionType_List;*/
         [Key]
         public int question_id { get; set; }
 
-        [Required(ErrorMessage = "Please enter the associated Station ID.")]
-        [Display (Name="Associated Station ID: ")]
+        [Required(ErrorMessage = "Please select the associated Station for this question.")]
+        [Display (Name="Associated Station: ")]
         public int station_id { get; set; }
         
         [Required(ErrorMessage="Please enter the Question title .")]
@@ -28,11 +38,11 @@ namespace HootHoot_CMS.Models
 
         [Required(ErrorMessage = "Please enter the type of question .")]
         [Display(Name="Type of question:")]
-        public string question_type { get; set; }
+        public int question_type { get; set; }
 
         [Required(ErrorMessage = "Please select the type of options this question has .")]
         [Display(Name= "Type of Options:")]
-        public string option_type { get; set; }
+        public int option_type { get; set; }
 
         [Required(ErrorMessage="Please provide the FIRST option .")]
         [Display(Name = "Option 1:")]
@@ -62,5 +72,13 @@ namespace HootHoot_CMS.Models
         [ForeignKey("station_id")]
         [JsonIgnore]
         public Stations station { get; set; }
+
+        [ForeignKey("question_type")]
+        [JsonIgnore]
+        public QuestionType questionType { get; set; }
+
+        [ForeignKey("option_type")]
+        [JsonIgnore]
+        public OptionType optionType { get; set; }
     }
 }
