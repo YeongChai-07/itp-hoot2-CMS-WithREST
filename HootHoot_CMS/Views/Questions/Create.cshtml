@@ -16,7 +16,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.station_id, "station_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.station_id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("station_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.station_id, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.question_type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.question_type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("question_type", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.question_type, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.option_type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.option_type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("option_type", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.option_type, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,6 +52,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_1, "", new { @class = "text-danger" })
+                <input type="file" name="option1_img" />
             </div>
         </div>
 
@@ -60,6 +61,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_2, "", new { @class = "text-danger" })
+                <input type="file" name="option2_img" />
             </div>
         </div>
 
@@ -68,6 +70,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_3, "", new { @class = "text-danger" })
+                <input type="file" name="option3_img" />
             </div>
         </div>
 
@@ -76,6 +79,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_4, "", new { @class = "text-danger" })
+                <input type="file" name="option4_img" />
             </div>
         </div>
 
@@ -109,4 +113,37 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $("[name='option1_img']").hide();
+                $("[name='option2_img']").hide();
+                $("[name='option3_img']").hide();
+                $("[name='option4_img']").hide();
+
+                $("#option_type").change(function () {
+                    var selectedOptionType = $("#option_type option:selected").text();
+                    //alert("Selected Value: " + selectedOptionType);
+
+                    if(selectedOptionType == "IMG")
+                    {
+                        alert("IMG is SELECTED!!!");
+                        //Perform some IMG logic here
+                        $("[name='option1_img']").show();
+                        $("[name='option2_img']").show();
+                        $("[name='option3_img']").show();
+                        $("[name='option4_img']").show();
+
+                        return;
+                    }
+
+                    $("[name='option1_img']").hide();
+                    $("[name='option2_img']").hide();
+                    $("[name='option3_img']").hide();
+                    $("[name='option4_img']").hide();
+
+                });
+
+            });
+    </script>
 }

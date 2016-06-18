@@ -18,7 +18,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions
         public ActionResult Index()
         {
-            var questions = db.Questions.Include(q => q.station);
+            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
             return View(questions.ToList());
         }
 
@@ -40,6 +40,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype");
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype");
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name");
             return View();
         }
@@ -56,6 +58,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 return RedirectToAction("Index");
             }
 
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }
@@ -72,6 +76,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return HttpNotFound();
             }
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }
@@ -87,6 +93,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }
