@@ -15,7 +15,7 @@ namespace HootHoot_CMS.Models
         [Key]
         public int funfact_id{ get; set; }
         
-        public int station_id { get; set; }
+        public string station_id { get; set; }
 
         public string funfact { get; set; }
 

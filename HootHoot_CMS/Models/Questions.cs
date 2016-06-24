@@ -30,7 +30,7 @@ namespace HootHoot_CMS.Models
 
         [Required(ErrorMessage = "Please select the associated Station for this question.")]
         [Display (Name="Associated Station: ")]
-        public int station_id { get; set; }
+        public string station_id { get; set; }
         
         [Required(ErrorMessage="Please enter the Question title .")]
         [Display (Name="Question:")]
