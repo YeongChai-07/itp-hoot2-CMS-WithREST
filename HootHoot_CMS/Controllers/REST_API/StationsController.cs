@@ -42,14 +42,14 @@ namespace HootHoot_CMS.Controllers.REST_API
         // UPDATE Stations by station ID
         // PUT: api/Stations/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutStations(int id, Stations stations)
+        public IHttpActionResult PutStations(string id, Stations stations)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != stations.station_id)
+            if ( ! id.Equals(stations.station_id) )
             {
                 return BadRequest();
             }
@@ -118,7 +118,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             base.Dispose(disposing);
         }
 
-        private bool StationsExists(int id)
+        private bool StationsExists(string id)
         {
             return db.Stations.Count(e => e.station_id == id) > 0;
         }

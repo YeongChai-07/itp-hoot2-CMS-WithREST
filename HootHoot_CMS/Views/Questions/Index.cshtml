@@ -12,16 +12,16 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.optionType.optiontype)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.questionType.questiontype)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.station.station_name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.question_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.question_type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.option_type)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.option_1)
@@ -47,16 +47,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.optionType.optiontype)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.questionType.questiontype)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.station.station_name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.question_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.question_type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.option_type)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.option_1)
