@@ -88,6 +88,14 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.correct_option, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.correct_option, "", new { @class = "text-danger" })
+
+                <select id="ddl_CorrectOption">
+                    <option value="Option1">Option 1</option>
+                    <option value="Option2">Option 2</option>
+                    <option value="Option3">Option 3</option>
+                    <option value="Option4">Option 4</option>
+                </select>
+                <img src="" alt="Correct Option Preview" id="imgCorrectOpt_Preview" />
             </div>
         </div>
 
@@ -133,6 +141,22 @@
                         $("[name='option2_img']").show();
                         $("[name='option3_img']").show();
                         $("[name='option4_img']").show();
+
+                        $("#ddl_CorrectOption").change(function () {
+                            var gDragon = $("#ddl_CorrectOption option:selected").val();
+
+                            if(gDragon == "Option1")
+                            {
+                                //alert("Picture TEXT Name: " + $("[name='option1_img']").text());
+                                alert("Picture Value Name: " + $("[name='option1_img']").val());
+                                //$("#imgCorrectOpt_Preview").attr("src", $("[name='option1_img']").val());
+                                //$("#imgCorrectOpt_Preview").attr("src", "http://i.telegraph.co.uk/multimedia/archive/03571/potd-squirrel_3571152k.jpg");
+                                //"file:///C:/Users/User/Pictures/Ver%20Ka.jpg"
+
+                                $("#imgCorrectOpt_Preview").attr("src", "file:///C:/Users/Public/Pictures/Sample%20Pictures/Chrysanthemum.jpg");
+                            }
+
+                            });
 
                         return;
                     }
