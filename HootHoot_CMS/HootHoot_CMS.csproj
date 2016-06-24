@@ -229,6 +229,7 @@
     <Compile Include="Models\Stations.cs" />
     <Compile Include="Models\QuestionType.cs" />
     <Compile Include="Models\OptionType.cs" />
+	<Compile Include="Models\StationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
