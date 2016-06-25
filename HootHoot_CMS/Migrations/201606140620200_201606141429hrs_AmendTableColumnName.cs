@@ -7,34 +7,42 @@ namespace HootHoot_CMS.Migrations
     {
         public override void Up()
         {
-            DropForeignKey("dbo.FunFacts", "station_ID", "dbo.Stations");
-            DropForeignKey("dbo.Questions", "station_ID", "dbo.Stations");
+            //DropForeignKey("dbo.FunFacts", "station_ID", "dbo.Stations");
+            //DropForeignKey("dbo.Questions", "station_ID", "dbo.Stations");
 
-            DropPrimaryKey("dbo.FunFacts", new[] { "funFact_ID" });
-            DropPrimaryKey("dbo.Questions", new[] { "question_ID" });
-            DropPrimaryKey("dbo.Stations", new[] { "station_ID" });
+            DropPrimaryKey("dbo.FunFacts", new[] { "funfactID" });
+            DropPrimaryKey("dbo.Questions", new[] { "questionID" });
+            //DropPrimaryKey("dbo.Stations", new[] { "station_ID" });
 
-            RenameColumn(table: "dbo.FunFacts", name: "funFact_ID", newName: "funfact_id");
-            RenameColumn(table: "dbo.FunFacts", name: "station_ID", newName: "station_id");
-            RenameColumn(table: "dbo.Questions", name: "question_ID", newName: "question_id");
-            RenameColumn(table: "dbo.Questions", name: "station_ID", newName: "station_id");
-            RenameColumn(table: "dbo.Stations", name: "station_ID", newName: "station_id");
+            RenameColumn(table: "dbo.FunFacts", name: "funfactID", newName: "funfact_id");
+            //RenameColumn(table: "dbo.FunFacts", name: "station_ID", newName: "station_id");
 
-            RenameIndex(table: "dbo.FunFacts", name: "IX_station_ID", newName: "IX_station_id");
-            RenameIndex(table: "dbo.Questions", name: "IX_station_ID", newName: "IX_station_id");
-            
-            RenameColumn("dbo.Stations", name:"station_Name", newName: "station_name");
-            RenameColumn("dbo.Questions", name:"question_Name", newName: "question_name");
-            RenameColumn("dbo.Questions", name:"question_Type", newName: "question_type");
-            RenameColumn("dbo.Questions", name:"option_Type", newName: "option_type");
+            //RENAME the Stations table column names
+            RenameColumn(table:"dbo.Stations", name: "stationName", newName: "station_name");
 
-            RenameColumn("dbo.FunFacts", name: "funFact_Desc", newName: "funfact");
+            //RENAME the Questions table column names
+            RenameColumn(table:"dbo.Questions", name: "questionID", newName: "question_id");
+            RenameColumn(table: "dbo.Questions", name: "questionName", newName: "question_name");
+            RenameColumn(table: "dbo.Questions", name: "questionType", newName: "question_type");
+            RenameColumn(table: "dbo.Questions", name: "optionType", newName: "option_type");
+            RenameColumn(table: "dbo.Questions", name: "option1", newName: "option_1");
+            RenameColumn(table: "dbo.Questions", name: "option2", newName: "option_2");
+            RenameColumn(table: "dbo.Questions", name: "option3", newName: "option_3");
+            RenameColumn(table: "dbo.Questions", name: "option4", newName: "option_4");
+            RenameColumn(table: "dbo.Questions", name: "correctoption", newName: "correct_option");
+            //RenameColumn(table: "dbo.Questions", name: "stationID", newName: "station_id");
+            // RenameColumn(table: "dbo.Stations", name: "station_ID", newName: "station_id");
+
+            //RenameIndex(table: "dbo.FunFacts", name: "IX_station_ID", newName: "IX_station_id");
+            //RenameIndex(table: "dbo.Questions", name: "IX_station_ID", newName: "IX_station_id");
+
+            //RenameColumn("dbo.FunFacts", name: "funFact_Desc", newName: "funfact");
 
             AddPrimaryKey("dbo.FunFacts", "funfact_id");
-            AddPrimaryKey("dbo.Stations", "station_id");
+            //AddPrimaryKey("dbo.Stations", "station_id");
             AddPrimaryKey("dbo.Questions", "question_id");
-            AddForeignKey("dbo.FunFacts", "station_id", "dbo.Stations", "station_id", cascadeDelete: true);
-            AddForeignKey("dbo.Questions", "station_id", "dbo.Stations", "station_id", cascadeDelete: true);
+            //AddForeignKey("dbo.FunFacts", "station_id", "dbo.Stations", "station_id", cascadeDelete: true);
+            //AddForeignKey("dbo.Questions", "station_id", "dbo.Stations", "station_id", cascadeDelete: true);
         }
         
         public override void Down()

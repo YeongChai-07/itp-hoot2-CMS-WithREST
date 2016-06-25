@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201606172324151_18th JUNE 0723 HRS - Add FOREIGN KEYS to Questions model from the OptionType and QuestionType model.Designer.cs">
       <DependentUpon>201606172324151_18th JUNE 0723 HRS - Add FOREIGN KEYS to Questions model from the OptionType and QuestionType model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606251345167_25th JUNE 0522 HRS - Add StationType table and StationID column data format.cs" />
+    <Compile Include="Migrations\201606251345167_25th JUNE 0522 HRS - Add StationType table and StationID column data format.Designer.cs">
+      <DependentUpon>201606251345167_25th JUNE 0522 HRS - Add StationType table and StationID column data format.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FunFacts.cs" />
@@ -229,7 +233,7 @@
     <Compile Include="Models\Stations.cs" />
     <Compile Include="Models\QuestionType.cs" />
     <Compile Include="Models\OptionType.cs" />
-	<Compile Include="Models\StationType.cs" />
+    <Compile Include="Models\StationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -325,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606172324151_18th JUNE 0723 HRS - Add FOREIGN KEYS to Questions model from the OptionType and QuestionType model.resx">
       <DependentUpon>201606172324151_18th JUNE 0723 HRS - Add FOREIGN KEYS to Questions model from the OptionType and QuestionType model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606251345167_25th JUNE 0522 HRS - Add StationType table and StationID column data format.resx">
+      <DependentUpon>201606251345167_25th JUNE 0522 HRS - Add StationType table and StationID column data format.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
