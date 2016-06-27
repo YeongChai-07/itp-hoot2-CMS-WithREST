@@ -16,7 +16,7 @@ using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
-    [EnableCors(origins: "http://hootsq-mantro.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "GET, POST, PUT, DELETE, OPTIONS")]
     public class QuestionsController : ApiController
     {
         private QuestionsDataGateway qnsGateway = new QuestionsDataGateway();

@@ -15,7 +15,8 @@ namespace HootHoot_CMS.Models
         }
         
         [Key]
-        public string stationtype { get; set; }
+        public string station_type_id { get; set; }
+        public string station_type { get; set; }
 
         public ICollection<Stations> station { get; set; }
     }

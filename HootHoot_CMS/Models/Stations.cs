@@ -19,6 +19,8 @@ namespace HootHoot_CMS.Models
         [Key]
         public string station_id { get; set; }
         public string station_name { get; set; }
+        public string station_type_id { get; set; }
+        [NotMapped]
         public string station_type { get; set; }
 
         [JsonIgnore]
@@ -26,7 +28,7 @@ namespace HootHoot_CMS.Models
         [JsonIgnore]
         public ICollection<FunFacts> funfacts { get; set; }
 
-        [ForeignKey("station_type")]
+        [ForeignKey("station_type_id")]
         [JsonIgnore]
         public StationType stationtype { get; set; }
     }
