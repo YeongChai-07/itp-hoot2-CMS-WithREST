@@ -15,8 +15,6 @@ namespace HootHoot_CMS.Models
         }
 
         [Key]
-        public int questiontype_id { get; set; }
-        
         public string questiontype { get; set; }
 
         public ICollection<Questions> question { get; set; }

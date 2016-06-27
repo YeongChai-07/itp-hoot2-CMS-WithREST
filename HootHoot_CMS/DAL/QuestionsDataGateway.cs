@@ -9,7 +9,7 @@ namespace HootHoot_CMS.DAL
     public class QuestionsDataGateway:DataGateway<Questions>
     {
         const int MAX_QUESTION_ITEMS = 10;
-        public IEnumerable<Questions> SelectByStationID(int stationID)
+        public IEnumerable<Questions> SelectByStationID(string stationID)
         {
             RandomItem_Generator<Questions> qnsGenerate = new RandomItem_Generator<Questions>
                 (this.dbData.Where(qns => qns.station_id.Equals(stationID)).ToList(), 4);

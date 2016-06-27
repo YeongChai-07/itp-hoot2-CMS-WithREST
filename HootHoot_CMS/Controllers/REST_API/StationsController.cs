@@ -1,36 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Net.Http;*/
+
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Cors;
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
+    [EnableCors(origins: "http://hootsq-mantro.azurewebsites.net", headers: "*", methods: "*")]
     public class StationsController : ApiController
     {
-        private HootHootDbContext db = new HootHootDbContext();
-        private StationDataGateway sdg = new StationDataGateway();
+        private StationDataGateway stationGateway = new StationDataGateway();
 
         // GET: api/Stations
         public IEnumerable<Stations> GetStations()
         {
             //return db.Stations;
-            return sdg.SelectAll();
+            return stationGateway.SelectAll();
         }
 
         // GET: api/Stations/5
         [ResponseType(typeof(Stations))]
-        public IHttpActionResult GetStations(int id)
+        public IHttpActionResult GetStation(string station_id)
         {
             //Stations stations = db.Stations.Find(id);
-            Stations stations = sdg.SelectById(id);
+            //Stations stations = sdg.SelectById(id);
+            Stations stations = stationGateway.SelectByStationID(station_id);
             if (stations == null)
             {
                 return NotFound();
@@ -38,6 +41,10 @@ namespace HootHoot_CMS.Controllers.REST_API
 
             return Ok(stations);
         }
+
+        // COMMENTED OUT Codes (NOT IN USE CODES) 
+
+        /* private HootHootDbContext db = new HootHootDbContext();
 
         // UPDATE Stations by station ID
         // PUT: api/Stations/5
@@ -54,13 +61,12 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest();
             }
 
-            //db.Entry(stations).State = EntityState.Modified;
+            db.Entry(stations).State = EntityState.Modified;
 
 
             try
             {
-                //db.SaveChanges();
-                sdg.Update(stations);
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -88,7 +94,8 @@ namespace HootHoot_CMS.Controllers.REST_API
                 return BadRequest(ModelState);
             }
 
-            sdg.Insert(stations);
+            db.Stations.Add(stations);
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = stations.station_id }, stations);
         }
@@ -98,13 +105,14 @@ namespace HootHoot_CMS.Controllers.REST_API
         [ResponseType(typeof(Stations))]
         public IHttpActionResult DeleteStations(int id)
         {
-            Stations stations = sdg.SelectById(id);
+            Stations stations = db.Stations.Find(id);
             if (stations == null)
             {
                 return NotFound();
             }
 
-            sdg.Delete(stations);
+            db.Stations.Remove(stations);
+            db.SaveChanges();
 
             return Ok(stations);
         }
@@ -122,5 +130,8 @@ namespace HootHoot_CMS.Controllers.REST_API
         {
             return db.Stations.Count(e => e.station_id == id) > 0;
         }
+
+        */
     }
 }
+ 

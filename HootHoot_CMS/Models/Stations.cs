@@ -19,7 +19,6 @@ namespace HootHoot_CMS.Models
         [Key]
         public string station_id { get; set; }
         public string station_name { get; set; }
-        
         public string station_type { get; set; }
 
         [JsonIgnore]

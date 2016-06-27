@@ -6,11 +6,11 @@ using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.DAL
 {
-    public class StationDataGateway:DataGateway<Stations>
+    public class StationTypeDataGateway:DataGateway<StationType>
     {
-        public Stations SelectByStationID(string stationID)
+        public StationType SelectById(string id)
         {
-            return dbData.Find(stationID);
+            return dbData.Find(id);
         }
     }
 }

@@ -13,10 +13,8 @@ namespace HootHoot_CMS.Models
         {
             station = new List<Stations>();   
         }
-
+        
         [Key]
-        public string stationtype_id { get; set; }
-
         public string stationtype { get; set; }
 
         public ICollection<Stations> station { get; set; }
