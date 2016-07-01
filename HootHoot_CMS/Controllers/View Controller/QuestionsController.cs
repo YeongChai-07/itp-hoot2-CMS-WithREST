@@ -40,8 +40,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype");
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype");
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype");
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype");
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name");
             return View();
         }
@@ -58,8 +58,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 return RedirectToAction("Index");
             }
 
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }
@@ -76,8 +76,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return HttpNotFound();
             }
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }
@@ -93,8 +93,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype_id", "optiontype", questions.option_type);
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype_id", "questiontype", questions.question_type);
+            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
+            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
             return View(questions);
         }

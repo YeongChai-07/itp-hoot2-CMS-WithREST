@@ -1,44 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using System.Web.Http.Description;
+*/
+
+using System.Collections.Generic;
+using System.Web.Http;
+using System.Web.Http.Cors;
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
+    [EnableCors(origins: "*", headers: "*", methods: "GET, POST, PUT, DELETE, OPTIONS")]
     public class QuestionsController : ApiController
     {
-        private HootHootDbContext db = new HootHootDbContext();
-        private QuestionsDataGateway qdg = new QuestionsDataGateway();
+        private QuestionsDataGateway qnsGateway = new QuestionsDataGateway();
 
         // GET: api/Questions
         public IEnumerable<Questions> GetQuestions()
         {
             //return db.Questions;
-            return qdg.SelectAll();
+            return qnsGateway.SelectAll();
         }
 
         // GET: api/Questions/5
-        public IEnumerable<Questions> GetQuestions(int station_ID)
+        public IEnumerable<Questions> GetQuestions(string station_ID)
         {
-            /*List<Questions> stationQns = db.Questions
-                .Where(qns => qns.station_ID.Equals(station_ID)).Take(10)
-                .ToList();
-
-
-            return stationQns;*/
-            return qdg.SelectByStationID(station_ID);
+            return qnsGateway.SelectByStationID(station_ID);
         }
 
+
+        // COMMENTED OUT Codes (NOT IN USE CODES)
+
+        /* private HootHootDbContext db = new HootHootDbContext();
+
         // GET: api/Questions/5
-        /*[ResponseType(typeof(Questions))]
+        /[ResponseType(typeof(Questions))]
         public IHttpActionResult GetQuestions(int id)
         {
             Questions questions = db.Questions.Find(id);
@@ -48,7 +50,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             }
 
             return Ok(questions);
-        }*/
+        }
 
         // PUT: api/Questions/5
         [ResponseType(typeof(void))]
@@ -129,5 +131,7 @@ namespace HootHoot_CMS.Controllers.REST_API
         {
             return db.Questions.Count(e => e.question_id == id) > 0;
         }
+
+        */
     }
 }

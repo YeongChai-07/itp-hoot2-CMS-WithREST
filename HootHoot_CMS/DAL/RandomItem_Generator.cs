@@ -10,28 +10,28 @@ namespace HootHoot_CMS.DAL
     public class RandomItem_Generator<T> where T : class
     {
         private Random randNum_Generator = null;
-        private IList<T> inputList = null;
+        private IList<T> itemList = null;
         private int[] randIndex = null;
         private int resultSize = -1;
 
-        public RandomItem_Generator(IList<T> input, int resultSize)
+        public RandomItem_Generator(IList<T> itemList, int resultSize)
         {
             this.randNum_Generator = new Random();
-            this.inputList = input;
+            this.itemList = itemList;
             this.resultSize = resultSize;
         }
 
         public IList<T> getRandomItem()
         {
 
-            IList<T> ahYeah = new List<T>();
+            IList<T> randomItems_List = new List<T>();
 
             for (byte count = 0; count < resultSize; count++)
             {
-                ahYeah.Add(inputList[ randIndex[count] ]);
+                randomItems_List.Add(itemList[ randIndex[count] ]);
             }
 
-            return ahYeah;
+            return randomItems_List;
 
 
         }
@@ -49,7 +49,7 @@ namespace HootHoot_CMS.DAL
 
             while (i < resultSize)
             {
-                randNum = randNum_Generator.Next(inputList.Count);
+                randNum = randNum_Generator.Next(itemList.Count);
                 if (!(randIndex.Contains(randNum)))
                 {
                     randIndex[i] = randNum;

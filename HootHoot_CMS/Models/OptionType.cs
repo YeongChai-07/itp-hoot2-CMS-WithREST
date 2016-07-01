@@ -15,8 +15,6 @@ namespace HootHoot_CMS.Models
         }
 
         [Key]
-        public int optiontype_id { get; set; }
-        
         public string optiontype { get; set; }
 
         public ICollection<Questions> question { get; set; }
