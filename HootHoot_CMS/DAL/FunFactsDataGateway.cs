@@ -1,7 +1,7 @@
-﻿using System;
+﻿//using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+//using System.Web;
 using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.DAL
@@ -10,17 +10,20 @@ namespace HootHoot_CMS.DAL
     {
         public FunFacts SelectRandomFunFact ()
         {
+            return getRandom_FunFact(this.SelectAll().ToList());
+        }
+        public FunFacts SelectByStationID(string stationID)
+        {
+            return getRandom_FunFact(this.dbData
+                .Where(fact => fact.station_id.Equals(stationID)).ToList());
+        }
+        private FunFacts getRandom_FunFact(List<FunFacts> inFunFacts)
+        {
             RandomItem_Generator<FunFacts> random = new RandomItem_Generator<FunFacts>
-                (this.SelectAll().ToList(), 1);
+                (inFunFacts, 1);
             random.preparesRandomIndex();
 
             return random.getRandomItem().First();
-        }
-        public FunFacts SelectByStationID(int stationID)
-        {
-            return this.dbData
-                .Where(fact => fact.station_id.Equals(stationID))
-                .First();
         }
     }
 }

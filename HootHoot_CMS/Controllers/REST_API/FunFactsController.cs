@@ -1,50 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Net.Http;*/
+
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Cors;
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
+    [EnableCors(origins: "*", headers:"*", methods: "GET, POST, PUT, DELETE, OPTIONS") ]
     public class FunFactsController : ApiController
     {
-        private HootHootDbContext db = new HootHootDbContext();
-        private FunFactsDataGateway ffg = new FunFactsDataGateway();
+        private FunFactsDataGateway funfactsGateway = new FunFactsDataGateway();
 
         // GET: api/FunFacts
         public IEnumerable<FunFacts> GetFunFacts()
         {
             //return db.FunFacts;
-            return ffg.SelectAll();
+            return funfactsGateway.SelectAll();
         }
 
         [ResponseType(typeof(FunFacts))]
         public FunFacts GetFunFact()
         {
-            return ffg.SelectRandomFunFact();
+            return funfactsGateway.SelectRandomFunFact();
         }
 
         // GET: api/FunFacts/5
         [ResponseType(typeof(FunFacts))]
-        public FunFacts GetFunFacts(int station_ID)
+        public FunFacts GetFunFact(string station_ID)
         {
-            /*FunFacts funFact = db.FunFacts
-                            .Where(fact => fact.station_ID.Equals(station_ID))
-                            .First();
-            
-            return funFact;*/
-            return ffg.SelectByStationID(station_ID);
+            return funfactsGateway.SelectByStationID(station_ID);
         }
 
+
+        // COMMENTED OUT Codes (NOT IN USE CODES) 
+
+        /* private HootHootDbContext db = new HootHootDbContext();
+
         // GET: api/FunFacts/5
-        /*[ResponseType(typeof(FunFacts))]
+        [ResponseType(typeof(FunFacts))]
         public IHttpActionResult GetFunFacts(int id)
         {
             FunFacts funFacts = db.FunFacts.Find(id);
@@ -54,7 +56,7 @@ namespace HootHoot_CMS.Controllers.REST_API
             }
 
             return Ok(funFacts);
-        }*/
+        }
 
         // PUT: api/FunFacts/5
         [ResponseType(typeof(void))]
@@ -121,7 +123,7 @@ namespace HootHoot_CMS.Controllers.REST_API
 
             return Ok(funFacts);
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -134,6 +136,9 @@ namespace HootHoot_CMS.Controllers.REST_API
         private bool FunFactsExists(int id)
         {
             return db.FunFacts.Count(e => e.funfact_id == id) > 0;
-        }
+        } 
+         
+         */
+
     }
 }

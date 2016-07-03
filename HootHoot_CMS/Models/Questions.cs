@@ -30,7 +30,7 @@ namespace HootHoot_CMS.Models
 
         [Required(ErrorMessage = "Please select the associated Station for this question.")]
         [Display (Name="Associated Station: ")]
-        public int station_id { get; set; }
+        public string station_id { get; set; }
         
         [Required(ErrorMessage="Please enter the Question title .")]
         [Display (Name="Question:")]
@@ -38,11 +38,11 @@ namespace HootHoot_CMS.Models
 
         [Required(ErrorMessage = "Please enter the type of question .")]
         [Display(Name="Type of question:")]
-        public int question_type { get; set; }
+        public string question_type { get; set; }
 
         [Required(ErrorMessage = "Please select the type of options this question has .")]
         [Display(Name= "Type of Options:")]
-        public int option_type { get; set; }
+        public string option_type { get; set; }
 
         [Required(ErrorMessage="Please provide the FIRST option .")]
         [Display(Name = "Option 1:")]
