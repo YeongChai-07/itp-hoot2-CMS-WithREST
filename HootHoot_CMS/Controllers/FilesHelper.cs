@@ -170,7 +170,7 @@ namespace HootHoot_CMS.Controllers
 
         private void UploadPartialFile(string fileName, HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses)
         {
-            var request = requestContext.Request;
+            /*var request = requestContext.Request;
             if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
             var file = request.Files[0];
             var inputStream = file.InputStream;
@@ -194,7 +194,7 @@ namespace HootHoot_CMS.Controllers
                 fs.Flush();
                 fs.Close();
             }
-            statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName));
+            statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName));*/
         }
         public ViewDataUploadFilesResult UploadResult(String FileName,int fileSize,String FileFullPath)
         {
