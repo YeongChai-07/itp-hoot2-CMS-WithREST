@@ -109,7 +109,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" /><br/>
+                <input type="button" id="testUpload" value="TEST Ajax Upload" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -133,8 +134,7 @@
                     var selectedOptionType = $("#option_type option:selected").text();
                     //alert("Selected Value: " + selectedOptionType);
 
-                    if(selectedOptionType == "IMG")
-                    {
+                    if (selectedOptionType == "IMAGE") {
                         alert("IMG is SELECTED!!!");
                         //Perform some IMG logic here
                         $("[name='option1_img']").show();
@@ -145,8 +145,7 @@
                         $("#ddl_CorrectOption").change(function () {
                             var gDragon = $("#ddl_CorrectOption option:selected").val();
 
-                            if(gDragon == "Option1")
-                            {
+                            if (gDragon == "Option1") {
                                 //alert("Picture TEXT Name: " + $("[name='option1_img']").text());
                                 alert("Picture Value Name: " + $("[name='option1_img']").val());
                                 //$("#imgCorrectOpt_Preview").attr("src", $("[name='option1_img']").val());
@@ -156,7 +155,7 @@
                                 $("#imgCorrectOpt_Preview").attr("src", "file:///C:/Users/Public/Pictures/Sample%20Pictures/Chrysanthemum.jpg");
                             }
 
-                            });
+                        });
 
                         return;
                     }
@@ -166,8 +165,68 @@
                     $("[name='option3_img']").hide();
                     $("[name='option4_img']").hide();
 
-                });
+                    $("#testUpload").click(function () {
+                        //$("[name='option1_img']").fileUpload();
+                    });
 
+
+                    // Variable to store your files
+                    var files;
+
+                    // Add events
+                    $("[name='option1_img']").on('change', prepareUpload);
+
+                    // Grab the files and set them to our variable
+                    function prepareUpload(event) {
+                        files = event.target.files;
+                    }
+
+                    $('form').on('submit', uploadFiles);
+
+                    $("#testUpload").click(uploadFiles);
+
+                    // Catch the form submit and upload the files
+                    function uploadFiles(event) {
+                        event.stopPropagation(); // Stop stuff happening
+                        event.preventDefault(); // Totally stop stuff happening
+
+                        // START A LOADING SPINNER HERE
+
+                        // Create a formdata object and add the files
+                        var data = new FormData();
+                        $.each(files, function (key, value) {
+                            data.append(key, value);
+                        });
+
+                        $.ajax({
+                            url: 'submit.php?files',
+                            type: 'POST',
+                            data: data,
+                            cache: false,
+                            dataType: 'json',
+                            processData: false, // Don't process the files
+                            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                            success: function (data, textStatus, jqXHR) {
+                                if (typeof data.error === 'undefined') {
+                                    // Success so call function to process the form
+                                    submitForm(event, data);
+                                }
+                                else {
+                                    // Handle errors here
+                                    console.log('ERRORS: ' + data.error);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                // Handle errors here
+                                console.log('ERRORS: ' + textStatus);
+                                // STOP LOADING SPINNER
+                            }
+                        });
+                    }
+
+
+
+                });//End optionType change event
             });
     </script>
 }
