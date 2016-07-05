@@ -60,16 +60,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [ValidateAntiForgeryToken]
         public ActionResult Create(Questions questions)
         {
-            if (ModelState.IsValid)
-            {
-                //questions.option_1 = "BLAH";
-                //questions.option_1.
-
-                db.Questions.Add(questions);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
             ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
             ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
@@ -82,7 +72,48 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             ViewBag.correct_option = ddl_correctOption;
 
+            bool cpy_ModelStateValid = ModelState.IsValid; // Makes a copy of the ModelState Valid property
+
+            if (ModelState.IsValid)
+            {
+                if(questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE)
+                {
+                    //Checks whether the specified file for each option exists in server
+                    string[] listOfFiles = { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+
+                    string faultyOptionNo = "";
+                    //iterate each item in listOfFiles to check whether the file exists in web server
+                    for(byte i=0;i < listOfFiles.Length; i++)
+                    {
+                        if ( !System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + listOfFiles[i]) )
+                        {
+                            faultyOptionNo = "option_" + (i + 1);
+                            //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
+                            ModelState.AddModelError(
+                                    ModelState.Keys.Single(field => field == faultyOptionNo),
+                                    "The specified file for " + faultyOptionNo + " is not found. Perhaps the file " +
+                                   "isn't uploaded correctly ?"
+                                   );
+                        }
+                        
+                    } // End FOR-Loop
+
+                } // End question.option_type IF-Block
+
+                //Check again to ensure that model state is still valid 
+               // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
+               // this has no impact to TEXT option type checks, it will still remain TRUE
+                if (cpy_ModelStateValid && ModelState.IsValid)
+                {
+                    db.Questions.Add(questions);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            } // End Model.IsValid() IF-Block
+
             return View(questions);
+
         }
 
         // GET: Questions/Edit/5
