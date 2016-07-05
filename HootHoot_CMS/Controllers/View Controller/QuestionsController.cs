@@ -43,6 +43,15 @@ namespace HootHoot_CMS.Controllers.View_Controller
             ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype");
             ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype");
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name");
+
+            List<SelectListItem> ddl_correctOption = new List<SelectListItem>();
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 1", Value = "option_1" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 2", Value = "option_2" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 3", Value = "option_3" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 4", Value = "option_4" });
+
+            ViewBag.correct_option = ddl_correctOption;
+
             return View();
         }
 
@@ -53,6 +62,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
         {
             if (ModelState.IsValid)
             {
+                //questions.option_1 = "BLAH";
+                //questions.option_1.
+
                 db.Questions.Add(questions);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -61,6 +73,15 @@ namespace HootHoot_CMS.Controllers.View_Controller
             ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
             ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
             ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
+
+            List<SelectListItem> ddl_correctOption = new List<SelectListItem>();
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 1", Value = "option_1" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 2", Value = "option_2" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 3", Value = "option_3" });
+            ddl_correctOption.Add(new SelectListItem() { Text = "Option 4", Value = "option_4" });
+
+            ViewBag.correct_option = ddl_correctOption;
+
             return View(questions);
         }
 

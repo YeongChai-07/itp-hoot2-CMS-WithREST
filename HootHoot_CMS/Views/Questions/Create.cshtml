@@ -52,8 +52,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_1, "", new { @class = "text-danger" })
-                <input type="file" name="option1_img" />
-                <input type="button" id="testUpload" value="Add Images for Option 1" class="btn btn-default" />
+                <input type="file" name="option1_img" /><br/>
+                <input type="button" id="addImg_Option1" value="Add Image for Option 1" class="btn btn-default" />
             </div>
         </div>
 
@@ -62,7 +62,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_2, "", new { @class = "text-danger" })
-                <input type="file" name="option2_img" />
+                <input type="file" name="option2_img" /><br />
+                <input type="button" id="addImg_Option2" value="Add Image for Option 2" class="btn btn-default" />
             </div>
         </div>
 
@@ -71,7 +72,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_3, "", new { @class = "text-danger" })
-                <input type="file" name="option3_img" />
+                <input type="file" name="option3_img" /><br />
+                <input type="button" id="addImg_Option3" value="Add Image for Option 3" class="btn btn-default" />
             </div>
         </div>
 
@@ -80,22 +82,18 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_4, "", new { @class = "text-danger" })
-                <input type="file" name="option4_img" />
+                <input type="file" name="option4_img" /><br />
+                <input type="button" id="addImg_Option4" value="Add Image for Option 4" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.correct_option, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.correct_option, new { htmlAttributes = new { @class = "form-control" } })
+                @*Html.EditorFor(model => model.correct_option, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownList("correct_option",null, htmlAttributes : new {@class = "form-control"} )
                 @Html.ValidationMessageFor(model => model.correct_option, "", new { @class = "text-danger" })
-
-                <select id="ddl_CorrectOption">
-                    <option value="Option1">Option 1</option>
-                    <option value="Option2">Option 2</option>
-                    <option value="Option3">Option 3</option>
-                    <option value="Option4">Option 4</option>
-                </select>
+                <br/>
                 <img src="" alt="Correct Option Preview" id="imgCorrectOpt_Preview" />
             </div>
         </div>
@@ -125,22 +123,56 @@
     <script type="text/javascript">
         $(document).ready(
             function () {
+
+                // Add events
+                $("[name='option1_img']").on('change', prepareUpload);
+                $("[name='option2_img']").on('change', prepareUpload);
+                $("[name='option3_img']").on('change', prepareUpload);
+                $("[name='option4_img']").on('change', prepareUpload);
+
+                $("#addImg_Option1").click(function () {
+                    //Trigger the first image option input to open the select file dialog
+                    $("[name='option1_img']").click();
+
+                });
+
+                $("#addImg_Option2").click(function () {
+                    //Trigger the second image option input to open the select file dialog
+                    $("[name='option2_img']").click();
+
+                });
+
+                $("#addImg_Option3").click(function () {
+                    //Trigger the third image option input to open the select file dialog
+                    $("[name='option3_img']").click();
+
+                });
+
+                $("#addImg_Option4").click(function () {
+                    //Trigger the fourth image option input to open the select file dialog
+                    $("[name='option4_img']").click();
+
+                });
+
+
+                //Hides ALL file input controls BY DEFAULT
                 $("[name='option1_img']").hide();
                 $("[name='option2_img']").hide();
                 $("[name='option3_img']").hide();
                 $("[name='option4_img']").hide();
 
-                $("#option_type").change(function () {
-                    var selectedOptionType = $("#option_type option:selected").text();
-                    //alert("Selected Value: " + selectedOptionType);
+                checkSelectedOptionType();
 
-                    if (selectedOptionType == "IMAGE") {
+                function checkSelectedOptionType() {
+
+                    if ($("#option_type option:selected").text() == "IMAGE") {
                         alert("IMG is SELECTED!!!");
-                        //Perform some IMG logic here
-                        $("[name='option1_img']").show();
-                        $("[name='option2_img']").show();
-                        $("[name='option3_img']").show();
-                        $("[name='option4_img']").show();
+
+                        //Enables and shows all the add Image buttons
+                        disableAddImage_Button(false);
+
+                        //Disable (Read Only) all the options textfield
+                        disableOptions_TextFields(true);
 
                         $("#ddl_CorrectOption").change(function () {
                             var gDragon = $("#ddl_CorrectOption option:selected").val();
@@ -158,81 +190,143 @@
                         });
 
                         return;
+                    } //End of selectedOptionType IF Block
+
+
+                    //Enables and shows all the add Image buttons
+                    disableAddImage_Button(true);
+
+                    //Enable all the options textfield
+                    disableOptions_TextFields(false);
+
+
+                } //End of checkSelectedOptionType function
+
+                function disableOptions_TextFields(disableCond) {
+                    //Disable all the options textfield
+                    $("#option_1").prop("readonly", disableCond);
+                    $("#option_2").prop("readonly", disableCond);
+                    $("#option_3").prop("readonly", disableCond);
+                    $("#option_4").prop("readonly", disableCond);
+                }
+
+                function disableAddImage_Button(disableCond)
+                {
+                    $("#addImg_Option1").prop("disabled", disableCond);
+                    $("#addImg_Option2").prop("disabled", disableCond);
+                    $("#addImg_Option3").prop("disabled", disableCond);
+                    $("#addImg_Option4").prop("disabled", disableCond);
+
+                    if (!disableCond)
+                    {
+                        $("#addImg_Option1").show();
+                        $("#addImg_Option2").show();
+                        $("#addImg_Option3").show();
+                        $("#addImg_Option4").show();
+
+                        return;
                     }
 
-                    $("[name='option1_img']").hide();
-                    $("[name='option2_img']").hide();
-                    $("[name='option3_img']").hide();
-                    $("[name='option4_img']").hide();
+                    $("#addImg_Option1").hide();
+                    $("#addImg_Option2").hide();
+                    $("#addImg_Option3").hide();
+                    $("#addImg_Option4").hide();
+
+                }
+
+                // Grab the files and set them to our variable
+                function prepareUpload(event) {
+                    var files = event.target.files;
+
+                    if (typeof files !== 'undefined' && files.length > 0) {
+                        //This represents that the user selects a file to upload
+                        //We shall start uploading the file
+                        uploadFiles(files, event.target.name);
+                    }
+                }
+
+                // Catch the form submit and upload the files
+                function uploadFiles(fileToUpload, fileInputName) {
 
 
-                    // Variable to store your files
-                    var files;
+                    /*event.stopPropagation(); // Stop stuff happening
+                    event.preventDefault(); // Totally stop stuff happening*/
 
-                    // Add events
-                    $("[name='option1_img']").on('change', prepareUpload);
+                    // START A LOADING SPINNER HERE
 
-                    $("#testUpload").click(function () {
-                        //Trigger the first image option input to open the select file dialog
-                        $("[name='option1_img']").click();
-
+                    // Create a formdata object and add the files
+                    var data = new FormData();
+                    $.each(fileToUpload, function (key, value) {
+                        data.append(key, value);
                     });
 
-                    // Grab the files and set them to our variable
-                    function prepareUpload(event) {
-                        files = event.target.files;
+                    $.ajax({
+                        url: '../../FileUpload/Upload',
+                        type: 'POST',
+                        data: data,
+                        cache: false,
+                        dataType: 'json',
+                        processData: false, // Don't process the files
+                        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                        success: function (data, textStatus, jqXHR) {
+                            if (data != "Error ") {
+                                console.log('SUCCESSFULLY UPLOADED : ' + data.files[0].name + '\t Size: ' + data.files[0].size);
 
-                        if (typeof files !== 'undefined' && files.length > 0) {
-                            //This represents that the user selects a file to upload
-                            //We shall start uploading the file
-                            uploadFiles();
+                                // Set the option textfield bound to the model object
+                                assignPictOption_Val(fileInputName, data.files[0].name);
+                                // Success so call function to process the form
+                                //submitForm(event, data);
+
+                            }
+                            else {
+                                // Handle errors here
+                                console.log('ERRORS: ');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Handle errors here
+                            console.log('ERRORS: ' + textStatus);
+                            // STOP LOADING SPINNER
                         }
+                    });
+                }
+
+                function assignPictOption_Val(imgOptionName, fileName) {
+                    var optionName;
+
+                    if ((optionName = checkOptionName(imgOptionName)) != 0) {
+                        $("#" + optionName).val(fileName);
                     }
 
-                    // Catch the form submit and upload the files
-                    function uploadFiles() {
+                }
+
+                function checkOptionName(imgOptionName) {
+                    var optionName = 0;
+                    if (typeof imgOptionName !== 'undefined' && imgOptionName.length > 0) {
+                        if (imgOptionName == "option1_img") {
+                            optionName = "option_1";
+                        }
+                        else if (imgOptionName == "option2_img") {
+                            optionName = "option_2";
+                        }
+                        else if (imgOptionName == "option3_img") {
+                            optionName = "option_3";
+                        }
+                        else if (imgOptionName == "option4_img") {
+                            optionName = "option_4";
+                        }
+
+                    } // End of outer if code block
+
+                    return optionName;
+                }
+
              
 
-                        /*event.stopPropagation(); // Stop stuff happening
-                        event.preventDefault(); // Totally stop stuff happening*/
-
-                        // START A LOADING SPINNER HERE
-
-                        // Create a formdata object and add the files
-                        var data = new FormData();
-                        $.each(files, function (key, value) {
-                            data.append(key, value);
-                        });
-
-                        $.ajax({
-                            url: '../../FileUpload/Upload',
-                            type: 'POST',
-                            data: data,
-                            cache: false,
-                            dataType: 'json',
-                            processData: false, // Don't process the files
-                            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-                            success: function (data, textStatus, jqXHR) {
-                                if (data != "Error ") {
-                                    console.log('SUCCESSFULLY UPLOADED : ' + data.files[0].name + '\t Size: ' + data.files[0].size);
-                                    // Success so call function to process the form
-                                    //submitForm(event, data);
-
-                                }
-                                else {
-                                    // Handle errors here
-                                    console.log('ERRORS: ');
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // Handle errors here
-                                console.log('ERRORS: ' + textStatus);
-                                // STOP LOADING SPINNER
-                            }
-                        });
-                    }
-
-
+                $("#option_type").change(function () {
+                    //var selectedOptionType = $("#option_type option:selected").text();
+                    //alert("Selected Value: " + selectedOptionType);
+                    checkSelectedOptionType();
 
                 });//End optionType change event
             });
