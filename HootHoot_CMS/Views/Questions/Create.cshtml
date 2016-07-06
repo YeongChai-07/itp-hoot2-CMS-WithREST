@@ -270,10 +270,10 @@
                         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
                         success: function (data, textStatus, jqXHR) {
                             if (data != "Error ") {
-                                console.log('SUCCESSFULLY UPLOADED : ' + data.files[0].name + '\t Size: ' + data.files[0].size);
+                                console.log('SUCCESSFULLY UPLOADED : ' + data[0].m_FileName + '\t Size: ' + data[0].m_FileSize);
 
                                 // Set the option textfield bound to the model object
-                                assignPictOption_Val(fileInputName, data.files[0].name);
+                                assignPictOption_Val(fileInputName, data[0].m_FileName);
                                 // Success so call function to process the form
                                 //submitForm(event, data);
 

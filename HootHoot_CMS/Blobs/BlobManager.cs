@@ -33,7 +33,7 @@ namespace HootHoot_CMS.Blobs
 
         }
 
-        public void uploadPictureToBlob(string pictureFileName)
+        public string uploadPictureToBlob(string pictureFileName)
         {
             //Perform some checks whether the pictureFileName (and file extension) is correct
 
@@ -41,9 +41,11 @@ namespace HootHoot_CMS.Blobs
             cbb = newContainer.GetBlockBlobReference(pictureFileName);
 
             string pictureFullPath = Constants.UPLOAD_FOLDER_PATH + pictureFileName;
+            string retUri = "";
             try
             {
                 cbb.UploadFromFile(pictureFullPath);
+                retUri = cbb.Uri.ToString();
             }
             catch(System.IO.FileNotFoundException fnf)
             {
@@ -54,6 +56,8 @@ namespace HootHoot_CMS.Blobs
             {
                 // The path is invalid, perhaps the path is not complete ?
             }
+
+            return retUri;
             
         } //End of UploadPictureToBlob Function
 

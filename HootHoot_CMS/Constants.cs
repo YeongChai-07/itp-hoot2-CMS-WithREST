@@ -11,5 +11,6 @@ namespace HootHoot_CMS
         public static string AZURE_STORAGE_SETTINGS_KEYNAME = "StorageConnectionString";
         public static string HOOTSQ_IMAGE_BLOB_CONTAINER = "hootsq-image-options";
         public const string QNS_IMAGE_OPTION_TYPE = "IMAGE";
+        public const int _4MB_IN_BYTES = 4194304;
     }
 }

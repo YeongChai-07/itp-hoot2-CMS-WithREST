@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
+using HootHoot_CMS.Blobs;
 
 namespace HootHoot_CMS.Controllers.View_Controller
 {
@@ -72,19 +73,25 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             ViewBag.correct_option = ddl_correctOption;
 
-            bool cpy_ModelStateValid = ModelState.IsValid; // Makes a copy of the ModelState Valid property
+            bool modelState_FirstPass = ModelState.IsValid; // First-Pass check of the ModelState Valid property
+            bool is_ImageOptionType = false; // Initialized to false to avoid complications
+            string[] listOfFiles = null;
+            
 
-            if (ModelState.IsValid)
+            if (modelState_FirstPass)
             {
-                if(questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE)
+                is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
+                if (is_ImageOptionType)
                 {
                     //Checks whether the specified file for each option exists in server
-                    string[] listOfFiles = { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+                    listOfFiles = new string[]{ questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
 
                     string faultyOptionNo = "";
                     //iterate each item in listOfFiles to check whether the file exists in web server
                     for(byte i=0;i < listOfFiles.Length; i++)
                     {
+                        //TODO: Include the logic to remove the path with all the ("\"), so that we will
+                        // only end up with the file name (REQUIRED : for IE browsers)
                         if ( !System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + listOfFiles[i]) )
                         {
                             faultyOptionNo = "option_" + (i + 1);
@@ -95,22 +102,38 @@ namespace HootHoot_CMS.Controllers.View_Controller
                                    "isn't uploaded correctly ?"
                                    );
                         }
+
+                        //TODO: Include checks on the file type (extension) to ensure that it is an image
+
+
                         
                     } // End FOR-Loop
 
                 } // End question.option_type IF-Block
 
-                //Check again to ensure that model state is still valid 
-               // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
-               // this has no impact to TEXT option type checks, it will still remain TRUE
-                if (cpy_ModelStateValid && ModelState.IsValid)
-                {
-                    db.Questions.Add(questions);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                // Do nothing if question.option_type != "IMAGE"
+
 
             } // End Model.IsValid() IF-Block
+
+            // Perform second pass ModelState check ensure that model state is still valid 
+            // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
+            // this has no impact to TEXT option type checks, it will still remain TRUE
+            if (ModelState.IsValid)
+            {
+                if(is_ImageOptionType)
+                {
+                    //Uploads and gets the blob URI string to each image option
+                    BlobManager picBlob = new BlobManager();
+                    questions.option_1 = picBlob.uploadPictureToBlob(listOfFiles[0]);
+                    questions.option_2 = picBlob.uploadPictureToBlob(listOfFiles[1]);
+                    questions.option_3 = picBlob.uploadPictureToBlob(listOfFiles[2]);
+                    questions.option_4 = picBlob.uploadPictureToBlob(listOfFiles[3]);
+                }
+                db.Questions.Add(questions);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
             return View(questions);
 

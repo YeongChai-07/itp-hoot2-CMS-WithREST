@@ -8,7 +8,7 @@ using System.Web.Hosting;
 
 namespace HootHoot_CMS.Controllers
 {
-    public class FilesHelper
+    public class TEMP_FilesHelper
     {
 
         String DeleteURL = null;
@@ -18,7 +18,7 @@ namespace HootHoot_CMS.Controllers
         String tempPath = null;
         //ex:"~/Files/something/";
         String serverMapPath = null;
-        public FilesHelper(String DeleteURL, String DeleteType, String StorageRoot, String UrlBase, String tempPath, String serverMapPath)
+        public TEMP_FilesHelper(String DeleteURL, String DeleteType, String StorageRoot, String UrlBase, String tempPath, String serverMapPath)
         {
             this.DeleteURL = DeleteURL;
             this.DeleteType = DeleteType;

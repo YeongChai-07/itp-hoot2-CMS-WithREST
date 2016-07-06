@@ -219,10 +219,12 @@
     <Compile Include="Blobs\BlobManager.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FileHelper.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-	<Compile Include="Controllers\FileUploadController.cs" />
-	<Compile Include="Controllers\FilesHelper.cs" />
+    <Compile Include="Controllers\TEMP_FileUploadController.cs" />
+    <Compile Include="Controllers\TEMP_FilesHelper.cs" />
     <Compile Include="Controllers\REST_API\FunFactsController.cs" />
     <Compile Include="Controllers\REST_API\QuestionsController.cs" />
     <Compile Include="Controllers\REST_API\StationsController.cs" />
@@ -318,6 +320,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
+    <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
