@@ -233,6 +233,8 @@
     <Compile Include="DAL\FunFactsDataGateway.cs" />
     <Compile Include="DAL\HootHootDbContext.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
+    <Compile Include="DAL\OptionTypeDataGateway.cs" />
+    <Compile Include="DAL\QuestionTypeDataGateway.cs" />
     <Compile Include="DAL\StationTypeDataGateway.cs" />
     <Compile Include="DAL\QuestionsDataGateway.cs" />
     <Compile Include="DAL\RandomItem_Generator.cs" />

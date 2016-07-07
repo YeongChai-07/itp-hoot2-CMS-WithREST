@@ -7,12 +7,15 @@ namespace HootHoot_CMS.Controllers
 {
     public class FileHelper
     {
-
-        public FileInfo uploadFileToServer_Result(HttpPostedFileBase fileToUpload)
+        //private char[] filePathPattern = {'/', '\\', ':'};
+        public static FileInfo uploadFileToServer_Result(HttpPostedFileBase fileToUpload)
         {
             bool uploadSuccess = false;
             int fileSize = fileToUpload.ContentLength;
-            string fileName = fileToUpload.FileName;
+
+            // Removes the absolute path with all the ("\") from the filename string, so that 
+            // we will only end up with the file name (REQUIRED : for IE browsers)
+            string fileName = fileName_Correction(fileToUpload.FileName);
 
             if (uploadSuccess = checksFileSize_ExceedsLimit(fileSize) )
             {
@@ -23,17 +26,45 @@ namespace HootHoot_CMS.Controllers
             return new FileInfo(fileName, fileSize, fileToUpload.ContentType, uploadSuccess);
         }
 
-        public bool checksFileSize_ExceedsLimit(int fileSize)
+        private static bool checksFileSize_ExceedsLimit(int fileSize)
         {
             return (fileSize <= Constants._4MB_IN_BYTES);
         }
 
-        public void checkFileExt_Valid()
+        private static string fileName_Correction(string fileName)
+        {
+            //Check and replace each of the path pattern
+            for (byte i = 0; i < Constants.FILEPATH_PATTERN.Length; i++)
+            {
+                fileName = fileName.Replace(Constants.FILEPATH_PATTERN[i], '>');
+            }
+
+            int actualStartIdx = -1;
+
+            //Now we will check the index of the last occurence of '>' within the fileName
+            if ((actualStartIdx = fileName.LastIndexOf('>')) > -1)
+            {
+                //Now increment the startIndex to 1 as the start of 
+                // the filename is 1 position next to it
+                actualStartIdx++;
+
+                fileName = fileName.Substring(actualStartIdx);
+            }
+
+            return fileName;
+        }
+
+        public static bool checkFileExists_Server(string fileName)
+        {
+            return System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + fileName);
+        }
+
+        public static void checkFileExt_Valid()
         {
 
         }
 
-
+        
         public class FileInfo
         {
             public string m_FileName { get; set; }

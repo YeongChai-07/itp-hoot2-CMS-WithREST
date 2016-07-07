@@ -13,7 +13,7 @@ namespace HootHoot_CMS.Controllers
         {
             var fileToUpload = HttpContext.Request.Files[0];
 
-            FileHelper.FileInfo fileInfo_Obj = new FileHelper().uploadFileToServer_Result(fileToUpload);
+            FileHelper.FileInfo fileInfo_Obj = FileHelper.uploadFileToServer_Result(fileToUpload);
 
             if(!fileInfo_Obj.m_FileStats)
             {

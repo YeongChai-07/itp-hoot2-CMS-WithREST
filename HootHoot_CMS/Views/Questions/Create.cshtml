@@ -1,6 +1,11 @@
 ﻿@model HootHoot_CMS.Models.Questions
 
 @{
+    ViewBag.option_type = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
+    ViewBag.question_type = new SelectList(new HootHoot_CMS.DAL.QuestionTypeDataGateway().SelectAll(), "questiontype", "questiontype");
+    ViewBag.station_id = new SelectList(new HootHoot_CMS.DAL.StationDataGateway().SelectAll(), "station_id", "station_name");
+    ViewBag.correct_option = Constants.CORRECTOPTION_LIST;
+
     ViewBag.Title = "Create";
 }
 
@@ -166,13 +171,13 @@
                 function checkSelectedOptionType() {
 
                     if ($("#option_type option:selected").text() == "IMAGE") {
-                        alert("IMG is SELECTED!!!");
-
-                        //Enables and shows all the add Image buttons
-                        disableAddImage_Button(false);
+                        //alert("IMG is SELECTED!!!");
 
                         //Disable (Read Only) all the options textfield
                         disableOptions_TextFields(true);
+
+                        //Enables and shows all the add Image buttons
+                        disableAddImage_Button(false);
 
                         $("#ddl_CorrectOption").change(function () {
                             var gDragon = $("#ddl_CorrectOption option:selected").val();

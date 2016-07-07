@@ -15,6 +15,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
     public class QuestionsController : Controller
     {
         private HootHootDbContext db = new HootHootDbContext();
+        private QuestionsDataGateway questionsGateway = new QuestionsDataGateway();
 
         // GET: Questions
         public ActionResult Index()
@@ -41,18 +42,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype");
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype");
-            ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name");
-
-            List<SelectListItem> ddl_correctOption = new List<SelectListItem>();
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 1", Value = "option_1" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 2", Value = "option_2" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 3", Value = "option_3" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 4", Value = "option_4" });
-
-            ViewBag.correct_option = ddl_correctOption;
-
+           
             return View();
         }
 
@@ -61,23 +51,11 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [ValidateAntiForgeryToken]
         public ActionResult Create(Questions questions)
         {
-            ViewBag.option_type = new SelectList(db.OptionTypes, "optiontype", "optiontype", questions.option_type);
-            ViewBag.question_type = new SelectList(db.QuestionTypes, "questiontype", "questiontype", questions.question_type);
-            ViewBag.station_id = new SelectList(db.Stations, "station_id", "station_name", questions.station_id);
-
-            List<SelectListItem> ddl_correctOption = new List<SelectListItem>();
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 1", Value = "option_1" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 2", Value = "option_2" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 3", Value = "option_3" });
-            ddl_correctOption.Add(new SelectListItem() { Text = "Option 4", Value = "option_4" });
-
-            ViewBag.correct_option = ddl_correctOption;
-
+            
             bool modelState_FirstPass = ModelState.IsValid; // First-Pass check of the ModelState Valid property
             bool is_ImageOptionType = false; // Initialized to false to avoid complications
             string[] listOfFiles = null;
             
-
             if (modelState_FirstPass)
             {
                 is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
@@ -86,25 +64,20 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     //Checks whether the specified file for each option exists in server
                     listOfFiles = new string[]{ questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
 
-                    string faultyOptionNo = "";
                     //iterate each item in listOfFiles to check whether the file exists in web server
                     for(byte i=0;i < listOfFiles.Length; i++)
                     {
-                        //TODO: Include the logic to remove the path with all the ("\"), so that we will
-                        // only end up with the file name (REQUIRED : for IE browsers)
-                        if ( !System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + listOfFiles[i]) )
+
+                        if(! FileHelper.checkFileExists_Server(listOfFiles[i]))
                         {
-                            faultyOptionNo = "option_" + (i + 1);
                             //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
                             ModelState.AddModelError(
-                                    ModelState.Keys.Single(field => field == faultyOptionNo),
-                                    "The specified file for " + faultyOptionNo + " is not found. Perhaps the file " +
-                                   "isn't uploaded correctly ?"
-                                   );
+                                    ModelState.Keys.Single(field => field == "option_" + (i + 1) ),
+                                    Constants.FILE_UPLOAD_NOT_FOUND);
+
                         }
 
                         //TODO: Include checks on the file type (extension) to ensure that it is an image
-
 
                         
                     } // End FOR-Loop
@@ -130,8 +103,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     questions.option_3 = picBlob.uploadPictureToBlob(listOfFiles[2]);
                     questions.option_4 = picBlob.uploadPictureToBlob(listOfFiles[3]);
                 }
-                db.Questions.Add(questions);
-                db.SaveChanges();
+
+                questionsGateway.Insert(questions);
+
                 return RedirectToAction("Index");
             }
 
