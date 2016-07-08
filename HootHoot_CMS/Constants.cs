@@ -13,6 +13,7 @@ namespace HootHoot_CMS
         public static string AZURE_BLOB_STORAGE_FOLDER = "https://hootsqpicturestorage.blob.core.windows.net/hootsq-image-options/";
         public static string HOOTSQ_IMAGE_BLOB_CONTAINER = "hootsq-image-options";
         public const string QNS_IMAGE_OPTION_TYPE = "IMAGE";
+        public const byte OPTIONS_PER_QNS = 4;
         public const int _4MB_IN_BYTES = 4194304;
         public static readonly char[] FILEPATH_PATTERN = { '/', '\\', ':' };
         public const string FILE_UPLOAD_NOT_FOUND = "The specified file is not found. Perhaps the file " +

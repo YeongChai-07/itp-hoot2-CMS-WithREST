@@ -63,15 +63,23 @@ namespace HootHoot_CMS.Controllers
 
         }
 
-        public static bool checkFileExists_Blob()
+        public static bool checkFileExists_Blob(string optionValue)
         {
-            using (System.Net.WebClient webClient = new System.Net.WebClient())
+            try
             {
-                webClient.DownloadFile("https://hootsqpicturestorage.blob.core.windows.net/hootsq-image-options/Lighthouse.jpg",
-                    Constants.UPLOAD_FOLDER_PATH + "moo.jpg");
+                using (System.Net.WebClient webClient = new System.Net.WebClient())
+                {
+                    webClient.DownloadFile(optionValue, Constants.UPLOAD_FOLDER_PATH + 
+                        fileName_Correction(optionValue) );
 
+                    return true;
+                }
             }
-        }
+            catch(System.Net.WebException we)
+            {
+                return false;
+            }
+        } //End of checkFileExists_Blob function
 
         public static void deletesALLUploadFiles()
         {

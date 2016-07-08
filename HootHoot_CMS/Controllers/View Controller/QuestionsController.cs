@@ -139,10 +139,38 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Questions questions)
         {
-            if (ModelState.IsValid)
-            {
+            bool modelState_FirstPass = ModelState.IsValid; // First-Pass check of the ModelState Valid property
+            bool is_ImageOptionType = false; // Initialized to false to avoid complications
 
+            if (modelState_FirstPass)
+            {
+                is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
                 string[] listOfFiles = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+                bool[] containsBlob_Val = new bool[] 
+                {
+                    //Check and initialize each of the option field whether it has blob storage address format
+                    listOfFiles[0].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    listOfFiles[1].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    listOfFiles[2].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    listOfFiles[3].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER)
+                };
+
+                
+                if(is_ImageOptionType)
+                {
+                    for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+                    {
+                        if (containsBlob_Val[i])
+                        {
+                            if (!FileHelper.checkFileExists_Blob(listOfFiles[i]))
+                            {
+
+                            }
+
+                        }
+                    }
+                } // End of is_ImageOptionType IF-Block
+                
 
                 db.Entry(questions).State = EntityState.Modified;
                 db.SaveChanges();
