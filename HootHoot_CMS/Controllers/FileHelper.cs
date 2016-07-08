@@ -7,7 +7,6 @@ namespace HootHoot_CMS.Controllers
 {
     public class FileHelper
     {
-        //private char[] filePathPattern = {'/', '\\', ':'};
         public static FileInfo uploadFileToServer_Result(HttpPostedFileBase fileToUpload)
         {
             bool uploadSuccess = false;
@@ -17,7 +16,7 @@ namespace HootHoot_CMS.Controllers
             // we will only end up with the file name (REQUIRED : for IE browsers)
             string fileName = fileName_Correction(fileToUpload.FileName);
 
-            if (uploadSuccess = checksFileSize_ExceedsLimit(fileSize) )
+            if (uploadSuccess = checksFileSize_ExceedsLimit(fileSize))
             {
                 fileToUpload.SaveAs(Constants.UPLOAD_FOLDER_PATH + fileName);
                 //uploadSuccess will be TRUE automatically if everything goes fine
@@ -64,7 +63,27 @@ namespace HootHoot_CMS.Controllers
 
         }
 
-        
+        public static bool checkFileExists_Blob()
+        {
+            using (System.Net.WebClient webClient = new System.Net.WebClient())
+            {
+                webClient.DownloadFile("https://hootsqpicturestorage.blob.core.windows.net/hootsq-image-options/Lighthouse.jpg",
+                    Constants.UPLOAD_FOLDER_PATH + "moo.jpg");
+
+            }
+        }
+
+        public static void deletesALLUploadFiles()
+        {
+            //Gets a list of files in the upload folder FIRST
+            string[] filesInFolder = System.IO.Directory.GetFiles(Constants.UPLOAD_FOLDER_PATH);
+
+            for (byte i = 0; i < filesInFolder.Length; i++)
+            { System.IO.File.Delete(filesInFolder[i]); }
+
+        }
+
+
         public class FileInfo
         {
             public string m_FileName { get; set; }
@@ -84,7 +103,7 @@ namespace HootHoot_CMS.Controllers
         }
     }
 
-    
+
 
     /*public class JSONDataFormatter
     {

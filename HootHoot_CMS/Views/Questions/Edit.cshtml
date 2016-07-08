@@ -1,6 +1,10 @@
 ﻿@model HootHoot_CMS.Models.Questions
 
 @{
+    ViewBag.option_type = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
+    ViewBag.question_type = new SelectList(new HootHoot_CMS.DAL.QuestionTypeDataGateway().SelectAll(), "questiontype", "questiontype");
+    ViewBag.station_id = new SelectList(new HootHoot_CMS.DAL.StationDataGateway().SelectAll(), "station_id", "station_name");
+
     ViewBag.Title = "Edit";
 }
 
@@ -10,7 +14,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Questions</h4>
         <hr />
@@ -18,7 +22,7 @@
         @Html.HiddenFor(model => model.question_id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.station_id, "station_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.station_id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("station_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.station_id, "", new { @class = "text-danger" })
@@ -34,7 +38,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.question_type, "question_type", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.question_type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("question_type", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.question_type, "", new { @class = "text-danger" })
@@ -42,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.option_type, "option_type", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.option_type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("option_type", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.option_type, "", new { @class = "text-danger" })
@@ -54,6 +58,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_1, "", new { @class = "text-danger" })
+                <input type="file" name="option1_img" /><br />
+                <input type="button" id="addImg_Option1" value="Add Image for Option 1" class="btn btn-default" />
             </div>
         </div>
 
@@ -62,6 +68,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_2, "", new { @class = "text-danger" })
+                <input type="file" name="option2_img" /><br />
+                <input type="button" id="addImg_Option2" value="Add Image for Option 2" class="btn btn-default" />
             </div>
         </div>
 
@@ -70,6 +78,8 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_3, "", new { @class = "text-danger" })
+                <input type="file" name="option3_img" /><br />
+                <input type="button" id="addImg_Option3" value="Add Image for Option 3" class="btn btn-default" />
             </div>
         </div>
 
@@ -78,14 +88,18 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.option_4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_4, "", new { @class = "text-danger" })
+                <input type="file" name="option4_img" /><br />
+                <input type="button" id="addImg_Option4" value="Add Image for Option 4" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.correct_option, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.correct_option, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("correct_option", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.correct_option, "", new { @class = "text-danger" })
+                <br />
+                <img src="" alt="Correct Option Preview" id="imgCorrectOpt_Preview" />
             </div>
         </div>
 
