@@ -141,39 +141,41 @@ namespace HootHoot_CMS.Controllers.View_Controller
         {
             bool modelState_FirstPass = ModelState.IsValid; // First-Pass check of the ModelState Valid property
             bool is_ImageOptionType = false; // Initialized to false to avoid complications
+            string[] optionValues_Arr = null;
+            bool[] containsBlob_Val = null;
 
             if (modelState_FirstPass)
             {
                 is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
-                string[] listOfFiles = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
-                bool[] containsBlob_Val = new bool[] 
+                optionValues_Arr = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+                containsBlob_Val = new bool[] 
                 {
                     //Check and initialize each of the option field whether it has blob storage address format
-                    listOfFiles[0].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
-                    listOfFiles[1].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
-                    listOfFiles[2].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
-                    listOfFiles[3].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER)
+                    optionValues_Arr[0].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[1].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[2].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[3].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER)
                 };
 
-                
-                if(is_ImageOptionType)
+                checkHasBlobValue_Option(containsBlob_Val, optionValues_Arr, is_ImageOptionType);
+
+            }
+
+            // Perform second pass ModelState check ensure that model state is still valid 
+            // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
+            // this has no impact to TEXT option type checks, it will still remain TRUE
+            if (ModelState.IsValid)
+            {
+                if (is_ImageOptionType)
                 {
-                    for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
-                    {
-                        if (containsBlob_Val[i])
-                        {
-                            if (!FileHelper.checkFileExists_Blob(listOfFiles[i]))
-                            {
+                    BlobManager picBlob = new BlobManager();
+                    questions.option_1 = !containsBlob_Val[0] ? picBlob.uploadPictureToBlob(optionValues_Arr[0]) : optionValues_Arr[0];
+                    questions.option_2 = !containsBlob_Val[1] ? picBlob.uploadPictureToBlob(optionValues_Arr[1]) : optionValues_Arr[1];
+                    questions.option_3 = !containsBlob_Val[2] ? picBlob.uploadPictureToBlob(optionValues_Arr[2]) : optionValues_Arr[2];
+                    questions.option_4 = !containsBlob_Val[3] ? picBlob.uploadPictureToBlob(optionValues_Arr[3]) : optionValues_Arr[3];
+                }
 
-                            }
-
-                        }
-                    }
-                } // End of is_ImageOptionType IF-Block
-                
-
-                db.Entry(questions).State = EntityState.Modified;
-                db.SaveChanges();
+                questionsGateway.Update(questions);
                 return RedirectToAction("Index");
             }
 
@@ -205,6 +207,32 @@ namespace HootHoot_CMS.Controllers.View_Controller
             db.Questions.Remove(questions);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option )
+        {
+            
+            for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+            {
+                if (containsBlob_Val[i])
+                {
+                    if (isPict_Option && !FileHelper.checkFileExists_Blob(optionValues_Arr[i]))
+                    {
+                        ModelState.AddModelError(
+                                    ModelState.Keys.Single(field => field == "option_" + (i + 1)),
+                                    Constants.BLOB_PIC_NOT_FOUND);
+                        //passCheck = false;
+                    }
+                    else if (!isPict_Option)
+                    {
+                        ModelState.AddModelError(
+                                ModelState.Keys.Single(field => field == "option_" + (i + 1)),
+                                Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                        //passCheck = false;
+                    } //End Else-If
+
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)

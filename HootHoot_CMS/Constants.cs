@@ -18,6 +18,8 @@ namespace HootHoot_CMS
         public static readonly char[] FILEPATH_PATTERN = { '/', '\\', ':' };
         public const string FILE_UPLOAD_NOT_FOUND = "The specified file is not found. Perhaps the file " +
                        "isn't uploaded correctly ?";
+        public const string BLOB_PIC_NOT_FOUND = "The specified file location doesn't exists in the picture store. Please try again.";
+        public const string TEXT_OPTION_HAS_BLOB_VALUE = "This option should not assign with any value that is an internet address. Please try again.";
 
         public static readonly List<SelectListItem> CORRECTOPTION_LIST = customCorrectOption_List(string.Empty);
 
