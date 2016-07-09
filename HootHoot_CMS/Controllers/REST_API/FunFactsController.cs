@@ -35,9 +35,9 @@ namespace HootHoot_CMS.Controllers.REST_API
 
         // GET: api/FunFacts/5
         [ResponseType(typeof(FunFacts))]
-        public FunFacts GetFunFact(string stationName)
+        public FunFacts GetFunFact(string station_name)
         {
-            return funfactsGateway.SelectByStationName(stationName);
+            return funfactsGateway.SelectByStationName(station_name);
         }
 
 
