@@ -15,7 +15,7 @@ using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
-    [EnableCors(origins: "*", headers:"*", methods: "GET, POST, PUT, DELETE, OPTIONS") ]
+    [EnableCors(origins: "*", headers: "*", methods: "GET, POST, PUT, DELETE, OPTIONS")]
     public class FunFactsController : ApiController
     {
         private FunFactsDataGateway funfactsGateway = new FunFactsDataGateway();
@@ -35,9 +35,9 @@ namespace HootHoot_CMS.Controllers.REST_API
 
         // GET: api/FunFacts/5
         [ResponseType(typeof(FunFacts))]
-        public FunFacts GetFunFact(string station_ID)
+        public FunFacts GetFunFact(string stationName)
         {
-            return funfactsGateway.SelectByStationID(station_ID);
+            return funfactsGateway.SelectByStationName(stationName);
         }
 
 

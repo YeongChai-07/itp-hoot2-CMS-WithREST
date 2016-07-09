@@ -14,7 +14,6 @@ namespace HootHoot_CMS.Models
         public Stations()
         {
             questions = new List<Questions>();
-            funfacts = new List<FunFacts>();
         }
         [Key]
         public string station_id { get; set; }
@@ -25,8 +24,6 @@ namespace HootHoot_CMS.Models
 
         [JsonIgnore]
         public ICollection<Questions> questions { get; set; }
-        [JsonIgnore]
-        public ICollection<FunFacts> funfacts { get; set; }
 
         [ForeignKey("station_type_id")]
         [JsonIgnore]
