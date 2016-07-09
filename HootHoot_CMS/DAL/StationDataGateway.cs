@@ -26,5 +26,13 @@ namespace HootHoot_CMS.DAL
 
             return allStations;
         }
+
+        public IEnumerable<string> GetAllStationNames()
+        {
+            var stationNames = from station in dbData
+                               select station.station_name;
+
+            return stationNames.Distinct().AsEnumerable();
+        }
     }
 }

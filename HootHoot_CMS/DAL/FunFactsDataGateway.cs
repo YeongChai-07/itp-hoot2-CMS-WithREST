@@ -6,16 +6,16 @@ using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.DAL
 {
-    public class FunFactsDataGateway:DataGateway<FunFacts>
+    public class FunFactsDataGateway : DataGateway<FunFacts>
     {
-        public FunFacts SelectRandomFunFact ()
+        public FunFacts SelectRandomFunFact()
         {
             return getRandom_FunFact(this.SelectAll().ToList());
         }
-        public FunFacts SelectByStationID(string stationID)
+        public FunFacts SelectByStationName(string stationName)
         {
             return getRandom_FunFact(this.dbData
-                .Where(fact => fact.station_id.Equals(stationID)).ToList());
+                .Where(fact => fact.station_name.Equals(stationName)).ToList());
         }
         private FunFacts getRandom_FunFact(List<FunFacts> inFunFacts)
         {

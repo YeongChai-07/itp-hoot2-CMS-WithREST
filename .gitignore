@@ -243,4 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/HootHoot_CMS/Upload
+/HootHoot_CMS/Upload/*.*
