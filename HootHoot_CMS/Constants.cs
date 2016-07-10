@@ -16,10 +16,13 @@ namespace HootHoot_CMS
         public const byte OPTIONS_PER_QNS = 4;
         public const int _4MB_IN_BYTES = 4194304;
         public static readonly char[] FILEPATH_PATTERN = { '/', '\\', ':' };
+        public static readonly string[] INTERNET_ADDRESS_PATTERN = { "HTTPS://", "HTTP://", "FTP://" };
         public const string FILE_UPLOAD_NOT_FOUND = "The specified file is not found. Perhaps the file " +
                        "isn't uploaded correctly ?";
         public const string BLOB_PIC_NOT_FOUND = "The specified file location doesn't exists in the picture store. Please try again.";
         public const string TEXT_OPTION_HAS_BLOB_VALUE = "This option should not assign with any value that is an internet address. Please try again.";
+        public const string BLOB_OPTION_HAS_INERNET_ADDR = "Internet address is not allowed for the picture opion type. Only the picture store resource " +
+            "identifier is permitted.";
 
         public static readonly List<SelectListItem> CORRECTOPTION_LIST = customCorrectOption_List(string.Empty);
 

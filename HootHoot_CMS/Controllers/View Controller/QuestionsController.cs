@@ -232,7 +232,26 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     } //End Else-If
 
                 }
+                else if(hasInternetAddress(optionValues_Arr[i]) )
+                {
+                        ModelState.AddModelError(
+                                ModelState.Keys.Single(field => field == "option_" + (i + 1)),
+                                (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                }
             }
+        }
+
+        private bool hasInternetAddress(string optionValue)
+        {
+            optionValue = optionValue.ToUpper();
+            for(byte i=0;i<Constants.INTERNET_ADDRESS_PATTERN.Length;i++)
+            {
+                if(optionValue.Contains(Constants.INTERNET_ADDRESS_PATTERN[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected override void Dispose(bool disposing)

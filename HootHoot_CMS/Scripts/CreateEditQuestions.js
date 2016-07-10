@@ -42,7 +42,20 @@
 
                 function checkSelectedOptionType() {
 
-                    if ($("#option_type option:selected").text() == "IMAGE") {
+                    var test = "";
+                    $("#option_type").on("focusin", function (event) {
+                        test = $("#option_type option:selected").text();
+                        event.stopPropagation();
+                        alert("The old value is : " + test);
+                    });
+                    //$("#option_type").blur();
+                    /*$("#option_type").on("click", function () {
+                        alert("The old value is : " + $("#option_type option:selected").text());
+                    });*/
+
+
+                    //if ($("#option_type option:selected").text() == "IMAGE") {
+                    if (typeof test !== 'undefined' && test == "IMAGE") {
                         //alert("IMG is SELECTED!!!");
 
                         //Disable (Read Only) all the options textfield
