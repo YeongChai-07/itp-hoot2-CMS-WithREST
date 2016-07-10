@@ -12,7 +12,7 @@ namespace HootHoot_CMS.DAL
         public IEnumerable<Questions> SelectByStationID(string stationID)
         {
             RandomItem_Generator<Questions> qnsGenerate = new RandomItem_Generator<Questions>
-                (this.dbData.Where(qns => qns.station_id.Equals(stationID)).ToList(), 4);
+                (this.dbData.Where(qns => qns.station_id.Equals(stationID)).ToList(), MAX_QUESTION_ITEMS);
 
             qnsGenerate.preparesRandomIndex();
 
