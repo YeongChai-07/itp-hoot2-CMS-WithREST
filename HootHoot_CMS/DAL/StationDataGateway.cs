@@ -34,5 +34,15 @@ namespace HootHoot_CMS.DAL
 
             return stationNames.Distinct().AsEnumerable();
         }
+
+        public string GetStationIDByStationName_StationType(string station_Name, string stationType_ID)
+        {
+            var stationID = (from station in dbData
+                              where station.station_name == station_Name &&
+                              station.station_type_id == stationType_ID
+                             select station.station_id);
+
+            return stationID.Distinct().ToString();
+        }
     }
 }

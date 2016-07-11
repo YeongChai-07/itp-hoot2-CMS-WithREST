@@ -16,14 +16,62 @@ namespace HootHoot_CMS.Controllers.View_Controller
     {
         private HootHootDbContext db = new HootHootDbContext();
         private QuestionsDataGateway questionsGateway = new QuestionsDataGateway();
+        private QuestionTypeDataGateway questionTypeGateway = new QuestionTypeDataGateway();
+        private OptionTypeDataGateway optionTypeGateway = new OptionTypeDataGateway();
+        private StationDataGateway stationGateway = new StationDataGateway();
 
         // GET: Questions
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
             return View(questions.ToList());
+        }*/
+
+        public ActionResult Index()
+        {
+            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
+
+            assignsViewBag_FilteringResults();
+
+            return View(questions.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(FilterQuestionsViewModel filterQuestions)
+        {
+            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
+
+            assignsViewBag_FilteringResults();
+
+            if (filterQuestions != null)
+            {
+                string station_Filter = filterQuestions.station_name;
+                string questionType_Filter = filterQuestions.question_type;
+                string optionType_Filter = filterQuestions.option_type;
+
+                if (station_Filter != null && !station_Filter.Equals("NOFILTER"))
+                {
+                    //Let's retrieve that unique station_id from the chosen station
+                    string stationID = stationGateway.GetStationIDByStationName_StationType(station_Filter, "HH");
+                    questions = questions.Where(qns => qns.station_id == stationID);
+                }
+
+                if (questionType_Filter != null && !questionType_Filter.Equals("NOFILTER"))
+                {
+                    questions = questions.Where(qns => qns.question_type == questionType_Filter);
+                }
+
+                if (optionType_Filter != null && !optionType_Filter.Equals("NOFILTER"))
+                {
+                    questions = questions.Where(qns => qns.option_type == optionType_Filter);
+                }
+
+                return Json(Url.Action("Index", "Questions", questions.ToList()) );
+            }
+            return Json("Error ");
+            
+            //return View(questions.ToList());
+        }
         // GET: Questions/Details/5
         public ActionResult Details(int? id)
         {
@@ -31,7 +79,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
+            Questions questions = questionsGateway.SelectById(id);
             if (questions == null)
             {
                 return HttpNotFound();
@@ -123,7 +171,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
+            Questions questions = questionsGateway.SelectById(id);
             if (questions == null)
             {
                 return HttpNotFound();
@@ -190,7 +238,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
+            Questions questions = questionsGateway.SelectById(id);
             if (questions == null)
             {
                 return HttpNotFound();
@@ -203,10 +251,40 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Questions questions = db.Questions.Find(id);
-            db.Questions.Remove(questions);
-            db.SaveChanges();
+            Questions questions = questionsGateway.SelectById(id);
+            questionsGateway.Delete(questions);
             return RedirectToAction("Index");
+        }
+
+        private void assignsViewBag_FilteringResults()
+        {
+            IEnumerable<string> stationNames = questionsGateway.GetStationName_StationID();
+            List<SelectListItem> stationNamesFilter_List = new List<SelectListItem>();
+            stationNamesFilter_List.Add(new SelectListItem() { Text = "===== Filter By Station ====", Value = "NOFILTER" });
+
+            foreach (string stationName in stationNames)
+            {
+                stationNamesFilter_List.Add(new SelectListItem() { Text = stationName, Value = stationName });
+            }
+
+            List<SelectListItem> questionTypeFilter_List = new List<SelectListItem>();
+            questionTypeFilter_List.Add(new SelectListItem() { Text = "===== Filter By Question Type ====", Value = "NOFILTER" });
+            foreach (string questionType in (questionTypeGateway.GetAllQuestionTypes()))
+            {
+                questionTypeFilter_List.Add(new SelectListItem() { Text = questionType, Value = questionType });
+            }
+
+            List<SelectListItem> optionTypeFilter_List = new List<SelectListItem>();
+            optionTypeFilter_List.Add(new SelectListItem() { Text = "===== Filter By Option Type ====", Value = "NOFILTER" });
+            foreach (string optionType in (optionTypeGateway.GetAllOptionTypes()))
+            {
+                optionTypeFilter_List.Add(new SelectListItem() { Text = optionType, Value = optionType });
+            }
+
+            //Attaches the Filter list to the respective ViewBags
+            ViewBag.filter_station = stationNamesFilter_List;
+            ViewBag.filter_questiontype = questionTypeFilter_List;
+            ViewBag.filter_optiontype = optionTypeFilter_List;
         }
 
         private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option )
