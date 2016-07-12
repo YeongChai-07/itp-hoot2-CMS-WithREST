@@ -10,11 +10,15 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <div class="row">
-    Filter Questions record:<br />
+    Filter Questions record:
+   @using (Html.BeginForm(new HootHoot_CMS.Models.FilterQuestionsViewModel()))
+   {
         <span class="col-md-3">@Html.DropDownList("filter_station", null, new { @class = "form-control" })</span>
         <span class="col-md-3">@Html.DropDownList("filter_questiontype", null, new { @class = "form-control" })</span>
         <span class="col-md-3">@Html.DropDownList("filter_optiontype", null, new { @class = "form-control" })</span>
-        <span class="col-md-3"><input type="button" id="filterQns_Result" value="Filter Results"/></span>
+        <span class="col-md-3"><input type="submit" id="filterQns_Result" value="Filter Results" /></span>
+   }
+    
 </div><br/>
 
 <table class="table">

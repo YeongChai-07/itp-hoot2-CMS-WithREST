@@ -7,8 +7,8 @@ namespace HootHoot_CMS.Models
 {
     public class FilterQuestionsViewModel
     {
-        public string station_name { get; set; }
-        public string question_type { get; set; }
-        public string option_type { get; set; }
+        public string filter_station { get; set; }
+        public string filter_questiontype { get; set; }
+        public string filter_optiontype { get; set; }
     }
 }

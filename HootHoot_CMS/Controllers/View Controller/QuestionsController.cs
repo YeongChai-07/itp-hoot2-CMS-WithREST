@@ -43,34 +43,30 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             assignsViewBag_FilteringResults();
 
-            if (filterQuestions != null)
+            //No need to check whether FilterQuestionsViewModel object is null, as
+            //it will NEVER be null.
+            string station_Filter = filterQuestions.filter_station;
+            string questionType_Filter = filterQuestions.filter_questiontype;
+            string optionType_Filter = filterQuestions.filter_optiontype;
+
+            if (station_Filter != null && !station_Filter.Equals("NOFILTER"))
             {
-                string station_Filter = filterQuestions.station_name;
-                string questionType_Filter = filterQuestions.question_type;
-                string optionType_Filter = filterQuestions.option_type;
-
-                if (station_Filter != null && !station_Filter.Equals("NOFILTER"))
-                {
-                    //Let's retrieve that unique station_id from the chosen station
-                    string stationID = stationGateway.GetStationIDByStationName_StationType(station_Filter, "HH");
-                    questions = questions.Where(qns => qns.station_id == stationID);
-                }
-
-                if (questionType_Filter != null && !questionType_Filter.Equals("NOFILTER"))
-                {
-                    questions = questions.Where(qns => qns.question_type == questionType_Filter);
-                }
-
-                if (optionType_Filter != null && !optionType_Filter.Equals("NOFILTER"))
-                {
-                    questions = questions.Where(qns => qns.option_type == optionType_Filter);
-                }
-
-                return Json(Url.Action("Index", "Questions", questions.ToList()) );
+                //Let's retrieve that unique station_id from the chosen station
+                string stationID = stationGateway.GetStationIDByStationName_StationType(station_Filter, "HH");
+                questions = questions.Where(qns => qns.station_id == stationID);
             }
-            return Json("Error ");
-            
-            //return View(questions.ToList());
+
+            if (questionType_Filter != null && !questionType_Filter.Equals("NOFILTER"))
+            {
+                questions = questions.Where(qns => qns.question_type == questionType_Filter);
+            }
+
+            if (optionType_Filter != null && !optionType_Filter.Equals("NOFILTER"))
+            {
+                questions = questions.Where(qns => qns.option_type == optionType_Filter);
+            }
+                 
+            return View(questions.ToList());
         }
         // GET: Questions/Details/5
         public ActionResult Details(int? id)

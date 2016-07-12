@@ -54,14 +54,6 @@
 
                 checkSelectedOptionType();
 
-                $("#filterQns_Result").click(function () {
-                    var stationtype = $("#filter_station option:selected").val();
-                    var qnstype = $("#filter_questiontype option:selected").val();
-                    var optiontype = $("#filter_optiontype option:selected").val();
-
-                    sendFilterQuestionChoices(stationtype, qnstype, optiontype);
-                });
-
                 function checkSelectedOptionType() {                 
                     var currOptionType = $("#option_type option:selected").text();
 
@@ -234,36 +226,4 @@
                     return optionName;
                 }
 
-
-
-               // Catch the form submit and upload the files
-                function sendFilterQuestionChoices(stationName, questionType, optionType) {
-
-
-                    /*event.stopPropagation(); // Stop stuff happening
-                    event.preventDefault(); // Totally stop stuff happening*/
-
-                    // START A LOADING SPINNER HERE
-
-                    // Create a formdata object and add the files
-                    var data = {
-                        "station_name": stationName ,
-                        "question_type": questionType,
-                        "option_type": optionType
-                    };
-
-                    $.ajax({
-                        url: '../Questions/Index',
-                        type: 'POST',
-                        data: JSON.stringify(data),
-                        cache: false,
-                        dataType: 'json',
-                        processData: false, // Don't process the files
-                        contentType: "application/json; charset=utf-8", // Set content type to false as jQuery will tell the server its a query string request
-                        success:function(data){
-                            window.location.href = data;
-                        }
-                    });
-                }
-
-            });
+            }); //End of $(document).ready() function body

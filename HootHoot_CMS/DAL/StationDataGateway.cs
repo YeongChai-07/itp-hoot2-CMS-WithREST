@@ -42,7 +42,7 @@ namespace HootHoot_CMS.DAL
                               station.station_type_id == stationType_ID
                              select station.station_id);
 
-            return stationID.Distinct().ToString();
+            return stationID.Distinct().First();
         }
     }
 }
