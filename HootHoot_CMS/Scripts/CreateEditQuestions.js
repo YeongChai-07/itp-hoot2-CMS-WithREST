@@ -1,6 +1,6 @@
 ﻿$(document).ready(
             function () {
-
+                var prevSelectedVal = undefined;
                 // Add events
                 $("[name='option1_img']").on('change', prepareUpload);
                 $("[name='option2_img']").on('change', prepareUpload);
@@ -31,6 +31,20 @@
 
                 });
 
+                $("#option_type").on("focusin", function (event) {
+                    prevSelectedVal = $("#option_type option:selected").text();
+                    //event.stopPropagation();
+                //alert("The old value is : " + test);
+                    $("#option_type").blur();
+                });
+
+                $("#option_type").change(function () {
+                    //var selectedOptionType = $("#option_type option:selected").text();
+                        //alert("Selected Value: " + selectedOptionType);
+                    checkSelectedOptionType();
+
+                });//End optionType change event
+
 
                 //Hides ALL file input controls BY DEFAULT
                 $("[name='option1_img']").hide();
@@ -40,24 +54,34 @@
 
                 checkSelectedOptionType();
 
-                function checkSelectedOptionType() {
+                $("#filterQns_Result").click(function () {
+                    var stationtype = $("#filter_station option:selected").val();
+                    var qnstype = $("#filter_questiontype option:selected").val();
+                    var optiontype = $("#filter_optiontype option:selected").val();
 
-                    var test = "";
-                    $("#option_type").on("focusin", function (event) {
-                        test = $("#option_type option:selected").text();
-                        event.stopPropagation();
-                        alert("The old value is : " + test);
-                    });
-                    //$("#option_type").blur();
-                    /*$("#option_type").on("click", function () {
-                        alert("The old value is : " + $("#option_type option:selected").text());
-                    });*/
+                    sendFilterQuestionChoices(stationtype, qnstype, optiontype);
+                });
 
+                function checkSelectedOptionType() {                 
+                    var currOptionType = $("#option_type option:selected").text();
 
-                    //if ($("#option_type option:selected").text() == "IMAGE") {
-                    if (typeof test !== 'undefined' && test == "IMAGE") {
-                        //alert("IMG is SELECTED!!!");
+                    if (typeof prevSelectedVal!== 'undefined' && !(currOptionType == prevSelectedVal) 
+                        && !(confirm("Are you sure you want to continue?\n You will lose unsaved changes"))
+                        )
+                    {
+                        $("[value='" + prevSelectedVal + "']").prop("selected", true);
+                        return;
+                    }
 
+                    //This also represents that the user confirms and opt to switch option type
+                    //We will then empty ALL options textfield
+                    $("#option_1").val("");
+                    $("#option_2").val("");
+                    $("#option_3").val("");
+                    $("#option_4").val("");
+
+                    if ($("#option_type option:selected").text() == "IMAGE") {
+                  
                         //Disable (Read Only) all the options textfield
                         disableOptions_TextFields(true);
 
@@ -206,10 +230,34 @@
 
 
 
-                $("#option_type").change(function () {
-                    //var selectedOptionType = $("#option_type option:selected").text();
-                    //alert("Selected Value: " + selectedOptionType);
-                    checkSelectedOptionType();
+               // Catch the form submit and upload the files
+                function sendFilterQuestionChoices(stationName, questionType, optionType) {
 
-                });//End optionType change event
+
+                    /*event.stopPropagation(); // Stop stuff happening
+                    event.preventDefault(); // Totally stop stuff happening*/
+
+                    // START A LOADING SPINNER HERE
+
+                    // Create a formdata object and add the files
+                    var data = {
+                        "station_name": stationName ,
+                        "question_type": questionType,
+                        "option_type": optionType
+                    };
+
+                    $.ajax({
+                        url: '../Questions/Index',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        cache: false,
+                        dataType: 'json',
+                        processData: false, // Don't process the files
+                        contentType: "application/json; charset=utf-8", // Set content type to false as jQuery will tell the server its a query string request
+                        success:function(data){
+                            window.location.href = data;
+                        }
+                    });
+                }
+
             });
