@@ -260,13 +260,20 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         private void assignsViewBag_EditQuestion(string optionType)
         {
-            SelectList optType = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
-            if (!optionType.Equals(string.Empty))
+            IEnumerable<OptionType> optionTypes_Collection = optionTypeGateway.SelectAll();
+            List<SelectListItem> optionType_List = new List<SelectListItem>();
+            string optType = "";
+
+            foreach(OptionType optType_Obj in optionTypes_Collection)
             {
-                optType.Single(option => option.Value == optionType).Selected = true;
+                optType = optType_Obj.optiontype;
+                optionType_List.Add(new SelectListItem() { Text = optType, Value =  optType,
+                                    Selected = ( (!string.IsNullOrEmpty(optType)) && optType.Equals(optionType) )
+                                   });
+
             }
 
-            ViewBag.option_type = optType;
+            ViewBag.option_type = optionType_List;
 
 
         }
