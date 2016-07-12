@@ -65,27 +65,33 @@
                 function checkSelectedOptionType() {                 
                     var currOptionType = $("#option_type option:selected").text();
 
-                    if (typeof prevSelectedVal!== 'undefined' && !(currOptionType == prevSelectedVal) 
-                        && !(confirm("Are you sure you want to continue?\n You will lose unsaved changes"))
-                        )
+                    if (typeof prevSelectedVal!== 'undefined')
                     {
-                        $("[value='" + prevSelectedVal + "']").prop("selected", true);
-                        return;
-                    }
+                        if (!(currOptionType == prevSelectedVal) && confirm("Are you sure you want to continue?\n You will lose unsaved changes"))
+                        {
+                            //This also represents that the user confirms and opt to switch option type
+                            //We will then empty ALL options textfield
+                            $("#option_1").val("");
+                            $("#option_2").val("");
+                            $("#option_3").val("");
+                            $("#option_4").val("");
+                        }
 
-                    //This also represents that the user confirms and opt to switch option type
-                    //We will then empty ALL options textfield
-                    $("#option_1").val("");
-                    $("#option_2").val("");
-                    $("#option_3").val("");
-                    $("#option_4").val("");
+                        else
+                        {
+                            $("[value='" + prevSelectedVal + "']").prop("selected", true);
+                            return;
+                        }
+
+                    }
+                
 
                     if ($("#option_type option:selected").text() == "IMAGE") {
-                  
-                        //Disable (Read Only) all the options textfield
+
+                            //Disable (Read Only) all the options textfield
                         disableOptions_TextFields(true);
 
-                        //Enables and shows all the add Image buttons
+                            //Enables and shows all the add Image buttons
                         disableAddImage_Button(false);
 
                         $("#ddl_CorrectOption").change(function () {
@@ -93,13 +99,13 @@
 
                             if (gDragon == "Option1") {
                                 //alert("Picture TEXT Name: " + $("[name='option1_img']").text());
-                                alert("Picture Value Name: " + $("[name='option1_img']").val());
+                                alert("Picture Value Name: " +$("[name='option1_img']").val());
                                 //$("#imgCorrectOpt_Preview").attr("src", $("[name='option1_img']").val());
                                 //$("#imgCorrectOpt_Preview").attr("src", "http://i.telegraph.co.uk/multimedia/archive/03571/potd-squirrel_3571152k.jpg");
                                 //"file:///C:/Users/User/Pictures/Ver%20Ka.jpg"
 
                                 $("#imgCorrectOpt_Preview").attr("src", "file:///C:/Users/Public/Pictures/Sample%20Pictures/Chrysanthemum.jpg");
-                            }
+                        }
 
                         });
 

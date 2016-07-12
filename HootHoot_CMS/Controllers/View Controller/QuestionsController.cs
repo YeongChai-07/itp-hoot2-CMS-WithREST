@@ -178,6 +178,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
+            assignsViewBag_EditQuestion(questions.option_type);
 
             return View(questions);
         }
@@ -228,6 +229,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
+            assignsViewBag_EditQuestion(questions.option_type);
             return View(questions);
         }
 
@@ -254,6 +256,19 @@ namespace HootHoot_CMS.Controllers.View_Controller
             Questions questions = questionsGateway.SelectById(id);
             questionsGateway.Delete(questions);
             return RedirectToAction("Index");
+        }
+
+        private void assignsViewBag_EditQuestion(string optionType)
+        {
+            SelectList optType = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
+            if (!optionType.Equals(string.Empty))
+            {
+                optType.Single(option => option.Value == optionType).Selected = true;
+            }
+
+            ViewBag.option_type = optType;
+
+
         }
 
         private void assignsViewBag_FilteringResults()
