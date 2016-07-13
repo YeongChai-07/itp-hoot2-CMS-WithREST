@@ -221,6 +221,10 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 }
 
                 questionsGateway.Update(questions);
+
+                //Assume : All image options files were uploaded to Azure Blob SUCCESSFULLY.
+                FileHelper.deletesALLUploadFiles(); //Deletes all pictures from the server upload folder
+
                 return RedirectToAction("Index");
             }
 

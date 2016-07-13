@@ -86,7 +86,7 @@
                             //Enables and shows all the add Image buttons
                         disableAddImage_Button(false);
 
-                        $("#ddl_CorrectOption").change(function () {
+                        /*$("#ddl_CorrectOption").change(function () {
                             var gDragon = $("#ddl_CorrectOption option:selected").val();
 
                             if (gDragon == "Option1") {
@@ -99,7 +99,7 @@
                                 $("#imgCorrectOpt_Preview").attr("src", "file:///C:/Users/Public/Pictures/Sample%20Pictures/Chrysanthemum.jpg");
                         }
 
-                        });
+                        });*/
 
                         return;
                     } //End of selectedOptionType IF Block
@@ -197,33 +197,37 @@
                 }
 
                 function assignPictOption_Val(imgOptionName, fileName) {
-                    var optionName;
+                    var optionName_Tuple;
+                    //var imgOptionID = "";
 
-                    if ((optionName = checkOptionName(imgOptionName)) != 0) {
-                        $("#" + optionName).val(fileName);
+                    if ((optionName_Tuple = checkOptionName(imgOptionName)) != 0) {
+                        optionName_Tuple = optionName_Tuple.split(",");
+                        $("#" + optionName_Tuple[0]).val(fileName);
+                        $("#"+ optionName_Tuple[1]).attr("src","../Upload/" + fileName);
+                        //imgOptionID = 
                     }
 
                 }
 
                 function checkOptionName(imgOptionName) {
-                    var optionName = 0;
+                    var optionName_Tuple = 0;
                     if (typeof imgOptionName !== 'undefined' && imgOptionName.length > 0) {
                         if (imgOptionName == "option1_img") {
-                            optionName = "option_1";
+                            optionName_Tuple = "option_1,imgOption1_Preview";
                         }
                         else if (imgOptionName == "option2_img") {
-                            optionName = "option_2";
+                            optionName_Tuple = "option_2,imgOption2_Preview";
                         }
                         else if (imgOptionName == "option3_img") {
-                            optionName = "option_3";
+                            optionName_Tuple = "option_3,imgOption3_Preview";
                         }
                         else if (imgOptionName == "option4_img") {
-                            optionName = "option_4";
+                            optionName_Tuple = "option_4,imgOption4_Preview";
                         }
 
                     } // End of outer if code block
 
-                    return optionName;
+                    return optionName_Tuple;
                 }
 
             }); //End of $(document).ready() function body
