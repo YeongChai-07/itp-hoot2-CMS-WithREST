@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace HootHoot_CMS.Models
 {
-    [Bind(Exclude="question_id")]
+    [Bind(Exclude = "station,questionType,optionType")]
     public class Questions
     {
         public Questions() {

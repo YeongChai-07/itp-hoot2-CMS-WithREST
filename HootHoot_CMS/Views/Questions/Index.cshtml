@@ -6,19 +6,29 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="row">
+    <hr/>Filter Questions record:
+   @using (Html.BeginForm(new HootHoot_CMS.Models.FilterQuestionsViewModel()))
+   {
+        <span class="col-md-3">@Html.DropDownList("filter_station", null, new { @class = "form-control" })</span>
+        <span class="col-md-3">@Html.DropDownList("filter_questiontype", null, new { @class = "form-control" })</span>
+        <span class="col-md-3">@Html.DropDownList("filter_optiontype", null, new { @class = "form-control" })</span>
+        <span class="col-md-3"><button type="submit" class="btn btn-primary" id="filterQns_Result">Filter Results</button></span>
+        
+   }<hr/>
+    
+</div><br/>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.optionType.optiontype)
+            @Html.DisplayNameFor(model => model.option_type)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.questionType.questiontype)
+            @Html.DisplayNameFor(model => model.question_type)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.station.station_name)
+            @Html.DisplayNameFor(model => model.station_id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.question_name)
@@ -35,12 +45,6 @@
         <th>
             @Html.DisplayNameFor(model => model.option_4)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.correct_option)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.answering_duration)
-        </th>
         <th></th>
     </tr>
 
@@ -53,29 +57,45 @@
             @Html.DisplayFor(modelItem => item.questionType.questiontype)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.station.station_name)
+            @Html.DisplayFor(modelItem => item.station_id)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.question_name)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.option_1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.option_2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.option_3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.option_4)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.correct_option)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.answering_duration)
-        </td>
+        @{
+            if (item.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+            {
+                <td>
+                    <img src=@item.option_1 alt="Option 1 Image" width="100" height="100" />
+                </td>
+                <td>
+                    <img src=@item.option_2 alt="Option 2 Image" width="100" height="100" />
+                </td>
+                <td>
+                    <img src=@item.option_3 alt="Option 3 Image" width="100" height="100" />
+                </td>
+                <td>
+                    <img src=@item.option_4 alt="Option 4 Image" width="100" height="100" />
+                </td>
+
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.option_1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.option_2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.option_3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.option_4)
+                </td>
+            }
+        }
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.question_id }) |
             @Html.ActionLink("Details", "Details", new { id=item.question_id }) |

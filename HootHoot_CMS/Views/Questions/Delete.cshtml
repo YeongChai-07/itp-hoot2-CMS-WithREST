@@ -12,27 +12,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.optionType.optiontype)
+            @Html.DisplayNameFor(model => model.option_type)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.optionType.optiontype)
+            @Html.DisplayFor(model => model.option_type)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.questionType.questiontype)
+            @Html.DisplayNameFor(model => model.question_type)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.questionType.questiontype)
+            @Html.DisplayFor(model => model.question_type)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.station.station_name)
+            @Html.DisplayNameFor(model => model.station_id)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.station.station_name)
+            @Html.DisplayFor(model => model.station_id)
         </dd>
 
         <dt>
@@ -43,38 +43,73 @@
             @Html.DisplayFor(model => model.question_name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.option_1)
-        </dt>
+        @{
+            if (Model.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_1)
+                </dt>
+                <dd>
+                    <img src=@Model.option_1 alt="Option 1 Image" width="100" height="100" />
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_2)
+                </dt>
+                <dd>
+                    <img src=@Model.option_2 alt="Option 2 Image" width="100" height="100" />
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_3)
+                </dt>
+                <dd>
+                    <img src=@Model.option_3 alt="Option 3 Image" width="100" height="100" />
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_4)
+                </dt>
+                <dd>
+                    <img src=@Model.option_4 alt="Option 4 Image" width="100" height="100" />
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.option_1)
-        </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_1)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.option_2)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.option_1)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.option_2)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_2)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.option_3)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.option_2)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.option_3)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_3)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.option_4)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.option_3)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.option_4)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.option_4)
+                </dt>
 
+                <dd>
+                    @Html.DisplayFor(model => model.option_4)
+                </dd>
+
+            }
+        }
+
+        
         <dt>
             @Html.DisplayNameFor(model => model.correct_option)
         </dt>

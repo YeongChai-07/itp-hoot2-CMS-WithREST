@@ -21,5 +21,19 @@ namespace HootHoot_CMS.DAL
                 .ToList();*/
             return qnsGenerate.getRandomItem().AsEnumerable();
         }
+        public IEnumerable<string> GetStationName_StationID()
+        {
+            //First we will retrieve ALL Distinct station_id from the Questions Table
+            /*var distinctStationID = (from question in dbData
+                                     select question);*/
+            IEnumerable<Stations> allStations = new StationDataGateway().SelectAll();
+            var stationNames = (from station in allStations
+                                join question in dbData
+                                on station.station_id equals question.station_id
+                                select station.station_name);
+
+            return stationNames.Distinct();
+
+        }
     }
 }

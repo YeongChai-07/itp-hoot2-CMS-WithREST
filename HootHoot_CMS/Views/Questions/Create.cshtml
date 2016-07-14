@@ -1,16 +1,21 @@
 ﻿@model HootHoot_CMS.Models.Questions
 
 @{
+    ViewBag.option_type = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
+    ViewBag.question_type = new SelectList(new HootHoot_CMS.DAL.QuestionTypeDataGateway().SelectAll(), "questiontype", "questiontype");
+    ViewBag.station_id = new SelectList(new HootHoot_CMS.DAL.StationDataGateway().SelectAll(), "station_id", "station_name");
+    ViewBag.correct_option = Constants.CORRECTOPTION_LIST;
+
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Questions</h4>
         <hr />
@@ -21,6 +26,7 @@
                 @Html.DropDownList("station_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.station_id, "", new { @class = "text-danger" })
             </div>
+                
         </div>
 
         <div class="form-group">
@@ -50,44 +56,60 @@
         <div class="form-group">
             @Html.LabelFor(model => model.option_1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <img id="imgOption1_Preview" alt="Option 1 Image Preview" width="100" height="100"
+                     src="../../Images/NoPreview.png" />
                 @Html.EditorFor(model => model.option_1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_1, "", new { @class = "text-danger" })
-                <input type="file" name="option1_img" />
+                <input type="file" name="option1_img" /><br />
+                <input type="button" id="addImg_Option1" value="Add Image for Option 1" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.option_2, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <img id="imgOption2_Preview" alt="Option 2 Image Preview" width="100" height="100"
+                     src="../../Images/NoPreview.png" />
                 @Html.EditorFor(model => model.option_2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_2, "", new { @class = "text-danger" })
-                <input type="file" name="option2_img" />
+                <input type="file" name="option2_img" /><br />
+                <input type="button" id="addImg_Option2" value="Add Image for Option 2" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.option_3, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <img id="imgOption3_Preview" alt="Option 3 Image Preview" width="100" height="100" 
+                     src="../../Images/NoPreview.png" />
                 @Html.EditorFor(model => model.option_3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_3, "", new { @class = "text-danger" })
-                <input type="file" name="option3_img" />
+                <input type="file" name="option3_img" /><br />
+                <input type="button" id="addImg_Option3" value="Add Image for Option 3" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.option_4, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <img id="imgOption4_Preview" alt="Option 4 Image Preview" width="100" height="100"
+                     src="../../Images/NoPreview.png" />
                 @Html.EditorFor(model => model.option_4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.option_4, "", new { @class = "text-danger" })
-                <input type="file" name="option4_img" />
+                <input type="file" name="option4_img" /><br />
+                <input type="button" id="addImg_Option4" value="Add Image for Option 4" class="btn btn-default" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.correct_option, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.correct_option, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-4">
+                @Html.DropDownList("correct_option", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.correct_option, "", new { @class = "text-danger" })
+                <!--img src="" alt="Correct Option Preview" id="imgCorrectOpt_Preview" /-->
+            </div>
+            <div class="col-md-6">
+                <img id="imgCorrectOpt_Preview" width="100" height="100" />
             </div>
         </div>
 
@@ -113,37 +135,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $("[name='option1_img']").hide();
-                $("[name='option2_img']").hide();
-                $("[name='option3_img']").hide();
-                $("[name='option4_img']").hide();
-
-                $("#option_type").change(function () {
-                    var selectedOptionType = $("#option_type option:selected").text();
-                    //alert("Selected Value: " + selectedOptionType);
-
-                    if(selectedOptionType == "IMG")
-                    {
-                        alert("IMG is SELECTED!!!");
-                        //Perform some IMG logic here
-                        $("[name='option1_img']").show();
-                        $("[name='option2_img']").show();
-                        $("[name='option3_img']").show();
-                        $("[name='option4_img']").show();
-
-                        return;
-                    }
-
-                    $("[name='option1_img']").hide();
-                    $("[name='option2_img']").hide();
-                    $("[name='option3_img']").hide();
-                    $("[name='option4_img']").hide();
-
-                });
-
-            });
-    </script>
 }
