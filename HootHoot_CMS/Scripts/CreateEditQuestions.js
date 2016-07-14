@@ -45,12 +45,45 @@
 
                 });//End optionType change event
 
+                $("#correct_option").change(function () {
+                    //Get its selected value
+                    var selectedCorrectOption = $("#correct_option option:selected").text();
+                    var imageToShow = "";
+                    if(selectedCorrectOption == "Option 1")
+                    {
+                        imageToShow = $("#imgOption1_Preview").attr("src");
+                    }
+                    else if (selectedCorrectOption == "Option 2")
+                    {
+                        imageToShow = $("#imgOption2_Preview").attr("src");
+                    }
+                    else if(selectedCorrectOption == "Option 3")
+                    {
+                        imageToShow = $("#imgOption3_Preview").attr("src");
+                    }
+                    else if(selectedCorrectOption == "Option 4")
+                    {
+                        imageToShow = $("#imgOption4_Preview").attr("src");
+                    }
+
+                    //Now let's assign the correct option image preview src
+                    $("#imgCorrectOpt_Preview").attr("src", imageToShow);
+
+                });
+
 
                 //Hides ALL file input controls BY DEFAULT
                 $("[name='option1_img']").hide();
                 $("[name='option2_img']").hide();
                 $("[name='option3_img']").hide();
                 $("[name='option4_img']").hide();
+
+                //Hides ALL img element for all options preview BY DEFAULT
+                $("#imgOption1_Preview").hide();
+                $("#imgOption2_Preview").hide();
+                $("#imgOption3_Preview").hide();
+                $("#imgOption4_Preview").hide();
+                $("#imgCorrectOpt_Preview").hide();
 
                 checkSelectedOptionType();
 
@@ -86,21 +119,6 @@
                             //Enables and shows all the add Image buttons
                         disableAddImage_Button(false);
 
-                        /*$("#ddl_CorrectOption").change(function () {
-                            var gDragon = $("#ddl_CorrectOption option:selected").val();
-
-                            if (gDragon == "Option1") {
-                                //alert("Picture TEXT Name: " + $("[name='option1_img']").text());
-                                alert("Picture Value Name: " +$("[name='option1_img']").val());
-                                //$("#imgCorrectOpt_Preview").attr("src", $("[name='option1_img']").val());
-                                //$("#imgCorrectOpt_Preview").attr("src", "http://i.telegraph.co.uk/multimedia/archive/03571/potd-squirrel_3571152k.jpg");
-                                //"file:///C:/Users/User/Pictures/Ver%20Ka.jpg"
-
-                                $("#imgCorrectOpt_Preview").attr("src", "file:///C:/Users/Public/Pictures/Sample%20Pictures/Chrysanthemum.jpg");
-                        }
-
-                        });*/
-
                         return;
                     } //End of selectedOptionType IF Block
 
@@ -134,6 +152,12 @@
                         $("#addImg_Option3").show();
                         $("#addImg_Option4").show();
 
+                        $("#imgOption1_Preview").show();
+                        $("#imgOption2_Preview").show();
+                        $("#imgOption3_Preview").show();
+                        $("#imgOption4_Preview").show();
+                        $("#imgCorrectOpt_Preview").show();
+
                         return;
                     }
 
@@ -141,6 +165,21 @@
                     $("#addImg_Option2").hide();
                     $("#addImg_Option3").hide();
                     $("#addImg_Option4").hide();
+
+                    //We will empty all the img element src path
+                    $("#imgOption1_Preview").attr("src", "");
+                    $("#imgOption2_Preview").attr("src", "");
+                    $("#imgOption3_Preview").attr("src", "");
+                    $("#imgOption4_Preview").attr("src", "");
+                    $("#imgCorrectOpt_Preview").attr("src", "");
+
+                    //Hide the img element for all options preview
+                    //We will empty all the img element src path
+                    $("#imgOption1_Preview").hide();
+                    $("#imgOption2_Preview").hide();
+                    $("#imgOption3_Preview").hide();
+                    $("#imgOption4_Preview").hide();
+                    $("#imgCorrectOpt_Preview").hide();
 
                 }
 

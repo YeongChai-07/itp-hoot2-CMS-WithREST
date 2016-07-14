@@ -174,7 +174,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
-            assignsViewBag_EditQuestion(questions.option_type);
+            assignsViewBag_EditQuestion(questions.station_id, questions.question_type, questions.option_type);
 
             return View(questions);
         }
@@ -229,7 +229,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
-            assignsViewBag_EditQuestion(questions.option_type);
+            assignsViewBag_EditQuestion(questions.station_id, questions.question_type, questions.option_type);
             return View(questions);
         }
 
@@ -258,8 +258,32 @@ namespace HootHoot_CMS.Controllers.View_Controller
             return RedirectToAction("Index");
         }
 
-        private void assignsViewBag_EditQuestion(string optionType)
+        private void assignsViewBag_EditQuestion(string stationID, string questionType, string optionType)
         {
+            IEnumerable<Stations> stations_Collection = stationGateway.SelectAll();
+            List<SelectListItem> stations_List = new List<SelectListItem>();
+            string station_id = "";
+
+            foreach(Stations station_Obj in stations_Collection)
+            {
+                station_id = station_Obj.station_id;
+                stations_List.Add(new SelectListItem() { Text = station_Obj.station_name, Value = station_id,
+                                  Selected = ( (!string.IsNullOrEmpty(station_id)) && station_id.Equals(stationID) )
+                                 });
+            }
+
+            IEnumerable<QuestionType> questionTypes_Collection = questionTypeGateway.SelectAll();
+            List<SelectListItem> questionType_List = new List<SelectListItem>();
+            string qnsType = "";
+
+            foreach (QuestionType qnsType_Obj in questionTypes_Collection)
+            {
+                qnsType = qnsType_Obj.questiontype;
+                questionType_List.Add(new SelectListItem() { Text = qnsType, Value = qnsType,
+                                Selected = ((!string.IsNullOrEmpty(qnsType)) && qnsType.Equals(questionType))
+                                });
+            }
+
             IEnumerable<OptionType> optionTypes_Collection = optionTypeGateway.SelectAll();
             List<SelectListItem> optionType_List = new List<SelectListItem>();
             string optType = "";
@@ -273,6 +297,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             }
 
+            ViewBag.station_id = stations_List;
+            ViewBag.question_type = questionType_List;
             ViewBag.option_type = optionType_List;
 
 
