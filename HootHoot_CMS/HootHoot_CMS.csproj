@@ -223,8 +223,6 @@
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TEMP_FileUploadController.cs" />
-    <Compile Include="Controllers\TEMP_FilesHelper.cs" />
     <Compile Include="Controllers\REST_API\FunFactsController.cs" />
     <Compile Include="Controllers\REST_API\QuestionsController.cs" />
     <Compile Include="Controllers\REST_API\StationsController.cs" />
@@ -262,6 +260,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\NoPreview.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\hootSq-Mantro - FTP.pubxml" />

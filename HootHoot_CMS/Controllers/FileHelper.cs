@@ -58,9 +58,30 @@ namespace HootHoot_CMS.Controllers
             return System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + fileName);
         }
 
-        public static void checkFileExt_Valid()
+        public static bool checkFileExt_Valid(string fileName)
         {
+            string mimeType = MimeMapping.GetMimeMapping(Constants.UPLOAD_FOLDER_PATH + fileName).ToUpper();
+            bool mimeValid = false;
 
+            for(byte i=0;i<Constants.ACCEPTED_MIME_TYPE.Length;i++)
+            {
+                if (mimeType.Equals(Constants.ACCEPTED_MIME_TYPE[i]) )
+                { mimeValid = true; break; }
+            }
+
+            return mimeValid;
+        }
+
+        public static bool checkImageDimension_Valid(string fileName)
+        {
+            bool dimens_Valid = false;
+
+            using (System.Drawing.Image tempImage = System.Drawing.Image.FromFile(Constants.UPLOAD_FOLDER_PATH + fileName))
+            {
+                dimens_Valid = (tempImage.Width <= Constants.PIC_MAX_WIDTH) && (tempImage.Height <= Constants.PIC_MAX_HEIGHT);
+            }
+
+            return dimens_Valid;
         }
 
         public static bool checkFileExists_Blob(string optionValue)
@@ -110,12 +131,5 @@ namespace HootHoot_CMS.Controllers
 
         }
     }
-
-
-
-    /*public class JSONDataFormatter
-    {
-
-    }*/
 
 }

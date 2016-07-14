@@ -21,12 +21,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
         private StationDataGateway stationGateway = new StationDataGateway();
 
         // GET: Questions
-        /*public ActionResult Index()
-        {
-            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
-            return View(questions.ToList());
-        }*/
-
         public ActionResult Index()
         {
             var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
@@ -115,14 +109,24 @@ namespace HootHoot_CMS.Controllers.View_Controller
                         if (!FileHelper.checkFileExists_Server(listOfFiles[i]))
                         {
                             //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
-                            ModelState.AddModelError(
-                                    ModelState.Keys.Single(field => field == "option_" + (i + 1)),
-                                    Constants.FILE_UPLOAD_NOT_FOUND);
+                            setModelState_Error(i, Constants.FILE_UPLOAD_NOT_FOUND);
+                            continue; //Progress on to the next loop, don't process the code on the bottom
 
                         }
 
-                        //TODO: Include checks on the file type (extension) to ensure that it is an image
+                        //Checks on the file type (extension) to ensure that it is an image
+                        if(!FileHelper.checkFileExt_Valid(listOfFiles[i]) )
+                        {
+                            setModelState_Error(i, Constants.FILE_TYPE_NOT_ACCEPTED);
+                            continue;
+                        }
 
+                        //Checks on the width and height dimension of the image file
+                        if(!FileHelper.checkImageDimension_Valid(listOfFiles[i]) )
+                        {
+                            setModelState_Error(i, Constants.PIC_FILE_EXCEEDS_DIMENSION);
+                            continue;
+                        }
 
                     } // End FOR-Loop
 
@@ -344,27 +348,44 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 {
                     if (isPict_Option && !FileHelper.checkFileExists_Blob(optionValues_Arr[i]))
                     {
-                        ModelState.AddModelError(
-                                    ModelState.Keys.Single(field => field == "option_" + (i + 1)),
-                                    Constants.BLOB_PIC_NOT_FOUND);
+                        setModelState_Error(i, Constants.BLOB_PIC_NOT_FOUND);
                         //passCheck = false;
                     }
+
                     else if (!isPict_Option)
                     {
-                        ModelState.AddModelError(
-                                ModelState.Keys.Single(field => field == "option_" + (i + 1)),
-                                Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                        setModelState_Error(i, Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                         //passCheck = false;
                     } //End Else-If
 
-                }
+                } //End of containsBlob_Val[i] IF-Block
+
                 else if(hasInternetAddress(optionValues_Arr[i]) )
                 {
-                        ModelState.AddModelError(
-                                ModelState.Keys.Single(field => field == "option_" + (i + 1)),
-                                (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                    setModelState_Error(i, (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                 }
-            }
+
+                else if (!FileHelper.checkFileExists_Server(optionValues_Arr[i]))
+                {
+                    //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
+                    setModelState_Error(i, Constants.FILE_UPLOAD_NOT_FOUND);
+                    continue; //Progress on to the next loop, don't process the code on the bottom
+
+                }
+                //Checks on the file type (extension) to ensure that it is an image
+                else if (!FileHelper.checkFileExt_Valid(optionValues_Arr[i]))
+                {
+                    setModelState_Error(i, Constants.FILE_TYPE_NOT_ACCEPTED);
+                    continue;
+                }
+                //Checks on the width and height dimension of the image file
+                else if (!FileHelper.checkImageDimension_Valid(optionValues_Arr[i]))
+                {
+                    setModelState_Error(i, Constants.PIC_FILE_EXCEEDS_DIMENSION);
+                    continue;
+                }
+
+            }//End of For-Loop Block
         }
 
         private bool hasInternetAddress(string optionValue)
@@ -378,6 +399,13 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 }
             }
             return false;
+        }
+
+        private void setModelState_Error(byte index, string errorMsg)
+        {
+            ModelState.AddModelError(
+                        ModelState.Keys.Single(field => field == "option_" + (index + 1)),
+                            errorMsg);
         }
 
         protected override void Dispose(bool disposing)

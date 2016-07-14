@@ -87,6 +87,16 @@
 
                 checkSelectedOptionType();
 
+                function resetsImagePreview()
+                {
+                    $("#imgOption1_Preview").attr("src", "../Images/NoPreview.png");
+                    $("#imgOption2_Preview").attr("src", "../Images/NoPreview.png");
+                    $("#imgOption3_Preview").attr("src", "../Images/NoPreview.png");
+                    $("#imgOption4_Preview").attr("src", "../Images/NoPreview.png");
+                    $("#imgCorrectOpt_Preview").attr("src", "../Images/NoPreview.png");
+
+                }
+
                 function checkSelectedOptionType() {                 
                     var currOptionType = $("#option_type option:selected").text();
 
@@ -167,11 +177,7 @@
                     $("#addImg_Option4").hide();
 
                     //We will empty all the img element src path
-                    $("#imgOption1_Preview").attr("src", "");
-                    $("#imgOption2_Preview").attr("src", "");
-                    $("#imgOption3_Preview").attr("src", "");
-                    $("#imgOption4_Preview").attr("src", "");
-                    $("#imgCorrectOpt_Preview").attr("src", "");
+                    resetsImagePreview();
 
                     //Hide the img element for all options preview
                     //We will empty all the img element src path
