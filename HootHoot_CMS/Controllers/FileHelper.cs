@@ -18,6 +18,8 @@ namespace HootHoot_CMS.Controllers
 
             if (uploadSuccess = checksFileSize_ExceedsLimit(fileSize))
             {
+                setupUploadFolder_IfNotAvailable();
+
                 fileToUpload.SaveAs(Constants.UPLOAD_FOLDER_PATH + fileName);
                 //uploadSuccess will be TRUE automatically if everything goes fine
             }
@@ -28,6 +30,16 @@ namespace HootHoot_CMS.Controllers
         private static bool checksFileSize_ExceedsLimit(int fileSize)
         {
             return (fileSize <= Constants._4MB_IN_BYTES);
+        }
+
+        private static void setupUploadFolder_IfNotAvailable()
+        {
+            if (!System.IO.Directory.Exists(Constants.UPLOAD_FOLDER_PATH))
+            {
+                //This represent that the upload directory isn't created in the web server,
+                //let's have it created first
+                System.IO.Directory.CreateDirectory(Constants.UPLOAD_FOLDER_PATH);
+            }
         }
 
         private static string fileName_Correction(string fileName)

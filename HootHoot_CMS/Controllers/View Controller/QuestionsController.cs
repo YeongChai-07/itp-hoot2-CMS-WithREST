@@ -105,28 +105,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     //iterate each item in listOfFiles to check whether the file exists in web server
                     for (byte i = 0; i < listOfFiles.Length; i++)
                     {
-
-                        if (!FileHelper.checkFileExists_Server(listOfFiles[i]))
-                        {
-                            //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
-                            setModelState_Error(i, Constants.FILE_UPLOAD_NOT_FOUND);
-                            continue; //Progress on to the next loop, don't process the code on the bottom
-
-                        }
-
-                        //Checks on the file type (extension) to ensure that it is an image
-                        if(!FileHelper.checkFileExt_Valid(listOfFiles[i]) )
-                        {
-                            setModelState_Error(i, Constants.FILE_TYPE_NOT_ACCEPTED);
-                            continue;
-                        }
-
-                        //Checks on the width and height dimension of the image file
-                        if(!FileHelper.checkImageDimension_Valid(listOfFiles[i]) )
-                        {
-                            setModelState_Error(i, Constants.PIC_FILE_EXCEEDS_DIMENSION);
-                            continue;
-                        }
+                        checkImageFileUpload_Success(i, listOfFiles[i]);
 
                     } // End FOR-Loop
 
@@ -339,6 +318,25 @@ namespace HootHoot_CMS.Controllers.View_Controller
             ViewBag.filter_optiontype = optionTypeFilter_List;
         }
 
+        private void checkImageFileUpload_Success(byte index, string fileName)
+        {
+            if (!FileHelper.checkFileExists_Server(fileName))
+            {
+                //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
+                setModelState_Error(index, Constants.FILE_UPLOAD_NOT_FOUND);
+            }
+            //Checks on the file type (extension) to ensure that it is an image
+            else if (!FileHelper.checkFileExt_Valid(fileName))
+            {
+                setModelState_Error(index, Constants.FILE_TYPE_NOT_ACCEPTED);
+            }
+            //Checks on the width and height dimension of the image file
+            else if (!FileHelper.checkImageDimension_Valid(fileName))
+            {
+                setModelState_Error(index, Constants.PIC_FILE_EXCEEDS_DIMENSION);
+            }
+        }
+
         private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option )
         {
             
@@ -365,24 +363,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     setModelState_Error(i, (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                 }
 
-                else if (!FileHelper.checkFileExists_Server(optionValues_Arr[i]))
+                else if (isPict_Option)
                 {
-                    //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
-                    setModelState_Error(i, Constants.FILE_UPLOAD_NOT_FOUND);
-                    continue; //Progress on to the next loop, don't process the code on the bottom
-
-                }
-                //Checks on the file type (extension) to ensure that it is an image
-                else if (!FileHelper.checkFileExt_Valid(optionValues_Arr[i]))
-                {
-                    setModelState_Error(i, Constants.FILE_TYPE_NOT_ACCEPTED);
-                    continue;
-                }
-                //Checks on the width and height dimension of the image file
-                else if (!FileHelper.checkImageDimension_Valid(optionValues_Arr[i]))
-                {
-                    setModelState_Error(i, Constants.PIC_FILE_EXCEEDS_DIMENSION);
-                    continue;
+                    checkImageFileUpload_Success(i, optionValues_Arr[i]);
                 }
 
             }//End of For-Loop Block
