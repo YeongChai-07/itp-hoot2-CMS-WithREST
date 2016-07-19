@@ -13,8 +13,10 @@ namespace HootHoot_CMS
         public static string AZURE_BLOB_STORAGE_FOLDER = "https://hootsqpicturestorage.blob.core.windows.net/hootsq-image-options/";
         public static string HOOTSQ_IMAGE_BLOB_CONTAINER = "hootsq-image-options";
         public const string QNS_IMAGE_OPTION_TYPE = "IMAGE";
+        public const int MAX_QUESTION_ITEMS = 10;
         public const byte OPTIONS_PER_QNS = 4;
         public const int _4MB_IN_BYTES = 4194304;
+        public const byte MAX_RANDOM_FUNFACTS = 1;
 
         //Image Option type picture file MAX dimensions properties
         public static int PIC_MAX_WIDTH = 500;

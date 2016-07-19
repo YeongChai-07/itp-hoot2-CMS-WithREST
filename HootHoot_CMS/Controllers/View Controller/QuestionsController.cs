@@ -45,9 +45,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             if (station_Filter != null && !station_Filter.Equals("NOFILTER"))
             {
-                //Let's retrieve that unique station_id from the chosen station
-                string stationID = stationGateway.GetStationIDByStationName_StationType(station_Filter, "HH");
-                questions = questions.Where(qns => qns.station_id == stationID);
+                //Now the value of station_Filter respresents the value of the station_id
+                //This is due to each item in filterStation select list holds the value of station_id
+                questions = questions.Where(qns => qns.station_id == station_Filter);
             }
 
             if (questionType_Filter != null && !questionType_Filter.Equals("NOFILTER"))
@@ -289,13 +289,14 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         private void assignsViewBag_FilteringResults()
         {
-            IEnumerable<string> stationNames = questionsGateway.GetStationName_StationID();
+            //IEnumerable<string> stationNames = questionsGateway.GetStationName_StationID();
+            IEnumerable<KeyValuePair<string,string>> stationsKVP = questionsGateway.GetStationHasQuestions();
             List<SelectListItem> stationNamesFilter_List = new List<SelectListItem>();
             stationNamesFilter_List.Add(new SelectListItem() { Text = "===== Filter By Station ====", Value = "NOFILTER" });
 
-            foreach (string stationName in stationNames)
+            foreach (KeyValuePair<string,string> station in stationsKVP)
             {
-                stationNamesFilter_List.Add(new SelectListItem() { Text = stationName, Value = stationName });
+                stationNamesFilter_List.Add(new SelectListItem() { Text = station.Value, Value = station.Key });
             }
 
             List<SelectListItem> questionTypeFilter_List = new List<SelectListItem>();

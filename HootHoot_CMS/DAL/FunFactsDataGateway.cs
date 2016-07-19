@@ -20,7 +20,7 @@ namespace HootHoot_CMS.DAL
         private FunFacts getRandom_FunFact(List<FunFacts> inFunFacts)
         {
             RandomItem_Generator<FunFacts> random = new RandomItem_Generator<FunFacts>
-                (inFunFacts, 1);
+                (inFunFacts, Constants.MAX_RANDOM_FUNFACTS);
             random.preparesRandomIndex();
 
             return random.getRandomItem().First();
