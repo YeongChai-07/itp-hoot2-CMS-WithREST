@@ -1,8 +1,4 @@
-﻿/*using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
@@ -11,10 +7,8 @@ namespace HootHoot_CMS.Models
 {
     public class Stations
     {
-        public Stations()
-        {
-            questions = new List<Questions>();
-        }
+        public Stations(){ }
+
         [Key]
         public string station_id { get; set; }
         public string station_name { get; set; }

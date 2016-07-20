@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Data.Entity;
 using HootHoot_CMS.Models;
 
 namespace HootHoot_CMS.DAL
 {
     public class QuestionsDataGateway:DataGateway<Questions>
     {
+        public IEnumerable<Questions> SelectAll_Joint()
+        {
+            return dbData.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station).AsEnumerable();
+        }
+        public override Questions SelectById(int? id)
+        {
+            return SelectAll_Joint().Where(question => question.question_id == id).First();
+        }
         public IEnumerable<Questions> SelectByStationID(string stationID)
         {
             RandomItem_Generator<Questions> qnsGenerate = new RandomItem_Generator<Questions>

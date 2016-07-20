@@ -1,15 +1,8 @@
-﻿/*using System;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Net.Http;*/
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
+
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 
@@ -38,6 +31,11 @@ namespace HootHoot_CMS.Controllers.REST_API
         public FunFacts GetFunFact(string station_name)
         {
             return funfactsGateway.SelectByStationName(station_name);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
 
 

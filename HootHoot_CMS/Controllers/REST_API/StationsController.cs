@@ -1,18 +1,10 @@
-﻿/*using System;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Net.Http;*/
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
+
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
-using System.Net.Http;
 
 namespace HootHoot_CMS.Controllers.REST_API
 {
@@ -43,105 +35,101 @@ namespace HootHoot_CMS.Controllers.REST_API
             return Ok(stations);
         }
 
-        public HttpResponseMessage GetAll()
+        protected override void Dispose(bool disposing)
         {
-            var resp = new HttpResponseMessage()
-            {
-                Content = new StringContent("GET: Test message")
-            };
-            return resp;
+            base.Dispose(disposing);
         }
 
-            // COMMENTED OUT Codes (NOT IN USE CODES) 
+        // COMMENTED OUT Codes (NOT IN USE CODES) 
 
-            /* private HootHootDbContext db = new HootHootDbContext();
+        /* private HootHootDbContext db = new HootHootDbContext();
 
-            // UPDATE Stations by station ID
-            // PUT: api/Stations/5
-            [ResponseType(typeof(void))]
-            public IHttpActionResult PutStations(string id, Stations stations)
+        // UPDATE Stations by station ID
+        // PUT: api/Stations/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutStations(string id, Stations stations)
+        {
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                if ( ! id.Equals(stations.station_id) )
-                {
-                    return BadRequest();
-                }
-
-                db.Entry(stations).State = EntityState.Modified;
-
-
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StationsExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return StatusCode(HttpStatusCode.NoContent);
+                return BadRequest(ModelState);
             }
 
-
-            // CREATE new Station
-            // POST: api/Stations
-            [ResponseType(typeof(Stations))]
-            public IHttpActionResult PostStations(Stations stations)
+            if ( ! id.Equals(stations.station_id) )
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                return BadRequest();
+            }
 
-                db.Stations.Add(stations);
+            db.Entry(stations).State = EntityState.Modified;
+
+
+            try
+            {
                 db.SaveChanges();
-
-                return CreatedAtRoute("DefaultApi", new { id = stations.station_id }, stations);
             }
-
-            // DELETE Stations
-            // DELETE: api/Stations/5
-            [ResponseType(typeof(Stations))]
-            public IHttpActionResult DeleteStations(int id)
+            catch (DbUpdateConcurrencyException)
             {
-                Stations stations = db.Stations.Find(id);
-                if (stations == null)
+                if (!StationsExists(id))
                 {
                     return NotFound();
                 }
-
-                db.Stations.Remove(stations);
-                db.SaveChanges();
-
-                return Ok(stations);
-            }
-
-            protected override void Dispose(bool disposing)
-            {
-                if (disposing)
+                else
                 {
-                    db.Dispose();
+                    throw;
                 }
-                base.Dispose(disposing);
             }
 
-            private bool StationsExists(string id)
-            {
-                return db.Stations.Count(e => e.station_id == id) > 0;
-            }
-
-            */
+            return StatusCode(HttpStatusCode.NoContent);
         }
+
+
+        // CREATE new Station
+        // POST: api/Stations
+        [ResponseType(typeof(Stations))]
+        public IHttpActionResult PostStations(Stations stations)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Stations.Add(stations);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = stations.station_id }, stations);
+        }
+
+        // DELETE Stations
+        // DELETE: api/Stations/5
+        [ResponseType(typeof(Stations))]
+        public IHttpActionResult DeleteStations(int id)
+        {
+            Stations stations = db.Stations.Find(id);
+            if (stations == null)
+            {
+                return NotFound();
+            }
+
+            db.Stations.Remove(stations);
+            db.SaveChanges();
+
+            return Ok(stations);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool StationsExists(string id)
+        {
+            return db.Stations.Count(e => e.station_id == id) > 0;
+        }
+
+        */
+    }
 }
  

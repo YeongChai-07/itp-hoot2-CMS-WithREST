@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 using HootHoot_CMS.Blobs;
@@ -14,7 +12,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
 {
     public class QuestionsController : Controller
     {
-        private HootHootDbContext db = new HootHootDbContext();
         private QuestionsDataGateway questionsGateway = new QuestionsDataGateway();
         private QuestionTypeDataGateway questionTypeGateway = new QuestionTypeDataGateway();
         private OptionTypeDataGateway optionTypeGateway = new OptionTypeDataGateway();
@@ -23,7 +20,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions
         public ActionResult Index()
         {
-            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
+            var questions = questionsGateway.SelectAll_Joint();
 
             assignsViewBag_FilteringResults();
 
@@ -33,7 +30,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [HttpPost]
         public ActionResult Index(FilterQuestionsViewModel filterQuestions)
         {
-            var questions = db.Questions.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station);
+            var questions = questionsGateway.SelectAll_Joint();
 
             assignsViewBag_FilteringResults();
 
@@ -74,6 +71,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return HttpNotFound();
             }
+
             return View(questions);
         }
 
@@ -228,6 +226,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 return HttpNotFound();
             }
+
             return View(questions);
         }
 
@@ -394,10 +393,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

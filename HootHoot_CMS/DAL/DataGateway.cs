@@ -1,7 +1,5 @@
-﻿//using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-//using System.Web;
 using System.Data.Entity;
 
 namespace HootHoot_CMS.DAL
@@ -16,12 +14,12 @@ namespace HootHoot_CMS.DAL
             this.dbData = dbContext.Set<T>();
         }
 
-        public IEnumerable<T> SelectAll()
+        public virtual IEnumerable<T> SelectAll()
         {
             return dbData.AsEnumerable<T>();
         }
     
-        public T SelectById(int? id)
+        public virtual T SelectById(int? id)
         {
             return dbData.Find(id);
         }
@@ -42,7 +40,9 @@ namespace HootHoot_CMS.DAL
         {
             dbData.Remove(obj);
             dbContext.Entry(obj).State = EntityState.Deleted;
+
             dbContext.SaveChanges();
+            
         }
 
     }

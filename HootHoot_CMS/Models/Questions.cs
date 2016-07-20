@@ -1,10 +1,4 @@
-﻿/*using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;*/
-//using System.ComponentModel;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -14,17 +8,8 @@ namespace HootHoot_CMS.Models
     [Bind(Exclude = "station,questionType,optionType")]
     public class Questions
     {
-        public Questions() {
-            /*questionType_List = new List<SelectListItem>();
-            optionType_List = new List<SelectListItem>();
+        public Questions(){ }
 
-            questionType_List.Add(new SelectListItem { Text = "Education", Value = "EDU", Selected = false });*/
-        }
-
-        /*[NotMapped]
-        public List<SelectListItem> questionType_List;
-        [NotMapped]
-        public List<SelectListItem> optionType_List;*/
         [Key]
         public int question_id { get; set; }
 
@@ -36,11 +21,11 @@ namespace HootHoot_CMS.Models
         [Display (Name="Question:")]
         public string question_name { get; set; }
 
-        [Required(ErrorMessage = "Please enter the type of question .")]
+        [Required]
         [Display(Name="Type of question:")]
         public string question_type { get; set; }
 
-        [Required(ErrorMessage = "Please select the type of options this question has .")]
+        [Required]
         [Display(Name= "Type of Options:")]
         public string option_type { get; set; }
 
@@ -60,7 +45,7 @@ namespace HootHoot_CMS.Models
         [Display(Name = "Option 4:")]
         public string option_4 { get; set; }
 
-        [Required(ErrorMessage = "Please provide the CORRECT option for this question .")]
+        [Required]
         [Display(Name = "Correct Option:")]
         public string correct_option { get; set; }
 
