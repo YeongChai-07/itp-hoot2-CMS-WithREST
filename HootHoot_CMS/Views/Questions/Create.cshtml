@@ -1,9 +1,6 @@
 ﻿@model HootHoot_CMS.Models.Questions
 
 @{
-    ViewBag.option_type = new SelectList(new HootHoot_CMS.DAL.OptionTypeDataGateway().SelectAll(), "optiontype", "optiontype");
-    ViewBag.question_type = new SelectList(new HootHoot_CMS.DAL.QuestionTypeDataGateway().SelectAll(), "questiontype", "questiontype");
-    ViewBag.station_id = new SelectList(new HootHoot_CMS.DAL.StationDataGateway().SelectAll(), "station_id", "station_name");
     ViewBag.correct_option = Constants.CORRECTOPTION_LIST;
 
     ViewBag.Title = "Create";

@@ -16,6 +16,7 @@ namespace HootHoot_CMS
         public const byte OPTIONS_PER_QNS = 4;
         public const int _4MB_IN_BYTES = 4194304;
         public const byte MAX_RANDOM_FUNFACTS = 1;
+        public const string STATION_TYPE_FOR_QNS = "HH";
 
         //Image Option type picture file MAX dimensions properties
         public static int PIC_MAX_WIDTH = 500;

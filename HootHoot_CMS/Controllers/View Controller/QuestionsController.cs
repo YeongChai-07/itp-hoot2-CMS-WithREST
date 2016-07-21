@@ -78,7 +78,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
-
+            assignsViewBag_CreateQuestion();
             return View();
         }
 
@@ -136,6 +136,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
                 return RedirectToAction("Index");
             }
+
+            assignsViewBag_CreateQuestion();
 
             return View(questions);
 
@@ -240,13 +242,60 @@ namespace HootHoot_CMS.Controllers.View_Controller
             return RedirectToAction("Index");
         }
 
+
+        private void assignsViewBag_CreateQuestion()
+        {
+            IEnumerable<Stations> stationsForQns_Collection = stationGateway.GetStations_ByStationType(Constants.STATION_TYPE_FOR_QNS);
+            List<SelectListItem> stations_List = new List<SelectListItem>();
+
+            foreach (Stations station_Obj in stationsForQns_Collection)
+            {
+                stations_List.Add(new SelectListItem()
+                {
+                    Text = station_Obj.station_name,
+                    Value = station_Obj.station_id
+                });
+            }
+
+            IEnumerable<QuestionType> questionTypes_Collection = questionTypeGateway.SelectAll();
+            List<SelectListItem> questionType_List = new List<SelectListItem>();
+
+            foreach (QuestionType qnsType_Obj in questionTypes_Collection)
+            {
+                questionType_List.Add(new SelectListItem()
+                {
+                    Text = qnsType_Obj.questiontype,
+                    Value = qnsType_Obj.questiontype
+                });
+            }
+
+            IEnumerable<OptionType> optionTypes_Collection = optionTypeGateway.SelectAll();
+            List<SelectListItem> optionType_List = new List<SelectListItem>();
+
+            foreach (OptionType optType_Obj in optionTypes_Collection)
+            {
+                optionType_List.Add(new SelectListItem()
+                {
+                    Text = optType_Obj.optiontype,
+                    Value = optType_Obj.optiontype
+                });
+
+            }
+
+            ViewBag.station_id = stations_List;
+            ViewBag.question_type = questionType_List;
+            ViewBag.option_type = optionType_List;
+
+
+        }
+
         private void assignsViewBag_EditQuestion(string stationID, string questionType, string optionType)
         {
-            IEnumerable<Stations> stations_Collection = stationGateway.SelectAll();
+            IEnumerable<Stations> stationsForQns_Collection = stationGateway.GetStations_ByStationType(Constants.STATION_TYPE_FOR_QNS);
             List<SelectListItem> stations_List = new List<SelectListItem>();
             string station_id = "";
 
-            foreach(Stations station_Obj in stations_Collection)
+            foreach(Stations station_Obj in stationsForQns_Collection)
             {
                 station_id = station_Obj.station_id;
                 stations_List.Add(new SelectListItem() { Text = station_Obj.station_name, Value = station_id,
