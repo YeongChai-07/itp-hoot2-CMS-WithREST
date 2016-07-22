@@ -56,7 +56,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 questions = questions.Where(qns => qns.option_type == optionType_Filter);
             }
-                 
+
             return View(questions.ToList());
         }
         // GET: Questions/Details/5
@@ -143,6 +143,67 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         }
 
+        [HttpPost]
+        public ActionResult CreateConfirm(Questions newQuestion)
+        {
+            return View(newQuestion);
+        }
+
+        [HttpPost, ActionName("Create")]
+        public ActionResult CreateConfirmed(Questions questions)
+        {
+
+            bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
+            string[] listOfFiles = null;
+
+                if (is_ImageOptionType)
+                {
+                    //Checks whether the specified file for each option exists in server
+                    listOfFiles = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+
+                    //iterate each item in listOfFiles to check whether the file exists in web server
+                    for (byte i = 0; i < listOfFiles.Length; i++)
+                    {
+                        checkImageFileUpload_Success(i, listOfFiles[i]);
+
+                    } // End FOR-Loop
+
+                } // End question.option_type IF-Block
+
+                // Do nothing if question.option_type != "IMAGE"
+
+
+            } // End Model.IsValid() IF-Block
+
+            // Perform second pass ModelState check ensure that model state is still valid 
+            // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
+            // this has no impact to TEXT option type checks, it will still remain TRUE
+            if (ModelState.IsValid)
+            {
+                if (is_ImageOptionType)
+                {
+                    //Uploads and gets the blob URI string to each image option
+                    BlobManager picBlob = new BlobManager();
+                    questions.option_1 = picBlob.uploadPictureToBlob(listOfFiles[0]);
+                    questions.option_2 = picBlob.uploadPictureToBlob(listOfFiles[1]);
+                    questions.option_3 = picBlob.uploadPictureToBlob(listOfFiles[2]);
+                    questions.option_4 = picBlob.uploadPictureToBlob(listOfFiles[3]);
+                }
+
+                questionsGateway.Insert(questions);
+
+                //Assume : All image options files were uploaded to Azure Blob SUCCESSFULLY.
+                FileHelper.deletesALLUploadFiles(); //Deletes all pictures from the server upload folder
+
+                return RedirectToAction("Index");
+            }
+
+            assignsViewBag_CreateQuestion();
+
+            return View(questions);
+            return RedirectToAction("Index");
+        }
+
         // GET: Questions/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -176,7 +237,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
                 optionValues_Arr = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
-                containsBlob_Val = new bool[] 
+                containsBlob_Val = new bool[]
                 {
                     //Check and initialize each of the option field whether it has blob storage address format
                     optionValues_Arr[0].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
@@ -295,12 +356,15 @@ namespace HootHoot_CMS.Controllers.View_Controller
             List<SelectListItem> stations_List = new List<SelectListItem>();
             string station_id = "";
 
-            foreach(Stations station_Obj in stationsForQns_Collection)
+            foreach (Stations station_Obj in stationsForQns_Collection)
             {
                 station_id = station_Obj.station_id;
-                stations_List.Add(new SelectListItem() { Text = station_Obj.station_name, Value = station_id,
-                                  Selected = ( (!string.IsNullOrEmpty(station_id)) && station_id.Equals(stationID) )
-                                 });
+                stations_List.Add(new SelectListItem()
+                {
+                    Text = station_Obj.station_name,
+                    Value = station_id,
+                    Selected = ((!string.IsNullOrEmpty(station_id)) && station_id.Equals(stationID))
+                });
             }
 
             IEnumerable<QuestionType> questionTypes_Collection = questionTypeGateway.SelectAll();
@@ -310,21 +374,27 @@ namespace HootHoot_CMS.Controllers.View_Controller
             foreach (QuestionType qnsType_Obj in questionTypes_Collection)
             {
                 qnsType = qnsType_Obj.questiontype;
-                questionType_List.Add(new SelectListItem() { Text = qnsType, Value = qnsType,
-                                Selected = ((!string.IsNullOrEmpty(qnsType)) && qnsType.Equals(questionType))
-                                });
+                questionType_List.Add(new SelectListItem()
+                {
+                    Text = qnsType,
+                    Value = qnsType,
+                    Selected = ((!string.IsNullOrEmpty(qnsType)) && qnsType.Equals(questionType))
+                });
             }
 
             IEnumerable<OptionType> optionTypes_Collection = optionTypeGateway.SelectAll();
             List<SelectListItem> optionType_List = new List<SelectListItem>();
             string optType = "";
 
-            foreach(OptionType optType_Obj in optionTypes_Collection)
+            foreach (OptionType optType_Obj in optionTypes_Collection)
             {
                 optType = optType_Obj.optiontype;
-                optionType_List.Add(new SelectListItem() { Text = optType, Value =  optType,
-                                    Selected = ( (!string.IsNullOrEmpty(optType)) && optType.Equals(optionType) )
-                                   });
+                optionType_List.Add(new SelectListItem()
+                {
+                    Text = optType,
+                    Value = optType,
+                    Selected = ((!string.IsNullOrEmpty(optType)) && optType.Equals(optionType))
+                });
 
             }
 
@@ -338,11 +408,11 @@ namespace HootHoot_CMS.Controllers.View_Controller
         private void assignsViewBag_FilteringResults()
         {
             //IEnumerable<string> stationNames = questionsGateway.GetStationName_StationID();
-            IEnumerable<KeyValuePair<string,string>> stationsKVP = questionsGateway.GetStationHasQuestions();
+            IEnumerable<KeyValuePair<string, string>> stationsKVP = questionsGateway.GetStationHasQuestions();
             List<SelectListItem> stationNamesFilter_List = new List<SelectListItem>();
             stationNamesFilter_List.Add(new SelectListItem() { Text = "===== Filter By Station ====", Value = "NOFILTER" });
 
-            foreach (KeyValuePair<string,string> station in stationsKVP)
+            foreach (KeyValuePair<string, string> station in stationsKVP)
             {
                 stationNamesFilter_List.Add(new SelectListItem() { Text = station.Value, Value = station.Key });
             }
@@ -386,9 +456,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
         }
 
-        private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option )
+        private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option)
         {
-            
+
             for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
             {
                 if (containsBlob_Val[i])
@@ -407,7 +477,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
                 } //End of containsBlob_Val[i] IF-Block
 
-                else if(hasInternetAddress(optionValues_Arr[i]) )
+                else if (hasInternetAddress(optionValues_Arr[i]))
                 {
                     setModelState_Error(i, (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                 }
@@ -423,9 +493,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
         private bool hasInternetAddress(string optionValue)
         {
             optionValue = optionValue.ToUpper();
-            for(byte i=0;i<Constants.INTERNET_ADDRESS_PATTERN.Length;i++)
+            for (byte i = 0; i < Constants.INTERNET_ADDRESS_PATTERN.Length; i++)
             {
-                if(optionValue.Contains(Constants.INTERNET_ADDRESS_PATTERN[i]))
+                if (optionValue.Contains(Constants.INTERNET_ADDRESS_PATTERN[i]))
                 {
                     return true;
                 }
