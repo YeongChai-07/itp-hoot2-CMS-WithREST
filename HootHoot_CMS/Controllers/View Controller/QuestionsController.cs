@@ -78,8 +78,19 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
-            assignsViewBag_CreateQuestion();
-            return View();
+            Questions question = TempData["toSubmit_Qns"] as Questions;
+            if (question !=null)
+            {
+                assignsViewBag_EditQuestion(question.station_id, question.question_type, question.option_type);
+                return View(question);
+            }
+            else
+            {
+                assignsViewBag_CreateQuestion();
+                return View();
+            }
+            
+            //return View();
         }
 
         // POST: Questions/Create
@@ -119,22 +130,8 @@ namespace HootHoot_CMS.Controllers.View_Controller
             // this has no impact to TEXT option type checks, it will still remain TRUE
             if (ModelState.IsValid)
             {
-                if (is_ImageOptionType)
-                {
-                    //Uploads and gets the blob URI string to each image option
-                    BlobManager picBlob = new BlobManager();
-                    questions.option_1 = picBlob.uploadPictureToBlob(listOfFiles[0]);
-                    questions.option_2 = picBlob.uploadPictureToBlob(listOfFiles[1]);
-                    questions.option_3 = picBlob.uploadPictureToBlob(listOfFiles[2]);
-                    questions.option_4 = picBlob.uploadPictureToBlob(listOfFiles[3]);
-                }
-
-                questionsGateway.Insert(questions);
-
-                //Assume : All image options files were uploaded to Azure Blob SUCCESSFULLY.
-                FileHelper.deletesALLUploadFiles(); //Deletes all pictures from the server upload folder
-
-                return RedirectToAction("Index");
+                TempData["toSubmit_Qns"] = questions;
+                return RedirectToAction("CreateConfirm");
             }
 
             assignsViewBag_CreateQuestion();
@@ -143,16 +140,22 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         }
 
-        [HttpPost]
-        public ActionResult CreateConfirm(Questions newQuestion)
+        public ActionResult CreateConfirm()
         {
-            return View(newQuestion);
+            Questions question = TempData["toSubmit_Qns"] as Questions;
+
+            if(question !=null)
+            {
+                return View(question);
+            }
+
+            return RedirectToAction("Create");
+            
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, ActionName("CreateConfirm")]
         public ActionResult CreateConfirmed(Questions questions)
         {
-
             bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
             string[] listOfFiles = null;
 
@@ -171,9 +174,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 } // End question.option_type IF-Block
 
                 // Do nothing if question.option_type != "IMAGE"
-
-
-            } // End Model.IsValid() IF-Block
 
             // Perform second pass ModelState check ensure that model state is still valid 
             // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
@@ -198,10 +198,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 return RedirectToAction("Index");
             }
 
-            assignsViewBag_CreateQuestion();
+            TempData["toSubmit_Qns"] = questions;
 
-            return View(questions);
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
         // GET: Questions/Edit/5
