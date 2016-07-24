@@ -79,9 +79,17 @@ namespace HootHoot_CMS.Controllers.View_Controller
         public ActionResult Create()
         {
             Questions question = TempData["toSubmit_Qns"] as Questions;
-            if (question !=null)
+            bool[] imageUpload_Validate = TempData["imageUpload_Validate"] as bool[];
+            if (question !=null && imageUpload_Validate !=null)
             {
                 assignsViewBag_EditQuestion(question.station_id, question.question_type, question.option_type);
+                for(byte i=0;i<imageUpload_Validate.Length;i++)
+                {
+                    /*if(!imageUpload_Validate[i])
+                    {
+                        setModelState_Error()
+                    }*/
+                }
                 return View(question);
             }
             else
@@ -157,6 +165,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         public ActionResult CreateConfirmed(Questions questions)
         {
             bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
+            bool[] imageUploadSuccess_Arr = { false, false, false, false };
             string[] listOfFiles = null;
 
                 if (is_ImageOptionType)
@@ -167,7 +176,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     //iterate each item in listOfFiles to check whether the file exists in web server
                     for (byte i = 0; i < listOfFiles.Length; i++)
                     {
-                        checkImageFileUpload_Success(i, listOfFiles[i]);
+                        imageUploadSuccess_Arr[i] = checkImageFileUpload_Success(i, listOfFiles[i]);
 
                     } // End FOR-Loop
 
@@ -199,6 +208,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             TempData["toSubmit_Qns"] = questions;
+            TempData["imageUpload_Validate"] = imageUploadSuccess_Arr;
 
             return RedirectToAction("Create");
         }
@@ -436,8 +446,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
             ViewBag.filter_optiontype = optionTypeFilter_List;
         }
 
-        private void checkImageFileUpload_Success(byte index, string fileName)
+        private bool checkImageFileUpload_Success(byte index, string fileName)
         {
+            bool imageUploadSuccess = false;
             if (!FileHelper.checkFileExists_Server(fileName))
             {
                 //DO NOT LET THE SUBMIT/UPLOAD GO THROUGH, STOP the upload IMMEDIATELY
@@ -453,6 +464,12 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 setModelState_Error(index, Constants.PIC_FILE_EXCEEDS_DIMENSION);
             }
+            else
+            {
+                imageUploadSuccess = true;
+            }
+
+            return imageUploadSuccess;
         }
 
         private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option)
@@ -505,7 +522,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         private void setModelState_Error(byte index, string errorMsg)
         {
             ModelState.AddModelError(
-                        ModelState.Keys.Single(field => field == "option_" + (index + 1)),
+                        ModelState.Keys.Single(field => field == Constants.QNS_OPTIONS_MODEL_KEYS[index]),
                             errorMsg);
         }
 

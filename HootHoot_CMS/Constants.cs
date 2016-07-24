@@ -58,5 +58,7 @@ namespace HootHoot_CMS
 
             return ddl_correctOption;
         }
+
+        public static readonly string[] QNS_OPTIONS_MODEL_KEYS = { "option_1", "option_2", "option_3", "option_4" };
     }
 }
