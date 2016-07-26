@@ -49,6 +49,10 @@ namespace HootHoot_CMS.Models
         [Display(Name = "Correct Option:")]
         public string correct_option { get; set; }
 
+        [Required(ErrorMessage = "Please provide the hint for the question .")]
+        [Display(Name = "Question Hint")]
+        public string hint { get; set; }
+
         [Required(ErrorMessage = "Please enter the duration of this question .")]
         [Display(Name ="Maximum time allowed to answer this question: ")]
         [Range(20,60)]
