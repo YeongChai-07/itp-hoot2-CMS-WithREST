@@ -14,7 +14,11 @@ namespace HootHoot_CMS.DAL
         }
         public Stations SelectByStationID(string stationID)
         {
-            return dbData.Find(stationID);
+            //return dbData.Find(stationID);
+            Stations stationByID = SelectAll_Joint().First(station => station.station_id.Equals(stationID));
+            stationByID.station_type = stationByID.stationtype.station_type;
+
+            return stationByID;
         }
 
         public override IEnumerable<Stations> SelectAll()
