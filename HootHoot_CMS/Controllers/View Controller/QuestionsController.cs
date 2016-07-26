@@ -154,6 +154,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             if(question !=null)
             {
+                ViewBag.station_name = stationGateway.GetStationName_ByStationID(question.station_id);
                 return View(question);
             }
 
@@ -165,7 +166,6 @@ namespace HootHoot_CMS.Controllers.View_Controller
         public ActionResult CreateConfirmed(Questions questions)
         {
             bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
-            //bool[] imageUploadSuccess_Arr = { false, false, false, false };
             KeyValuePair<string, string>[] imageValidation_Arr = new KeyValuePair<string, string>[Constants.OPTIONS_PER_QNS];
             string[] listOfFiles = null;
 
