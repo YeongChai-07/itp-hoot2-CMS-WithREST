@@ -97,16 +97,16 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="hidden" name="question_name" value=@Model.question_name />
-            <input type="hidden" name="question_type" value=@Model.question_type />
-            <input type="hidden" name="option_type" value=@Model.option_type />
-            <input type="hidden" name="option_1" value=@Model.option_1 />
-            <input type="hidden" name="option_2" value=@Model.option_2 />
-            <input type="hidden" name="option_3" value=@Model.option_3 />
-            <input type="hidden" name="option_4" value=@Model.option_4 />
-            <input type="hidden" name="correct_option" value=@Model.correct_option />
-            <input type="hidden" name="answering_duration" value=@Model.answering_duration />
-            <input type="hidden" name="station_id" value=@Model.station_id />
+            @Html.HiddenFor(model => model.question_name)
+            @Html.HiddenFor(model => model.question_type)
+            @Html.HiddenFor(model => model.option_type)
+            @Html.HiddenFor(model => model.option_1)
+            @Html.HiddenFor(model => model.option_2)
+            @Html.HiddenFor(model => model.option_3)
+            @Html.HiddenFor(model => model.option_4)
+            @Html.HiddenFor(model => model.correct_option)
+            @Html.HiddenFor(model => model.answering_duration)
+            @Html.HiddenFor(model => model.station_id)
             <input type="submit" value="Confirm" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "Create")
         </div>
