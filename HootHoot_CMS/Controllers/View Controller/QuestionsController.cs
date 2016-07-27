@@ -80,16 +80,21 @@ namespace HootHoot_CMS.Controllers.View_Controller
         {
             Questions question = TempData["toSubmit_Qns"] as Questions;
             KeyValuePair<string, string>[] imageUpload_Validate = TempData["imageUpload_Validate"] as KeyValuePair<string, string>[];
-            if (question !=null && imageUpload_Validate !=null)
+            if (question !=null)
             {
                 assignsViewBag_EditQuestion(question.station_id, question.question_type, question.option_type);
-                for(byte i=0;i<imageUpload_Validate.Length;i++)
+
+                if(imageUpload_Validate != null)
                 {
-                    if(!imageUpload_Validate[i].Value.Equals("PASSED"))
+                    for (byte i = 0; i < imageUpload_Validate.Length; i++)
                     {
-                        setModelState_Error(i, imageUpload_Validate[i].Value);
+                        if (!imageUpload_Validate[i].Value.Equals("PASSED"))
+                        {
+                            setModelState_Error(i, imageUpload_Validate[i].Value);
+                        }
                     }
                 }
+                
                 return View(question);
             }
             else
@@ -210,6 +215,14 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             TempData["toSubmit_Qns"] = questions;
             TempData["imageUpload_Validate"] = imageValidation_Arr;
+
+            return RedirectToAction("Create");
+        }
+
+        [HttpPost]
+        public ActionResult CreateBack(Questions question)
+        {
+            TempData["toSubmit_Qns"] = question;
 
             return RedirectToAction("Create");
         }
