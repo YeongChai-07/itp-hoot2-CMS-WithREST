@@ -245,6 +245,7 @@
     <Compile Include="Models\FunFacts.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\QuestionsViewModel.cs" />
     <Compile Include="Models\Questions.cs" />
     <Compile Include="Models\Stations.cs" />
     <Compile Include="Models\QuestionType.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Views\Questions\Edit.cshtml" />
     <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Questions\CreateConfirm.cshtml" />
+    <Content Include="Views\Questions\EditConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

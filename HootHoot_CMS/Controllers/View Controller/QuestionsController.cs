@@ -135,6 +135,11 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
                 // Do nothing if question.option_type != "IMAGE"
 
+                if(questions.question_has_hint.Equals("NO"))
+                {
+                    questions.hint = "-NA-";
+                }
+
 
             } // End Model.IsValid() IF-Block
 
@@ -159,6 +164,28 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
             if(question !=null)
             {
+                QuestionsViewModel question_options = new QuestionsViewModel();
+                if(question.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+                {
+                    
+                    question_options.option_1 = "<img src=\"" + Constants.IMG_PIC_UPLOAD_SRC + question.option_1
+                        + "\" alt=\"Option 1 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_2 = "<img src=\"" + Constants.IMG_PIC_UPLOAD_SRC + question.option_2
+                        + "\" alt=\"Option 2 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_3 = "<img src=\"" + Constants.IMG_PIC_UPLOAD_SRC + question.option_3
+                        + "\" alt=\"Option 3 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_4 = "<img src=\"" + Constants.IMG_PIC_UPLOAD_SRC + question.option_4
+                        + "\" alt=\"Option 4 Image\" width=\"100\" height=\"100\" />";
+                }
+                else
+                {
+                    question_options.option_1 = question.option_1;
+                    question_options.option_2 = question.option_2;
+                    question_options.option_3 = question.option_3;
+                    question_options.option_4 = question.option_4;
+                }
+
+                ViewBag.question_options = question_options;
                 ViewBag.station_name = stationGateway.GetStationName_ByStationID(question.station_id);
                 return View(question);
             }
@@ -173,27 +200,35 @@ namespace HootHoot_CMS.Controllers.View_Controller
             bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
             KeyValuePair<string, string>[] imageValidation_Arr = new KeyValuePair<string, string>[Constants.OPTIONS_PER_QNS];
             string[] listOfFiles = null;
+            bool modelState_Valid = true;
 
-                if (is_ImageOptionType)
+            if (is_ImageOptionType)
+            {
+                //Checks whether the specified file for each option exists in server
+                listOfFiles = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+
+                //iterate each item in listOfFiles to check whether the file exists in web server
+                for (byte i = 0; i < listOfFiles.Length; i++)
                 {
-                    //Checks whether the specified file for each option exists in server
-                    listOfFiles = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+                    imageValidation_Arr[i] = checkImageFileUpload_Success(i, listOfFiles[i]);
 
-                    //iterate each item in listOfFiles to check whether the file exists in web server
-                    for (byte i = 0; i < listOfFiles.Length; i++)
+                    if(!modelState_Valid)
                     {
-                        imageValidation_Arr[i] = checkImageFileUpload_Success(i, listOfFiles[i]);
+                        continue;
+                    }
 
-                    } // End FOR-Loop
+                    modelState_Valid = imageValidation_Arr[i].Value.Equals("PASSED");
 
-                } // End question.option_type IF-Block
+                } // End FOR-Loop
 
-                // Do nothing if question.option_type != "IMAGE"
+            } // End question.option_type IF-Block
+
+            // Do nothing if question.option_type != "IMAGE"
 
             // Perform second pass ModelState check ensure that model state is still valid 
             // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
             // this has no impact to TEXT option type checks, it will still remain TRUE
-            if (ModelState.IsValid)
+            if (modelState_Valid)
             {
                 if (is_ImageOptionType)
                 {
@@ -230,14 +265,37 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            Questions questions = TempData["toSubmit_Qns"] as Questions;
+            KeyValuePair<string, string>[] validationErrors_KVP = TempData["editQns_Validate"] as KeyValuePair<string,string>[];
+
+            if (questions != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (validationErrors_KVP != null)
+                {
+                    for (byte i = 0; i < validationErrors_KVP.Length; i++)
+                    {
+                        if (!validationErrors_KVP[i].Value.Equals("PASSED"))
+                        {
+                            setModelState_Error(i, validationErrors_KVP[i].Value);
+                        }
+                    }
+                } // End inner if
+
             }
-            Questions questions = questionsGateway.SelectById(id);
-            if (questions == null)
+            else
             {
-                return HttpNotFound();
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                questions = questionsGateway.SelectById(id);
+
+                if (questions == null)
+                {
+                    return HttpNotFound();
+                }
+
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
@@ -271,12 +329,115 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
                 checkHasBlobValue_Option(containsBlob_Val, optionValues_Arr, is_ImageOptionType);
 
+                if (questions.question_has_hint.Equals("NO"))
+                {
+                    questions.hint = "-NA-";
+                }
+
             }
 
             // Perform second pass ModelState check ensure that model state is still valid 
             // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
             // this has no impact to TEXT option type checks, it will still remain TRUE
             if (ModelState.IsValid)
+            {
+                TempData["toSubmit_Qns"] = questions;
+                return RedirectToAction("EditConfirm");
+            }
+
+            ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
+            assignsViewBag_EditQuestion(questions.station_id, questions.question_type, questions.option_type);
+            return View(questions);
+        }
+
+
+        public ActionResult EditConfirm()
+        {
+            Questions question = TempData["toSubmit_Qns"] as Questions;
+
+            if (question != null)
+            {
+                QuestionsViewModel question_options = new QuestionsViewModel();
+                if (question.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+                {
+                    string[] imgOptions_Arr = new string[]
+                    { question.option_1, question.option_2, question.option_3, question.option_4};
+
+                    for(byte i=0;i<Constants.OPTIONS_PER_QNS;i++)
+                    {
+                        if(!imgOptions_Arr[i].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER))
+                        {
+                            imgOptions_Arr[i] = Constants.IMG_PIC_UPLOAD_SRC + imgOptions_Arr[i];
+                        }
+                    }
+                    
+                    question_options.option_1 = "<img src=\"" + imgOptions_Arr[0]
+                        + "\" alt=\"Option 1 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_2 = "<img src=\"" + imgOptions_Arr[1]
+                        + "\" alt=\"Option 2 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_3 = "<img src=\"" + imgOptions_Arr[2]
+                        + "\" alt=\"Option 3 Image\" width=\"100\" height=\"100\" />";
+                    question_options.option_4 = "<img src=\"" + imgOptions_Arr[3]
+                        + "\" alt=\"Option 4 Image\" width=\"100\" height=\"100\" />";
+                }
+                else
+                {
+                    question_options.option_1 = question.option_1;
+                    question_options.option_2 = question.option_2;
+                    question_options.option_3 = question.option_3;
+                    question_options.option_4 = question.option_4;
+                }
+
+                ViewBag.question_options = question_options;
+                ViewBag.station_name = stationGateway.GetStationName_ByStationID(question.station_id);
+                return View(question);
+            }
+
+            return RedirectToAction("Edit");
+
+        }
+
+        [HttpPost, ActionName("EditConfirm")]
+        public ActionResult EditConfirmed(Questions questions)
+        {
+            bool is_ImageOptionType = questions.option_type == Constants.QNS_IMAGE_OPTION_TYPE;
+            KeyValuePair<string, string>[] validationErrors_KVP = new KeyValuePair<string, string>[Constants.OPTIONS_PER_QNS];
+            bool modelState_Valid = true;
+
+            string[] optionValues_Arr = null;
+            bool[] containsBlob_Val = null;
+
+            if (is_ImageOptionType)
+            {
+                optionValues_Arr = new string[] { questions.option_1, questions.option_2, questions.option_3, questions.option_4 };
+                containsBlob_Val = new bool[]
+                {
+                    //Check and initialize each of the option field whether it has blob storage address format
+                    optionValues_Arr[0].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[1].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[2].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER),
+                    optionValues_Arr[3].Contains(Constants.AZURE_BLOB_STORAGE_FOLDER)
+                };
+
+                validationErrors_KVP = checkHasBlobValue_Option
+                    (containsBlob_Val, optionValues_Arr, is_ImageOptionType);
+
+                for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+                {
+                    modelState_Valid = validationErrors_KVP[i].Value.Equals("PASSED");
+                    if (!modelState_Valid)
+                    {
+                        break;
+                    }
+
+                } // End FOR-Loop
+
+            }
+
+            // Perform second pass ModelState check ensure that model state is still valid 
+            // NOTE: This is required as it is possible for picture option type to FAIL during the first check, 
+            // this has no impact to TEXT option type checks, it will still remain TRUE
+            if (modelState_Valid)
             {
                 if (is_ImageOptionType)
                 {
@@ -295,9 +456,19 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 return RedirectToAction("Index");
             }
 
-            ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
-            assignsViewBag_EditQuestion(questions.station_id, questions.question_type, questions.option_type);
-            return View(questions);
+            TempData["toSubmit_Qns"] = questions;
+            TempData["editQns_Validate"] = validationErrors_KVP;
+
+            return RedirectToAction("Edit");
+
+        }
+
+        [HttpPost]
+        public ActionResult EditBack(Questions question)
+        {
+            TempData["toSubmit_Qns"] = question;
+
+            return RedirectToAction("Edit");
         }
 
         // GET: Questions/Delete/5
@@ -489,9 +660,9 @@ namespace HootHoot_CMS.Controllers.View_Controller
             return new KeyValuePair<string, string>(Constants.QNS_OPTIONS_MODEL_KEYS[index], "PASSED");
         }
 
-        private void checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option)
+        private KeyValuePair<string, string>[] checkHasBlobValue_Option(bool[] containsBlob_Val, string[] optionValues_Arr, bool isPict_Option)
         {
-
+            KeyValuePair<string, string>[] validationErrors_KVP = new KeyValuePair<string, string>[Constants.OPTIONS_PER_QNS];
             for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
             {
                 if (containsBlob_Val[i])
@@ -499,28 +670,41 @@ namespace HootHoot_CMS.Controllers.View_Controller
                     if (isPict_Option && !FileHelper.checkFileExists_Blob(optionValues_Arr[i]))
                     {
                         setModelState_Error(i, Constants.BLOB_PIC_NOT_FOUND);
+                        validationErrors_KVP[i] = new KeyValuePair<string, string>
+                            (Constants.QNS_OPTIONS_MODEL_KEYS[i], Constants.BLOB_PIC_NOT_FOUND);
                         //passCheck = false;
                     }
 
                     else if (!isPict_Option)
                     {
                         setModelState_Error(i, Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                        validationErrors_KVP[i] = new KeyValuePair<string, string>
+                            (Constants.QNS_OPTIONS_MODEL_KEYS[i], Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                         //passCheck = false;
                     } //End Else-If
+                    else
+                    {
+                        validationErrors_KVP[i] = new KeyValuePair<string, string>(Constants.QNS_OPTIONS_MODEL_KEYS[i], "PASSED");
+                    }
 
                 } //End of containsBlob_Val[i] IF-Block
 
                 else if (hasInternetAddress(optionValues_Arr[i]))
                 {
                     setModelState_Error(i, (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
+                    validationErrors_KVP[i] = new KeyValuePair<string, string>
+                            (Constants.QNS_OPTIONS_MODEL_KEYS[i], 
+                                (isPict_Option) ? Constants.BLOB_OPTION_HAS_INERNET_ADDR : Constants.TEXT_OPTION_HAS_BLOB_VALUE);
                 }
 
                 else if (isPict_Option)
                 {
-                    checkImageFileUpload_Success(i, optionValues_Arr[i]);
+                    validationErrors_KVP[i] = checkImageFileUpload_Success(i, optionValues_Arr[i]);
                 }
 
             }//End of For-Loop Block
+
+            return validationErrors_KVP;
         }
 
         private bool hasInternetAddress(string optionValue)

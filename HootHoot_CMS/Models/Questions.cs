@@ -22,11 +22,11 @@ namespace HootHoot_CMS.Models
         public string question_name { get; set; }
 
         [Required]
-        [Display(Name="Type of question:")]
+        [Display(Name= "Questions Type:")]
         public string question_type { get; set; }
 
         [Required]
-        [Display(Name= "Type of Options:")]
+        [Display(Name= "Option Type:")]
         public string option_type { get; set; }
 
         [Required(ErrorMessage="Please provide the FIRST option .")]
@@ -50,18 +50,17 @@ namespace HootHoot_CMS.Models
         public string correct_option { get; set; }
 
         [JsonIgnore]
-        [NotMapped]
         [Required(ErrorMessage = "Please select whether this question has hint(s) .")]
         [Display(Name = "Are there any hints?")]
         public string question_has_hint { get; set; }
 
         [Required(ErrorMessage = "Please provide the hint for the question .")]
-        [Display(Name = "Question Hint")]
+        [Display(Name = "Question Hint:")]
         public string hint { get; set; }
 
 
         [Required(ErrorMessage = "Please enter the duration of this question .")]
-        [Display(Name ="Maximum time allowed to answer this question: ")]
+        [Display(Name = "Maximum time allowed to answer (seconds): ")]
         [Range(20,60)]
         public int answering_duration { get; set; }
 

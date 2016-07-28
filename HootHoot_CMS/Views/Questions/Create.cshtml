@@ -3,10 +3,10 @@
 @{
     ViewBag.correct_option = Constants.CORRECTOPTION_LIST;
 
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Question";
 }
 
-<h2>Create</h2>
+<h2>Create Question</h2>
 
 
 @using (Html.BeginForm())
@@ -113,8 +113,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.question_has_hint, htmlAttributes: new { @class= "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.question_has_hint,"YES") Yes
-                @Html.RadioButtonFor(model => model.question_has_hint, "NO") No
+                @Html.RadioButtonFor(model => model.question_has_hint,"YES",new { @id = "hasHints_0" }) Yes
+                @Html.RadioButtonFor(model => model.question_has_hint, "NO", new { @id = "hasHints_1" }) No
                 <br/>
                 @Html.ValidationMessageFor(model => model.question_has_hint,"", new { @class = "text-danger" })
             </div>

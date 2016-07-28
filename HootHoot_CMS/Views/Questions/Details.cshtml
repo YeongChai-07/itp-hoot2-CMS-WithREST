@@ -115,6 +115,28 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.question_has_hint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_has_hint)
+        </dd>
+
+        @{
+            if (Model.question_has_hint.Equals("YES"))
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.hint)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.hint)
+                </dd>
+            }
+
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.answering_duration)
         </dt>
 
