@@ -111,6 +111,24 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.question_has_hint, htmlAttributes: new { @class= "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.question_has_hint,"YES") Yes
+                @Html.RadioButtonFor(model => model.question_has_hint, "NO") No
+                <br/>
+                @Html.ValidationMessageFor(model => model.question_has_hint,"", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.hint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.hint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.hint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.answering_duration, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.answering_duration, new { htmlAttributes = new { @class = "form-control" } })
