@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -12,7 +9,7 @@ namespace HootHoot_CMS.Blobs
     {
         private CloudStorageAccount storageAccount = null;
         private CloudBlobContainer newContainer = null;
-        private CloudBlockBlob cbb = null;
+        private CloudBlockBlob cloud_BlockBlob = null;
 
         public BlobManager()
         {
@@ -29,7 +26,7 @@ namespace HootHoot_CMS.Blobs
             newContainer.SetPermissions( new BlobContainerPermissions()
                                             { PublicAccess = BlobContainerPublicAccessType.Blob } );
 
-            //cbb = newContainer.GetBlockBlobReference("test-blob.jpg");
+            //cloud_BlockBlob = newContainer.GetBlockBlobReference("test-blob.jpg");
 
         }
 
@@ -38,14 +35,14 @@ namespace HootHoot_CMS.Blobs
             //Perform some checks whether the pictureFileName (and file extension) is correct
 
             // If pictureFileName and file extension is correct
-            cbb = newContainer.GetBlockBlobReference(pictureFileName);
+            cloud_BlockBlob = newContainer.GetBlockBlobReference(pictureFileName);
 
             string pictureFullPath = Constants.UPLOAD_FOLDER_PATH + pictureFileName;
             string retUri = "";
             try
             {
-                cbb.UploadFromFile(pictureFullPath);
-                retUri = cbb.Uri.ToString();
+                cloud_BlockBlob.UploadFromFile(pictureFullPath);
+                retUri = cloud_BlockBlob.Uri.ToString();
             }
             catch(System.IO.FileNotFoundException fnf)
             {

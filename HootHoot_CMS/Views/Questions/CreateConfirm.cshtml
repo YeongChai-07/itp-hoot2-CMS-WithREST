@@ -1,0 +1,160 @@
+﻿@model HootHoot_CMS.Models.Questions
+
+@{
+    ViewBag.Title = "Create Confirm";
+}
+
+<h2>Confirm Create Question</h2>
+
+<h3>Are you sure you want to create this question ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.station_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayText("station_name")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_1)
+        </dt>
+
+        <dd>
+            @Html.Raw(ViewBag.question_options.option_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_2)
+        </dt>
+
+        <dd>
+            @Html.Raw(ViewBag.question_options.option_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_3)
+        </dt>
+
+        <dd>
+            @Html.Raw(ViewBag.question_options.option_3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.option_4)
+        </dt>
+
+        <dd>
+            @Html.Raw(ViewBag.question_options.option_4)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.correct_option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.correct_option)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question_has_hint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question_has_hint)
+        </dd>
+
+        @{
+            if (Model.question_has_hint.Equals("YES"))
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.hint)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.hint)
+                </dd>
+            }
+
+        }
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.answering_duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.answering_duration)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.question_name)
+        @Html.HiddenFor(model => model.question_type)
+        @Html.HiddenFor(model => model.option_type)
+        @Html.HiddenFor(model => model.option_1)
+        @Html.HiddenFor(model => model.option_2)
+        @Html.HiddenFor(model => model.option_3)
+        @Html.HiddenFor(model => model.option_4)
+        @Html.HiddenFor(model => model.correct_option)
+        @Html.HiddenFor(model => model.question_has_hint)
+        @Html.HiddenFor(model => model.hint)
+        @Html.HiddenFor(model => model.answering_duration)
+        @Html.HiddenFor(model => model.station_id)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirm" class="btn btn-default" /> |
+        </div>
+    }
+
+    @using (Html.BeginForm("CreateBack","Questions"))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.question_name)
+        @Html.HiddenFor(model => model.question_type)
+        @Html.HiddenFor(model => model.option_type)
+        @Html.HiddenFor(model => model.option_1)
+        @Html.HiddenFor(model => model.option_2)
+        @Html.HiddenFor(model => model.option_3)
+        @Html.HiddenFor(model => model.option_4)
+        @Html.HiddenFor(model => model.correct_option)
+        @Html.HiddenFor(model => model.question_has_hint)
+        @Html.HiddenFor(model => model.hint)
+        @Html.HiddenFor(model => model.answering_duration)
+        @Html.HiddenFor(model => model.station_id)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Back" class="btn btn-default" />
+        </div>
+    }
+
+</div>
