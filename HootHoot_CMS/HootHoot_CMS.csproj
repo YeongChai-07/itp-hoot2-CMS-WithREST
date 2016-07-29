@@ -226,7 +226,9 @@
     <Compile Include="Controllers\REST_API\FunFactsController.cs" />
     <Compile Include="Controllers\REST_API\QuestionsController.cs" />
     <Compile Include="Controllers\REST_API\StationsController.cs" />
+    <Compile Include="Controllers\View Controller\AccountsController.cs" />
     <Compile Include="Controllers\View Controller\QuestionsController.cs" />
+    <Compile Include="DAL\AccountsDataGateway.cs" />
     <Compile Include="DAL\DataGateway.cs" />
     <Compile Include="DAL\FunFactsDataGateway.cs" />
     <Compile Include="DAL\HootHootDbContext.cs" />
@@ -240,10 +242,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Accounts.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FilterQuestionsViewModel.cs" />
     <Compile Include="Models\FunFacts.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\UserLogonViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\QuestionsViewModel.cs" />
     <Compile Include="Models\Questions.cs" />
@@ -322,6 +326,7 @@
     <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Questions\CreateConfirm.cshtml" />
     <Content Include="Views\Questions\EditConfirm.cshtml" />
+    <Content Include="Views\Accounts\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

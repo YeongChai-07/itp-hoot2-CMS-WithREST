@@ -40,6 +40,8 @@ namespace HootHoot_CMS
                                                      + ".jpeg are the accepted image file formats for image option.";
         public const string PIC_FILE_EXCEEDS_DIMENSION = "The specified picture file exceeds the maximum width of 500px or height of 500px or both. " 
                                                          + "Please try again. ";
+        public const string ENTERED_USERNAME_INVALID = "The username that you've entered is invalid. Please try again. ";
+        public const string ENTERED_PASSWORD_INVALID = "The password that you've entered is invalid. Please try again. ";
 
         public static readonly List<SelectListItem> CORRECTOPTION_LIST = customCorrectOption_List(string.Empty);
 
@@ -61,5 +63,6 @@ namespace HootHoot_CMS
         }
 
         public static readonly string[] QNS_OPTIONS_MODEL_KEYS = { "option_1", "option_2", "option_3", "option_4" };
+        public static readonly string[] ACCOUNTS_MODEL_KEYS = { "user_name", "password" };
     }
 }
