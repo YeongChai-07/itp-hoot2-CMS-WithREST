@@ -69,6 +69,11 @@
                     //Now let's assign the correct option image preview src
                     $("#imgCorrectOpt_Preview").attr("src", imageToShow);
 
+                    $("[name='question_has_hint']").click(function () {
+                        alert('Selected hint: ' + $("[name='question_has_hint'] :checked").val());
+                    });
+                    
+
                 });
 
 
@@ -143,11 +148,30 @@
                 } //End of checkSelectedOptionType function
 
                 function disableOptions_TextFields(disableCond) {
+                    //Hide all the options textfield
+                    if (disableCond)
+                    {
+                        $("#option_1").hide();
+                        $("#option_2").hide();
+                        $("#option_3").hide();
+                        $("#option_4").hide();
+                    }
+                    else
+                    {
+                        $("#option_1").show();
+                        $("#option_2").show();
+                        $("#option_3").show();
+                        $("#option_4").show();
+                    }
+                    
+
                     //Disable all the options textfield
                     $("#option_1").prop("readonly", disableCond);
                     $("#option_2").prop("readonly", disableCond);
                     $("#option_3").prop("readonly", disableCond);
                     $("#option_4").prop("readonly", disableCond);
+
+                    
                 }
 
                 function disableAddImage_Button(disableCond) {

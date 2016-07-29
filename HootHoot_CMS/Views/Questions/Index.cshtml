@@ -5,19 +5,28 @@
 }
 
 <h2>Index</h2>
-
-<div class="row">
-    <hr/>Filter Questions record:
+<hr/>
    @using (Html.BeginForm(new HootHoot_CMS.Models.FilterQuestionsViewModel()))
    {
-        <span class="col-md-3">@Html.DropDownList("filter_station", null, new { @class = "form-control" })</span>
-        <span class="col-md-3">@Html.DropDownList("filter_questiontype", null, new { @class = "form-control" })</span>
-        <span class="col-md-3">@Html.DropDownList("filter_optiontype", null, new { @class = "form-control" })</span>
-        <span class="col-md-3"><button type="submit" class="btn btn-primary" id="filterQns_Result">Filter Results</button></span>
-        
-   }<hr/>
     
-</div><br/>
+    <div class="row">
+        <div class="col-md-5">
+            <button type="submit" class="btn btn-primary" id="filterQns_Result">Filter Results</button>
+            <br />
+            @Html.DropDownList("filter_station", null, new { @class = "form-control" })
+            @Html.DropDownList("filter_questiontype", null, new { @class = "form-control" })
+            @Html.DropDownList("filter_optiontype", null, new { @class = "form-control" })
+        </div>
+        <div class="col-md-7">
+            @Html.ActionLink("Create Question", "Create", "Questions", new { @class = "btn btn-success btn-md" })
+        </div>
+            
+    </div>
+
+   }
+<hr />
+
+    <br/>
 
 <table class="table">
     <tr>
