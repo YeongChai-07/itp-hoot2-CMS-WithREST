@@ -69,10 +69,13 @@
                     //Now let's assign the correct option image preview src
                     $("#imgCorrectOpt_Preview").attr("src", imageToShow);
 
-                    $("[name='question_has_hint']").click(function () {
+                    /*$("[name='question_has_hint']").click(function () {
                         alert('Selected hint: ' + $("[name='question_has_hint'] :checked").val());
-                    });
-                    
+                    });*/
+                    /*if(!$("[name='question_has_hint']:checked").val() == [])
+                    {
+                        alert('Selected Hint: ' + $("[name='question_has_hint']:checked").val());
+                    }*/
 
                 });
 
@@ -299,4 +302,22 @@
                     return optionName_Tuple;
                 }
 
+
             }); //End of $(document).ready() function body
+
+$("input[name='question_has_hint']").change(function () {
+    var hasHint = $("input[name='question_has_hint']:checked").val();
+    
+    if(typeof(hasHint)!== 'undefined')
+    {
+
+        $("input[name='hint']").prop("readonly", (hasHint != "YES"));
+
+        if(hasHint=="NO")
+        {
+            $("input[name='hint']").val("-NA-");
+        }
+ 
+    }
+                        
+});
