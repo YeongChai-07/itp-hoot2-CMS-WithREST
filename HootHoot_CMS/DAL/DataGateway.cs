@@ -4,6 +4,10 @@ using System.Data.Entity;
 
 namespace HootHoot_CMS.DAL
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DataGateway<T>:IDataGateway<T>where T:class
     {
         internal HootHootDbContext dbContext = new HootHootDbContext();
@@ -42,7 +46,6 @@ namespace HootHoot_CMS.DAL
             dbContext.Entry(obj).State = EntityState.Deleted;
 
             dbContext.SaveChanges();
-            
         }
 
     }

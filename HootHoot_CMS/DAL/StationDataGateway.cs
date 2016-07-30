@@ -8,10 +8,20 @@ namespace HootHoot_CMS.DAL
 {
     public class StationDataGateway : DataGateway<Stations>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Stations> SelectAll_Joint()
         {
             return dbData.Include(s => s.questions).Include(s => s.stationtype).AsEnumerable();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stationID"></param>
+        /// <returns></returns>
         public Stations SelectByStationID(string stationID)
         {
             //return dbData.Find(stationID);
@@ -21,6 +31,10 @@ namespace HootHoot_CMS.DAL
             return stationByID;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<Stations> SelectAll()
         {
             IEnumerable<Stations> allStations = SelectAll_Joint();
@@ -33,6 +47,10 @@ namespace HootHoot_CMS.DAL
             return allStations;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllStationNames()
         {
             var stationNames = from station in dbData
@@ -41,6 +59,11 @@ namespace HootHoot_CMS.DAL
             return stationNames.Distinct().AsEnumerable();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stationID"></param>
+        /// <returns></returns>
         public string GetStationName_ByStationID(string stationID)
         {
             var stationNameById = from station in dbData
@@ -50,6 +73,11 @@ namespace HootHoot_CMS.DAL
             return stationNameById.First();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stationType_ID"></param>
+        /// <returns></returns>
         public IEnumerable<Stations> GetStations_ByStationType(string stationType_ID)
         {
             var stations = (from station in dbData

@@ -4,6 +4,10 @@ namespace HootHoot_CMS.Controllers
 {
     public class FileUploadController : Controller
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult Upload()
         {
@@ -16,7 +20,6 @@ namespace HootHoot_CMS.Controllers
                 return Json("Error ");
             }
             return Json(new FileHelper.FileInfo[] { fileInfo_Obj });
-
         }
     }
 }

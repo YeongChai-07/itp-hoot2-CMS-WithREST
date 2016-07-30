@@ -7,14 +7,30 @@ namespace HootHoot_CMS.DAL
 {
     public class QuestionsDataGateway:DataGateway<Questions>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Questions> SelectAll_Joint()
         {
             return dbData.Include(q => q.optionType).Include(q => q.questionType).Include(q => q.station).AsEnumerable();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override Questions SelectById(int? id)
         {
             return SelectAll_Joint().Where(question => question.question_id == id).First();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stationID"></param>
+        /// <returns></returns>
         public IEnumerable<Questions> SelectByStationID(string stationID)
         {
             RandomItem_Generator<Questions> qnsGenerate = new RandomItem_Generator<Questions>
@@ -25,6 +41,10 @@ namespace HootHoot_CMS.DAL
             return qnsGenerate.getRandomItem().AsEnumerable();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string,string>> GetStationHasQuestions()
         {
             //First we will retrieve ALL Distinct station_id from the Stations Table
@@ -43,7 +63,6 @@ namespace HootHoot_CMS.DAL
             }
 
             return stationsKVP;
-
         }
     }
 }

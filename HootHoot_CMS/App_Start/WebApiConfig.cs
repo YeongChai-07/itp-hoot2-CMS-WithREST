@@ -13,8 +13,6 @@ namespace HootHoot_CMS
         {
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
-            // Web API configuration and services
-            //config.EnableCors();
 
             // Web API routes
             config.MapHttpAttributeRoutes();

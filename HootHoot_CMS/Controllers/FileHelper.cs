@@ -4,6 +4,11 @@ namespace HootHoot_CMS.Controllers
 {
     public class FileHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileToUpload"></param>
+        /// <returns></returns>
         public static FileInfo uploadFileToServer_Result(HttpPostedFileBase fileToUpload)
         {
             bool uploadSuccess = false;
@@ -24,11 +29,19 @@ namespace HootHoot_CMS.Controllers
             return new FileInfo(fileName, fileSize, fileToUpload.ContentType, uploadSuccess);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileSize"></param>
+        /// <returns></returns>
         private static bool checksFileSize_ExceedsLimit(int fileSize)
         {
             return (fileSize <= Constants._4MB_IN_BYTES);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void setupUploadFolder_IfNotAvailable()
         {
             if (!System.IO.Directory.Exists(Constants.UPLOAD_FOLDER_PATH))
@@ -39,6 +52,11 @@ namespace HootHoot_CMS.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         private static string fileName_Correction(string fileName)
         {
             //Check and replace each of the path pattern
@@ -62,11 +80,21 @@ namespace HootHoot_CMS.Controllers
             return fileName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static bool checkFileExists_Server(string fileName)
         {
             return System.IO.File.Exists(Constants.UPLOAD_FOLDER_PATH + fileName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static bool checkFileExt_Valid(string fileName)
         {
             string mimeType = MimeMapping.GetMimeMapping(Constants.UPLOAD_FOLDER_PATH + fileName).ToUpper();
@@ -81,6 +109,11 @@ namespace HootHoot_CMS.Controllers
             return mimeValid;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static bool checkImageDimension_Valid(string fileName)
         {
             bool dimens_Valid = false;
@@ -93,6 +126,11 @@ namespace HootHoot_CMS.Controllers
             return dimens_Valid;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="optionValue"></param>
+        /// <returns></returns>
         public static bool checkFileExists_Blob(string optionValue)
         {
             try
@@ -111,6 +149,9 @@ namespace HootHoot_CMS.Controllers
             }
         } //End of checkFileExists_Blob function
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void deletesALLUploadFiles()
         {
             //Gets a list of files in the upload folder FIRST
@@ -118,9 +159,7 @@ namespace HootHoot_CMS.Controllers
 
             for (byte i = 0; i < filesInFolder.Length; i++)
             { System.IO.File.Delete(filesInFolder[i]); }
-
         }
-
 
         public class FileInfo
         {
@@ -135,9 +174,7 @@ namespace HootHoot_CMS.Controllers
                 m_FileSize = inFileSize;
                 m_FileExt = inFileExt;
                 m_FileStats = inFileStats;
-
             }
-
         }
     }
 

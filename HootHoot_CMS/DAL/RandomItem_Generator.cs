@@ -19,9 +19,12 @@ namespace HootHoot_CMS.DAL
             this.resultSize = resultSize;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IList<T> getRandomItem()
         {
-
             IList<T> randomItems_List = new List<T>();
 
             for (byte count = 0; count < resultSize; count++)
@@ -30,20 +33,19 @@ namespace HootHoot_CMS.DAL
             }
 
             return randomItems_List;
-
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void preparesRandomIndex()
         {
             randIndex = new int[resultSize];
             int randNum = -1;
             byte randFault = 0;
-
-            initializeArrayDefaults();
-
             byte i = 0;
 
+            initializeArrayDefaults();
 
             while (i < resultSize)
             {
@@ -62,14 +64,12 @@ namespace HootHoot_CMS.DAL
                     getNewSeed();
                     randFault = 0;
                 }
-                
-
             }
-
-
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void initializeArrayDefaults()
         {
             for (byte initCount = 0; initCount < resultSize; initCount++)
@@ -78,6 +78,9 @@ namespace HootHoot_CMS.DAL
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void getNewSeed()
         {
             Thread.Sleep(500);

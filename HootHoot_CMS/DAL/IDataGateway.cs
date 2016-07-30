@@ -10,7 +10,5 @@ namespace HootHoot_CMS.DAL
         void Insert(T obj);
         void Update(T obj);
         void Delete(T obj);
-
-
     }
 }

@@ -18,18 +18,19 @@ namespace HootHoot_CMS.Blobs
 
             //Setup the Cloud Blob Client
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            //newContainer = blobClient.GetContainerReference("test-container");
+            
             newContainer = blobClient.GetContainerReference(Constants.HOOTSQ_IMAGE_BLOB_CONTAINER);
             newContainer.CreateIfNotExists();
 
             newContainer.SetPermissions( new BlobContainerPermissions()
                                             { PublicAccess = BlobContainerPublicAccessType.Blob } );
-
-            //cloud_BlockBlob = newContainer.GetBlockBlobReference("test-blob.jpg");
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pictureFileName"></param>
+        /// <returns></returns>
         public string uploadPictureToBlob(string pictureFileName)
         {
             //Perform some checks whether the pictureFileName (and file extension) is correct
@@ -58,6 +59,9 @@ namespace HootHoot_CMS.Blobs
             
         } //End of UploadPictureToBlob Function
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void listAllBlobs()
         {
             foreach(IListBlobItem listBlob in newContainer.ListBlobs())
@@ -67,8 +71,7 @@ namespace HootHoot_CMS.Blobs
                     CloudBlockBlob bb = (CloudBlockBlob)listBlob;
                     Console.WriteLine("Found a Cloud Block Blob..." +
                         "Content Information:\n" + bb.Properties + "\nBlob stored at:\n" + bb.StorageUri);
-                }
-                
+                }                
             }
         }
     }

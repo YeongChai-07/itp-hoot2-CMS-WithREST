@@ -6,7 +6,6 @@ namespace HootHoot_CMS.DAL
     {
         public HootHootDbContext():base("HootHootAzureDB")
         {
-            //this.Configuration.LazyLoadingEnabled = false;
 
         }
 
