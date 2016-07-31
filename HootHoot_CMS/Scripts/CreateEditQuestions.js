@@ -1,11 +1,18 @@
 ﻿$(document).ready(
             function () {
+                $.validator.setDefaults({ ignore: ".ignoreVal" });
+
                 var prevSelectedVal = undefined;
                 // Add events
                 $("[name='option1_img']").on('change', prepareUpload);
                 $("[name='option2_img']").on('change', prepareUpload);
                 $("[name='option3_img']").on('change', prepareUpload);
                 $("[name='option4_img']").on('change', prepareUpload);
+
+                $(".imgOptionPreview").on('error', function (event) {
+                    event.target.src = "../../images/FileNoPreview.png";
+                    alert("Error in picture.");
+                });
 
                 $("#addImg_Option1").click(function () {
                     //Trigger the first image option input to open the select file dialog
@@ -131,10 +138,10 @@
 
                     if ($("#option_type option:selected").text() == "IMAGE") {
 
-                            //Disable (Read Only) all the options textfield
+                        //Disable (Read Only) all the options textfield
                         disableOptions_TextFields(true);
 
-                            //Enables and shows all the add Image buttons
+                        //Enables and shows all the add Image buttons
                         disableAddImage_Button(false);
 
                         return;
@@ -184,6 +191,8 @@
                     $("#addImg_Option4").prop("disabled", disableCond);
 
                     if (!disableCond) {
+                        $("div.qns-options-textfield").attr("class", "col-md-2 qns-options-textfield");
+
                         $("#addImg_Option1").show();
                         $("#addImg_Option2").show();
                         $("#addImg_Option3").show();
@@ -197,6 +206,8 @@
 
                         return;
                     }
+
+                    $("div.qns-options-textfield").attr("class", "col-md-4 qns-options-textfield");
 
                     $("#addImg_Option1").hide();
                     $("#addImg_Option2").hide();

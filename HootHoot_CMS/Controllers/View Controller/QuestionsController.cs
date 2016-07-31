@@ -20,6 +20,10 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions
         public ActionResult Index()
         {
+            /*System.Diagnostics.Debug.WriteLine(Request.RawUrl);
+
+            return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl });*/
+
             var questions = questionsGateway.SelectAll_Joint();
 
             assignsViewBag_FilteringResults();

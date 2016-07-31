@@ -61,7 +61,8 @@ namespace HootHoot_CMS.Models
 
         [Required(ErrorMessage = "Please enter the duration of this question .")]
         [Display(Name = "Maximum time allowed to answer (seconds): ")]
-        [Range(20,60)]
+        [Range(20,60,
+            ErrorMessage= "Please provide the duration within the range from 20 to 60.")]
         public int answering_duration { get; set; }
 
         [ForeignKey("station_id")]
