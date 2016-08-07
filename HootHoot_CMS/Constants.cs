@@ -22,7 +22,7 @@ namespace HootHoot_CMS
         public static int PIC_MAX_WIDTH = 500;
         public static int PIC_MAX_HEIGHT = 500;
 
-        public const string IMG_NO_PREVIEW_SRC = "../../Images/NoPreview.png";
+        public const string IMG_NO_PREVIEW_SRC = "../../Images/NoFile.png";
         public const string IMG_PIC_UPLOAD_SRC = "../../Upload/";
 
         public static readonly char[] FILEPATH_PATTERN = { '/', '\\', ':' };

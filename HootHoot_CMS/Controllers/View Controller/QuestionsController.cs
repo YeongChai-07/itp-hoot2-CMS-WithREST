@@ -82,6 +82,14 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
+            QuestionsViewModel questions_options = new QuestionsViewModel()
+            {
+                option_1 = Constants.IMG_NO_PREVIEW_SRC,
+                option_2 = Constants.IMG_NO_PREVIEW_SRC,
+                option_3 = Constants.IMG_NO_PREVIEW_SRC,
+                option_4 = Constants.IMG_NO_PREVIEW_SRC
+            };
+
             Questions question = TempData["toSubmit_Qns"] as Questions;
             KeyValuePair<string, string>[] imageUpload_Validate = TempData["imageUpload_Validate"] as KeyValuePair<string, string>[];
             if (question !=null)
@@ -95,6 +103,10 @@ namespace HootHoot_CMS.Controllers.View_Controller
                         if (!imageUpload_Validate[i].Value.Equals("PASSED"))
                         {
                             setModelState_Error(i, imageUpload_Validate[i].Value);
+                        }
+                        else
+                        {
+                            questions_options.assignsValue_ForOption(i, )
                         }
                     }
                 }
