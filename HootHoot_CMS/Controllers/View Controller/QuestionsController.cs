@@ -20,9 +20,10 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions
         public ActionResult Index()
         {
-            /*System.Diagnostics.Debug.WriteLine(Request.RawUrl);
-
-            return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl });*/
+            //Check whether has the user logon to CMS, if the user
+            // has not logon to CMS, redirect the user to the login page
+            if (Session["logon_user"] == null)
+            { return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl }); }
 
             var questions = questionsGateway.SelectAll_Joint();
 
@@ -66,6 +67,11 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Details/5
         public ActionResult Details(int? id)
         {
+            //Check whether has the user logon to CMS, if the user
+            // has not logon to CMS, redirect the user to the login page
+            if (Session["logon_user"] == null)
+            { return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl }); }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,14 +88,12 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Create
         public ActionResult Create()
         {
-            QuestionsViewModel questions_options = new QuestionsViewModel()
-            {
-                option_1 = Constants.IMG_NO_PREVIEW_SRC,
-                option_2 = Constants.IMG_NO_PREVIEW_SRC,
-                option_3 = Constants.IMG_NO_PREVIEW_SRC,
-                option_4 = Constants.IMG_NO_PREVIEW_SRC
-            };
+            //Check whether has the user logon to CMS, if the user
+            // has not logon to CMS, redirect the user to the login page
+            if (Session["logon_user"] == null)
+            { return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl }); }
 
+            setupImageOptions_ViewBag();
             Questions question = TempData["toSubmit_Qns"] as Questions;
             KeyValuePair<string, string>[] imageUpload_Validate = TempData["imageUpload_Validate"] as KeyValuePair<string, string>[];
             if (question !=null)
@@ -104,10 +108,18 @@ namespace HootHoot_CMS.Controllers.View_Controller
                         {
                             setModelState_Error(i, imageUpload_Validate[i].Value);
                         }
-                        else
-                        {
-                            questions_options.assignsValue_ForOption(i, )
-                        }
+
+                    }
+                }
+
+                if (question.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+                {
+                    byte optionNo = 0;
+                    for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+                    {
+                        optionNo = (byte)(i + 1);
+                        assignImageOptionsValue_ViewBag(optionNo, question.getsOption_Value(optionNo),
+                            Constants.OPT_UPLOAD_IMAGE_STATE);
                     }
                 }
                 
@@ -169,6 +181,17 @@ namespace HootHoot_CMS.Controllers.View_Controller
             }
 
             assignsViewBag_CreateQuestion();
+            setupImageOptions_ViewBag();
+
+            if(is_ImageOptionType)
+            {
+                byte optionNo = 0;
+                for(byte i=0; i<Constants.OPTIONS_PER_QNS;i++)
+                {
+                    optionNo = (byte)(i + 1);
+                    assignImageOptionsValue_ViewBag(optionNo, questions.getsOption_Value(optionNo), Constants.OPT_UPLOAD_IMAGE_STATE);
+                }
+            }
 
             return View(questions);
 
@@ -281,24 +304,17 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Edit/5
         public ActionResult Edit(int? id)
         {
-            Questions questions = TempData["toSubmit_Qns"] as Questions;
+            //Check whether has the user logon to CMS, if the user
+            // has not logon to CMS, redirect the user to the login page
+            if (Session["logon_user"] == null)
+            { return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl }); }
+
+            setupImageOptions_ViewBag();
+            Questions received_Questions = TempData["toSubmit_Qns"] as Questions;
+            Questions questions = null;
             KeyValuePair<string, string>[] validationErrors_KVP = TempData["editQns_Validate"] as KeyValuePair<string,string>[];
 
-            if (questions != null)
-            {
-                if (validationErrors_KVP != null)
-                {
-                    for (byte i = 0; i < validationErrors_KVP.Length; i++)
-                    {
-                        if (!validationErrors_KVP[i].Value.Equals("PASSED"))
-                        {
-                            setModelState_Error(i, validationErrors_KVP[i].Value);
-                        }
-                    }
-                } // End inner if
-
-            }
-            else
+            if (received_Questions == null)
             {
                 if (id == null)
                 {
@@ -313,6 +329,36 @@ namespace HootHoot_CMS.Controllers.View_Controller
                 }
 
             }
+            else
+            {
+                questions = received_Questions;
+
+                if (validationErrors_KVP != null)
+                {
+                    for (byte i = 0; i < validationErrors_KVP.Length; i++)
+                    {
+                        if (!validationErrors_KVP[i].Value.Equals("PASSED"))
+                        {
+                            setModelState_Error(i, validationErrors_KVP[i].Value);
+                        }
+
+                    }
+                } // End inner if
+            }
+
+            if (questions.option_type.Equals(Constants.QNS_IMAGE_OPTION_TYPE))
+            {
+                byte optionNo = 0;
+                string optionValue = "";
+                for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+                {
+                    optionNo = (byte)(i + 1);
+                    optionValue = questions.getsOption_Value(optionNo);
+                    assignImageOptionsValue_ViewBag(optionNo, optionValue,
+                        optionValue.Contains(Constants.AZURE_BLOB_STORAGE_FOLDER));
+                }
+
+            }// End inner if
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
             assignsViewBag_EditQuestion(questions.station_id, questions.question_type, questions.option_type);
@@ -359,6 +405,18 @@ namespace HootHoot_CMS.Controllers.View_Controller
             {
                 TempData["toSubmit_Qns"] = questions;
                 return RedirectToAction("EditConfirm");
+            }
+
+            setupImageOptions_ViewBag();
+            if(is_ImageOptionType)
+            {
+                byte optionNo = 0;
+                for (byte i = 0; i < Constants.OPTIONS_PER_QNS; i++)
+                {
+                    optionNo = (byte)(i + 1);
+                    assignImageOptionsValue_ViewBag(optionNo, questions.getsOption_Value(optionNo), 
+                        (containsBlob_Val[i]));
+                }
             }
 
             ViewBag.correct_option = Constants.customCorrectOption_List(questions.correct_option);
@@ -490,6 +548,11 @@ namespace HootHoot_CMS.Controllers.View_Controller
         // GET: Questions/Delete/5
         public ActionResult Delete(int? id)
         {
+            //Check whether has the user logon to CMS, if the user
+            // has not logon to CMS, redirect the user to the login page
+            if (Session["logon_user"] == null)
+            { return RedirectToAction("Login", "Accounts", new { returnUrl = Request.RawUrl }); }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -645,6 +708,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
             ViewBag.filter_station = stationNamesFilter_List;
             ViewBag.filter_questiontype = questionTypeFilter_List;
             ViewBag.filter_optiontype = optionTypeFilter_List;
+           
         }
 
         private KeyValuePair<string, string> checkImageFileUpload_Success(byte index, string fileName)
@@ -739,6 +803,29 @@ namespace HootHoot_CMS.Controllers.View_Controller
         private void setModelState_Error(byte index, string errorMsg)
         {
             ModelState.AddModelError(Constants.QNS_OPTIONS_MODEL_KEYS[index], errorMsg);
+        }
+
+        private void setupImageOptions_ViewBag()
+        {
+            QuestionsViewModel question_options = new QuestionsViewModel()
+            {
+                option_1 = Constants.IMG_NO_PREVIEW_SRC,
+                option_2 = Constants.IMG_NO_PREVIEW_SRC,
+                option_3 = Constants.IMG_NO_PREVIEW_SRC,
+                option_4 = Constants.IMG_NO_PREVIEW_SRC
+            };
+
+            ViewBag.question_options = question_options;
+        }
+
+        private void assignImageOptionsValue_ViewBag(byte optionNo, string optionValue, bool isExisting_Blob)
+        {
+            if(! isExisting_Blob)
+            {
+                ViewBag.question_options.assignsOption_Value(optionNo, Constants.IMG_PIC_UPLOAD_SRC + optionValue);
+                return;
+            }
+            ViewBag.question_options.assignsOption_Value(optionNo, optionValue);
         }
 
         protected override void Dispose(bool disposing)

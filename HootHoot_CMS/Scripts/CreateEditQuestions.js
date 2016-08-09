@@ -11,7 +11,7 @@
 
                 $(".imgOptionPreview").on('error', function (event) {
                     event.target.src = "../../images/FileNoPreview.png";
-                    alert("Error in picture.");
+                    //alert("Error in picture.");
                 });
 
                 $("#addImg_Option1").click(function () {
@@ -46,8 +46,6 @@
                 });
 
                 $("#option_type").change(function () {
-                    //var selectedOptionType = $("#option_type option:selected").text();
-                        //alert("Selected Value: " + selectedOptionType);
                     checkSelectedOptionType();
 
                 });//End optionType change event
@@ -75,15 +73,6 @@
 
                     //Now let's assign the correct option image preview src
                     $("#imgCorrectOpt_Preview").attr("src", imageToShow);
-
-                    /*$("[name='question_has_hint']").click(function () {
-                        alert('Selected hint: ' + $("[name='question_has_hint'] :checked").val());
-                    });*/
-                    /*if(!$("[name='question_has_hint']:checked").val() == [])
-                    {
-                        alert('Selected Hint: ' + $("[name='question_has_hint']:checked").val());
-                    }*/
-
                 });
 
 
@@ -104,11 +93,11 @@
 
                 function resetsImagePreview()
                 {
-                    $("#imgOption1_Preview").attr("src", "../Images/NoPreview.png");
-                    $("#imgOption2_Preview").attr("src", "../Images/NoPreview.png");
-                    $("#imgOption3_Preview").attr("src", "../Images/NoPreview.png");
-                    $("#imgOption4_Preview").attr("src", "../Images/NoPreview.png");
-                    $("#imgCorrectOpt_Preview").attr("src", "../Images/NoPreview.png");
+                    $("#imgOption1_Preview").attr("src", "../Images/NoFile.png");
+                    $("#imgOption2_Preview").attr("src", "../Images/NoFile.png");
+                    $("#imgOption3_Preview").attr("src", "../Images/NoFile.png");
+                    $("#imgOption4_Preview").attr("src", "../Images/NoFile.png");
+                    $("#imgCorrectOpt_Preview").attr("src", "../Images/NoFile.png");
 
                 }
 
@@ -117,7 +106,7 @@
 
                     if (typeof prevSelectedVal!== 'undefined')
                     {
-                        if (!(currOptionType == prevSelectedVal) && confirm("Are you sure you want to continue?\n You will lose unsaved changes"))
+                        if (!(currOptionType == prevSelectedVal) && confirm("Are you sure you want to continue?\nYou will lose unsaved changes"))
                         {
                             //This also represents that the user confirms and opt to switch option type
                             //We will then empty ALL options textfield
@@ -281,13 +270,11 @@
 
                 function assignPictOption_Val(imgOptionName, fileName) {
                     var optionName_Tuple;
-                    //var imgOptionID = "";
 
                     if ((optionName_Tuple = checkOptionName(imgOptionName)) != 0) {
                         optionName_Tuple = optionName_Tuple.split(",");
                         $("#" + optionName_Tuple[0]).val(fileName);
                         $("#"+ optionName_Tuple[1]).attr("src","../Upload/" + fileName);
-                        //imgOptionID = 
                     }
 
                 }

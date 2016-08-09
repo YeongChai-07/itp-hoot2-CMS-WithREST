@@ -7,12 +7,12 @@
         public string option_3 { get; set; }
         public string option_4 { get; set; }
 
-        public void assignsValue_ForOption(byte optionNo, string value)
+        public void assignsOption_Value(byte optionNo, string value)
         {
-            setOption_Value(optionNo, value);
+            setValue_ForOption(optionNo, value);
         }
 
-        private void setOption_Value(byte optionNo, string value)
+        private void setValue_ForOption(byte optionNo, string value)
         {
             if(optionNo == 1)
             {

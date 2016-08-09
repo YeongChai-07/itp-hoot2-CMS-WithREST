@@ -54,7 +54,7 @@
             <div class="col-md-10 row">
                 <div class="col-md-4 qns-options-textfield">
                     <img id="imgOption1_Preview" class="imgOptionPreview" alt="Option 1 Image Preview" width="100" height="100"
-                     src="../../Images/NoFile.png" />
+                     src=@ViewBag.question_options.option_1 />
                     @Html.EditorFor(model => model.option_1, new { htmlAttributes = new { @class = "form-control" } })
                     <input type="file" name="option1_img" />
                     <br/><br/><input type="button" id="addImg_Option1" value="Add Image for Option 1" class="btn btn-default" />
@@ -71,7 +71,7 @@
             <div class="col-md-10 row">
                 <div class="col-md-4 qns-options-textfield">
                     <img id="imgOption2_Preview" class="imgOptionPreview" alt="Option 2 Image Preview" width="100" height="100"
-                         src="../../Images/NoFile.png" />
+                         src=@ViewBag.question_options.option_2 />
                     @Html.EditorFor(model => model.option_2, new { htmlAttributes = new { @class = "form-control" } })
                     <input type="file" name="option2_img" />
                     <br /><br /><input type="button" id="addImg_Option2" value="Add Image for Option 2" class="btn btn-default" />
@@ -88,7 +88,7 @@
             <div class="col-md-10 row">
                 <div class="col-md-4 qns-options-textfield">
                     <img id="imgOption3_Preview" class="imgOptionPreview" alt="Option 3 Image Preview" width="100" height="100"
-                         src="../../Images/NoFile.png" />
+                         src=@ViewBag.question_options.option_3 />
                     @Html.EditorFor(model => model.option_3, new { htmlAttributes = new { @class = "form-control" } })
                     <input type="file" name="option3_img" />
                     <br /><br /><input type="button" id="addImg_Option3" value="Add Image for Option 3" class="btn btn-default" />
@@ -104,7 +104,7 @@
             <div class="col-md-10 row">
                 <div class="col-md-4 qns-options-textfield">
                     <img id="imgOption4_Preview" class="imgOptionPreview" alt="Option 4 Image Preview" width="100" height="100"
-                         src="../../Images/NoFile.png" />
+                         src=@ViewBag.question_options.option_4 />
                     @Html.EditorFor(model => model.option_4, new { htmlAttributes = new { @class = "form-control" } })
                     <input type="file" name="option4_img" />
                     <br /><br /><input type="button" id="addImg_Option4" value="Add Image for Option 4" class="btn btn-default" />
@@ -140,7 +140,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.hint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.hint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.hint, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.hint, "", new { @class = "text-danger" })
             </div>
         </div>

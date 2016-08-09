@@ -18,6 +18,10 @@ namespace HootHoot_CMS
         public const byte MAX_RANDOM_FUNFACTS = 1;
         public const string STATION_TYPE_FOR_QNS = "HH";
 
+        //States for the image options
+        public const bool OPT_UPLOAD_IMAGE_STATE = false;
+        public const bool OPT_EXIST_BLOB_IMAGE_STATE = true;
+
         //Image Option type picture file MAX dimensions properties
         public static int PIC_MAX_WIDTH = 500;
         public static int PIC_MAX_HEIGHT = 500;

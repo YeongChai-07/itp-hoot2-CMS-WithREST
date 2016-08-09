@@ -117,18 +117,18 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.question_name)
-        @Html.HiddenFor(model => model.question_type)
-        @Html.HiddenFor(model => model.option_type)
-        @Html.HiddenFor(model => model.option_1)
-        @Html.HiddenFor(model => model.option_2)
-        @Html.HiddenFor(model => model.option_3)
-        @Html.HiddenFor(model => model.option_4)
-        @Html.HiddenFor(model => model.correct_option)
-        @Html.HiddenFor(model => model.question_has_hint)
-        @Html.HiddenFor(model => model.hint)
-        @Html.HiddenFor(model => model.answering_duration)
-        @Html.HiddenFor(model => model.station_id)
+        @Html.HiddenFor(model => model.question_name, new { @class= "ignoreVal" })
+        @Html.HiddenFor(model => model.question_type, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_type, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_1, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_2, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_3, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_4, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.correct_option, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.question_has_hint, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.hint, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.answering_duration, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.station_id, new { @class = "ignoreVal" })
 
         <div class="form-actions no-color">
             <input type="submit" value="Confirm" class="btn btn-default" /> |
@@ -139,18 +139,18 @@
     {
         @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.question_name)
-        @Html.HiddenFor(model => model.question_type)
-        @Html.HiddenFor(model => model.option_type)
-        @Html.HiddenFor(model => model.option_1)
-        @Html.HiddenFor(model => model.option_2)
-        @Html.HiddenFor(model => model.option_3)
-        @Html.HiddenFor(model => model.option_4)
-        @Html.HiddenFor(model => model.correct_option)
-        @Html.HiddenFor(model => model.question_has_hint)
-        @Html.HiddenFor(model => model.hint)
-        @Html.HiddenFor(model => model.answering_duration)
-        @Html.HiddenFor(model => model.station_id)
+        @Html.HiddenFor(model => model.question_name, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.question_type, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_type, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_1, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_2, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_3, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.option_4, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.correct_option, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.question_has_hint, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.hint, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.answering_duration, new { @class = "ignoreVal" })
+        @Html.HiddenFor(model => model.station_id, new { @class = "ignoreVal" })
 
         <div class="form-actions no-color">
             <input type="submit" value="Back" class="btn btn-default" />

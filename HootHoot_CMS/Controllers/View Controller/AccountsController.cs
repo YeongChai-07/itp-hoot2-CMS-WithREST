@@ -1,11 +1,4 @@
-﻿/*using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;*/
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using HootHoot_CMS.DAL;
 using HootHoot_CMS.Models;
 
@@ -18,7 +11,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
 
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            TempData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -26,6 +19,7 @@ namespace HootHoot_CMS.Controllers.View_Controller
         [ValidateAntiForgeryToken]
         public ActionResult Login(Accounts loginAccount, string returnUrl)
         {
+            TempData["ReturnUrl"] = returnUrl;
             bool modelState_FirstPass = ModelState.IsValid;
             Accounts userInfo = null;
 

@@ -76,5 +76,35 @@ namespace HootHoot_CMS.Models
         [ForeignKey("option_type")]
         [JsonIgnore]
         public OptionType optionType { get; set; }
+
+        public string getsOption_Value(byte optionNo)
+        {
+            return getsValue_ForOption(optionNo);
+        }
+
+        private string getsValue_ForOption(byte optionNo)
+        {
+            if (optionNo == 1)
+            {
+                return option_1;
+            }
+            else if (optionNo == 2)
+            {
+                return option_2;
+            }
+            else if (optionNo == 3)
+            {
+                return option_3;
+            }
+            else if (optionNo == 4)
+            {
+                return option_4;
+            }
+            else
+            {
+                return "ERROR... INVALID Option No. Valid Option No: 1 to 4";
+            }
+        }
+
     }
 }

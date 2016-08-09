@@ -7,7 +7,8 @@
             @Html.AntiForgeryToken()
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    @Html.DisplayText("Hello " + logonUser.full_name + "!")
+                    <span class="navbar-inverse navbar-text">@Html.Raw("Hello " + logonUser.full_name + "!")</span>
+                    
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
             </ul>
