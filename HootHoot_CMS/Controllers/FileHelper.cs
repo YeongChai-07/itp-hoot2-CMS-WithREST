@@ -2,6 +2,15 @@
 
 namespace HootHoot_CMS.Controllers
 {
+    /* FileHelper class : Codes were REFERENCED and RE-WORKED for the requirements 
+    *  of handling image upload to the web server for the image options for the CMS.
+    *  
+    * Referenced Source: Simple implementation of Blueimp jQuery File Upload Plugin using ASP.NET MVC5
+    * Original Author: Daniel Kalinowski 
+    * Available via GitHub:  https://github.com/TheKalin/jQuery-File-Upload.MVC5
+    * 
+    * All Credits goes to the Original Author.
+    */
     public class FileHelper
     {
         /// <summary>

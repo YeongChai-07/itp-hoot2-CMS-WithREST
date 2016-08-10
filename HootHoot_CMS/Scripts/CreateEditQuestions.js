@@ -1,4 +1,16 @@
-﻿$(document).ready(
+﻿/* CreateEditQuestions.js : Codes were REFERENCED and RE-WORKED for the requirements of both
+ * the "Create" and "Edit" question views of the CMS to handle the sending request to the web server
+ * of the chosen image file to upload for each "Add image for Options" button click event
+ * via ajax.
+ *  
+ * Referenced Source: Simple implementation of Blueimp jQuery File Upload Plugin using ASP.NET MVC5
+ * Original Author: Daniel Kalinowski 
+ * Available via GitHub:  https://github.com/TheKalin/jQuery-File-Upload.MVC5
+ * 
+ * All Credits goes to the Original Author.
+ */
+
+$(document).ready(
             function () {
                 $.validator.setDefaults({ ignore: ".ignoreVal" });
 

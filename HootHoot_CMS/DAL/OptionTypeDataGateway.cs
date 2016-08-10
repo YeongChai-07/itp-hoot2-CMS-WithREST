@@ -14,6 +14,9 @@ namespace HootHoot_CMS.DAL
         /// <returns></returns>
         public IEnumerable<OptionType> SelectAll_Joint()
         {
+            // Retrieving the Dataset returned from the data source using the "Eager-Loading" strategy
+            // More details are availabel from:
+            // http://www.codeproject.com/Articles/732426/Deferred-Execution-Vs-Lazy-Loading-Vs-Eager-Loadin
             return dbData.Include(ot => ot.question).AsEnumerable();
         }
 
